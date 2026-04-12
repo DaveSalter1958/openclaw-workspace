@@ -1,0 +1,160 @@
+{
+  "toolIdeas": [
+    {
+      "id": "trail-briefing",
+      "name": "Trail Briefing Generator",
+      "status": "ready",
+      "owner": "Dave",
+      "problem": "Turn scattered route notes, weather, gear reminders, and meeting points into one concise trip briefing.",
+      "users": ["Dave", "club members"],
+      "outputs": ["trip brief", "checklist", "SMS summary"],
+      "nextStep": "Add import hooks for GPX notes and weather snapshots.",
+      "tags": ["overlanding", "summaries", "field ops"],
+      "updatedAt": "2026-03-17"
+    },
+    {
+      "id": "painting-reference-pack",
+      "name": "Painting Reference Pack",
+      "status": "discovery",
+      "owner": "Dave",
+      "problem": "Collect a photo, palette notes, scene breakdown, and composition prompts before Dave starts a landscape painting.",
+      "users": ["Dave"],
+      "outputs": ["reference sheet", "palette notes"],
+      "nextStep": "Decide whether the pack should pull from local photos or Dropbox first.",
+      "tags": ["art", "reference", "workflow"],
+      "updatedAt": "2026-03-16"
+    },
+    {
+      "id": "club-admin-copilot",
+      "name": "Club Admin Copilot",
+      "status": "building",
+      "owner": "Dave",
+      "problem": "Reduce the grunt work around member notes, event prep, and follow-up actions for the off-road club.",
+      "users": ["Dave", "club officers"],
+      "outputs": ["agenda draft", "follow-up tasks", "status digest"],
+      "nextStep": "Define the first workflow and the minimum data model.",
+      "tags": ["operations", "club", "automation"],
+      "updatedAt": "2026-03-17"
+    }
+  ],
+  "modules": [
+    {
+      "id": "capture-local",
+      "name": "Local Capture Inbox",
+      "type": "ingest",
+      "description": "Drop raw notes, pasted text, file references, or URLs into one place before sorting them.",
+      "inputs": ["typed note", "pasted text", "file path", "URL"],
+      "outputs": ["normalized inbox item"],
+      "state": "live"
+    },
+    {
+      "id": "entity-map",
+      "name": "Entity Mapper",
+      "type": "model",
+      "description": "Define reusable objects such as tool idea, module, workflow, source, and runbook.",
+      "inputs": ["inbox item", "manual edits"],
+      "outputs": ["structured records"],
+      "state": "live"
+    },
+    {
+      "id": "workflow-runner",
+      "name": "Workflow Runner",
+      "type": "automation",
+      "description": "Track multi-step tool flows with triggers, handoffs, and expected outputs.",
+      "inputs": ["workflow definition", "run context"],
+      "outputs": ["execution plan", "run log"],
+      "state": "planned"
+    },
+    {
+      "id": "review-console",
+      "name": "Review Console",
+      "type": "review",
+      "description": "Give Dave a blunt daily view of what is blocked, stale, half-defined, or worth building next.",
+      "inputs": ["tool ideas", "workflow state"],
+      "outputs": ["priority queue", "review notes"],
+      "state": "live"
+    }
+  ],
+  "workflows": [
+    {
+      "id": "idea-to-module",
+      "name": "Idea → Module Draft",
+      "goal": "Take a rough idea and turn it into a structured module definition.",
+      "status": "active",
+      "trigger": "Dave captures a tool idea with a clear pain point.",
+      "steps": [
+        "Capture problem and expected outputs",
+        "Map likely users and source material",
+        "Split shared primitives into reusable modules",
+        "Record next engineering step"
+      ],
+      "owner": "Dave",
+      "moduleIds": ["capture-local", "entity-map"]
+    },
+    {
+      "id": "module-to-workflow",
+      "name": "Module → Workflow Spec",
+      "goal": "Combine modules into a repeatable workflow with inputs, outputs, and checkpoints.",
+      "status": "draft",
+      "trigger": "At least two modules look stable enough to compose.",
+      "steps": [
+        "Define trigger and finish condition",
+        "Attach required modules",
+        "Specify human review points",
+        "Write runbook notes"
+      ],
+      "owner": "Dave",
+      "moduleIds": ["entity-map", "workflow-runner"]
+    },
+    {
+      "id": "daily-review",
+      "name": "Daily Build Review",
+      "goal": "Use the dashboard as a local control room for deciding what actually gets built next.",
+      "status": "active",
+      "trigger": "Start or end of work block",
+      "steps": [
+        "Scan blocked and stale work",
+        "Pick one idea to advance",
+        "Choose the module or workflow to touch",
+        "Leave a note for the next session"
+      ],
+      "owner": "Dave",
+      "moduleIds": ["review-console", "workflow-runner"]
+    }
+  ],
+  "toolBlueprints": [
+    {
+      "id": "tool-trail-briefing",
+      "name": "Trail Briefing Tool",
+      "purpose": "Turn route notes, weather, and logistics into a concise trip briefing.",
+      "owner": "Dave",
+      "status": "designing",
+      "workflowIds": ["idea-to-module"],
+      "moduleIds": ["capture-local", "entity-map"],
+      "expectedInputs": ["route notes", "weather snapshot", "meeting point"],
+      "expectedOutputs": ["trip briefing", "gear checklist"]
+    }
+  ],
+  "buildQueue": [
+    {
+      "title": "Persist data edits to local JSON or sqlite",
+      "priority": "high",
+      "why": "Right now the app is a strong scaffold; the next step is real mutation instead of read-only seed data."
+    },
+    {
+      "title": "Add lightweight forms for new tool ideas and workflow notes",
+      "priority": "high",
+      "why": "Dave should be able to capture ideas without touching JSON by hand."
+    },
+    {
+      "title": "Connect local files from second-brain as source references",
+      "priority": "medium",
+      "why": "Useful cross-linking without tangling the two apps together."
+    },
+    {
+      "title": "Track workflow runs and outcomes",
+      "priority": "medium",
+      "why": "A mission control that cannot tell you what happened is mostly interior decoration."
+    }
+  ]
+}

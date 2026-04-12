@@ -1,0 +1,7 @@
+node_modules
+.next
+out
+*.log
+.trash
+__pycache__
+*.pyc

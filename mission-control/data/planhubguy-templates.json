@@ -1,0 +1,14 @@
+{
+  "template1": {
+    "subject": "Regarding [Project Name]",
+    "body": "Dear {{ contact.firstname }},\n\nI wanted to reach out regarding [Project Name]. Our research indicates that you are associated with this project and temporary excavation support design may be required for the completion of the construction.  \n\nI thought it could be useful to introduce DRS Engineering Inc. in case that need arises. and the project team is looking for those services.  We provide practical temporary shoring design, permanent retaining wall design, slope stabilization, and specialty foundation systems. We are  one of the premier designer for these systems in California and have been successfully providing these design services for the past 15years.\n\nIf our services are of interest to you we would be glad to discuss this or any other projects that you are working on.\n\nPlease visit us at www.DRS-Engineering.net\n\n"
+  },
+  "template2": {
+    "subject": "Re: [Project Name]",
+    "body": "Dear {{ contact.firstname }},\n\nI wanted to follow up regarding [Project Name] and my earlier note.\n\nWe believe this project may require temporary excavation support design, and I thought it might still be useful to introduce DRS Engineering Inc. in case that need arises.\n\nWe provide practical temporary shoring design, permanent retaining wall design, slope stabilization, and specialty foundation support, and would be glad to discuss whether we could be of assistance.\n\n"
+  },
+  "template3": {
+    "subject": "Final follow-up – [Project Name]",
+    "body": "Dear {{ contact.firstname }},\n\nI wanted to send one final follow-up regarding [Project Name].\n\nWe thought there may be a need for temporary excavation support design or related geo-structural services on this project, and wanted to make sure you had our information.\n\nIf this is not relevant, no problem at all. If it would be helpful, we would still be glad to connect briefly and see whether DRS Engineering Inc. could be of assistance.\n"
+  }
+}
