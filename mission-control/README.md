@@ -1,63 +1,35 @@
 # Mission Control
 
-A local-first Next.js MVP for planning and shaping custom tools.
+Mission Control is Dave's local-first dashboard for daily tasks, PlanHubGuy, calendar review, MyLife notes, and memory browsing.
 
-This app is intentionally separate from `second-brain`. It acts as a practical planning layer where Dave can:
+## Current Sections
 
-- track tool ideas
-- define reusable modules
-- sketch workflows
-- maintain a build queue
-- keep the structure tidy before adding persistence and execution
+- **Tasks** - Mission Control tasks plus actionable email tasks.
+- **PlanHubGuy** - outreach status, reply queues, templates, and campaign controls.
+- **Calendar** - a clean Google Calendar view.
+- **MyLife** - year-indexed life-history notes from `memory/mylife/`.
+- **Memory** - local memory browsing and review.
 
-## What is in this MVP
+## Data Sources
 
-- **Dashboard** — summary of ideas, modules, workflows, and build priorities
-- **Tool Ideas** — a registry of candidate tools with problem statements and next steps
-- **Modules** — reusable primitives that can be shared across tools
-- **Workflows** — multi-step operational flows with triggers and checkpoints
-- **Studio** — an honest view of what to build next and where the local data lives
+- Mission Control seed data: `data/mission-control.json`
+- Dave task data: `../second-brain/data/tasks.json`
+- PlanHubGuy data/state: `data/planhubguy/` and `../memory/planhubguy-state.json`
+- Memory notes: `../memory/`
 
-## Local-first data
-
-Seed data currently lives in:
-
-- `data/mission-control.json`
-
-That makes the structure easy to inspect and edit by hand. The obvious next step is local persistence via sqlite or JSON write actions.
-
-## Run locally
-
-From the workspace root:
+## Run Locally
 
 ```bash
-cd mission-control
 npm install
 npm run dev
 ```
 
-Then open:
+Default development port: `3001`.
 
-- <http://localhost:3001>
-
-Mission Control is configured to use port **3001** by default so Second Brain can stay on port **3000** without conflict.
-
-## Build for verification
+## Build
 
 ```bash
-cd mission-control
 npm run build
 ```
 
-## Notes
-
-- This scaffold does **not** modify `second-brain`.
-- Styling and structure are intentionally clean and lightweight.
-- The app is read-only for now; data entry forms and local persistence should be the next engineering pass.
-
-## Suggested next steps
-
-1. Add form-based capture for new tool ideas and workflow notes.
-2. Persist records locally with sqlite.
-3. Add source references back to local notes or second-brain content.
-4. Track workflow runs and outcomes.
+The production service currently starts Mission Control on port `3010`.

@@ -2,6 +2,7 @@ import './globals.css';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+// EnvironmentSwitcher removed per request
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,18 +13,10 @@ export const metadata: Metadata = {
 
 const navItems = [
   { href: '/', label: 'Tasks', icon: '▣' },
-  { href: '/agent-tasks', label: 'Agent Tasks', icon: '◇' },
-  { href: '/modules', label: 'Approvals', icon: '◌' },
-  { href: '/tools', label: 'Calendar', icon: '◷' },
-  { href: '/studio', label: 'Memory', icon: '☰' },
-  { href: '/willy', label: 'MyLife', icon: '✎' },
-  { href: '/clawhub', label: 'ClawHub', icon: '✦' },
-  { href: 'https://docs.google.com/spreadsheets/d/1NhvcQc1705dlRLlLPUauWz-erEwu5MF2B0u88HQVXXo/edit?usp=drivesdk', label: 'ProjectSheet1', icon: '☷' },
-  { href: 'http://192.168.1.119:3002', label: 'Paws App', icon: '🐾' },
   { href: '/workflows', label: 'PlanHubGuy', icon: '⚑' },
-  { href: '/templates', label: 'Templates', icon: '✎' },
-  { href: '/remotion', label: 'Remotion', icon: '▶' },
-  { href: '/guy', label: 'Guy', icon: '⚙' },
+  { href: '/tools', label: 'Calendar', icon: '◷' },
+  { href: '/willy', label: 'MyLife', icon: '✎' },
+  { href: '/studio', label: 'Memory', icon: '☰' },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -40,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
               ))}
             </div>
+            {/* Environment switcher removed */}
           </aside>
 
           <div className="mission-main">
