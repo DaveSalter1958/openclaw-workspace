@@ -31,7 +31,7 @@ function eventTimeLabel(startSort: string, allDay?: boolean) {
 }
 
 export default async function ToolsPage() {
-  const { googleEvents } = await getCalendarView(7);
+  const { googleEvents, googleError } = await getCalendarView(7);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -53,15 +53,12 @@ export default async function ToolsPage() {
 
   return (
     <main className="grid" style={{ gap: 16 }}>
-      <section className="card hero" style={{ minHeight: 120 }}>
-        <div className="kicker">Calendar</div>
-        <h1>Clean weekly agenda.</h1>
-        <p className="muted" style={{ maxWidth: 760, lineHeight: 1.7 }}>
-          Only today and the next seven days. Google Calendar only. Older items are cut out.
-        </p>
-      </section>
-
       <section className="card calendar-table-card">
+        {googleError ? (
+          <div className="calendar-status" role="status">
+            Google Calendar is unavailable: {googleError}
+          </div>
+        ) : null}
         <div className="calendar-table-wrap">
           <div className="calendar-table-header">
             {days.map((day, index) => (

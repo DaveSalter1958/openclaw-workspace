@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from 'react';
+import { ProjectSelect } from '@/app/components/ProjectSelect';
 
 type Task = {
   id: string;
@@ -93,8 +94,8 @@ export function TaskEditor({ initialTask, returnPath = '/mission-control' }: { i
 
         <div className="grid grid-3">
           <label>
-            <span className="muted small">Project</span>
-            <input className="input" value={task.project || ''} onChange={(e) => updateField('project', e.target.value)} />
+            <span className="muted small">Project reference</span>
+            <ProjectSelect value={task.project || ''} onChange={(value) => updateField('project', value)} />
           </label>
           <label>
             <span className="muted small">Domain</span>

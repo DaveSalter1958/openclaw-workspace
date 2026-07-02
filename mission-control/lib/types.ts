@@ -113,9 +113,37 @@ export interface TaskBoardItem {
   title: string;
   dueLabel?: string;
   dueSort?: string;
+  dueDateKey?: string;
   priority: 'low' | 'medium' | 'high';
   project: string;
   notes?: string;
+  domain?: string;
+  emailDate?: string;
+  emailFrom?: string;
+  emailSubject?: string;
+  emailBody?: string;
+}
+
+export interface AgentWorkItem {
+  title: string;
+  detail?: string;
+}
+
+export interface AgentActivityItem {
+  agent: string;
+  sessionCount: number;
+  activeLabel: string;
+  status: 'active' | 'idle';
+  store?: string;
+  tasks: TaskBoardItem[];
+  kind?: string;
+  sessionKey?: string;
+  displayName?: string;
+  model?: string;
+  channel?: string;
+  updatedAt?: string;
+  transcriptPath?: string;
+  workItems?: AgentWorkItem[];
 }
 
 export interface DailyMemoryEntry {

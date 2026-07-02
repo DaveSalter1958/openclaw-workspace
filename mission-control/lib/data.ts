@@ -19,6 +19,8 @@ import type {
   ProjectCalendarItem,
   ProjectSummary,
   TaskBoardItem,
+  AgentActivityItem,
+  AgentWorkItem,
   MemoryDashboardData,
   DailyMemoryEntry,
 } from '@/lib/types';
@@ -26,8 +28,10 @@ import type {
 const dataPath = path.join(process.cwd(), 'data', 'mission-control.json');
 const missionControlData = data as MissionControlData;
 const workspaceDir = path.resolve(process.cwd(), '..');
+const openclawDir = path.resolve(workspaceDir, '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
 const execFileAsync = promisify(execFile);
+const calendarFetchTimeoutMs = 3000;
 
 async function readData(): Promise<MissionControlData> {
   try {
@@ -225,6 +229,7 @@ type RawTask = {
   dueTime?: string;
   project?: string;
   notes?: string;
+  domain?: string;
 };
 
 function formatDateLabel(date: Date, allDay = false) {
@@ -240,6 +245,95 @@ function combineDue(date: string, time?: string) {
   return new Date(`${date}T${time && time.trim() ? time : '12:00'}:00`);
 }
 
+function extractEmailField(notes: string | undefined, label: string) {
+  if (!notes) return '';
+  const line = notes.split(/\r?\n/).find((item) => item.startsWith(`${label}:`));
+  return line ? line.slice(label.length + 1).trim() : '';
+}
+
+function extractEmailBody(notes: string | undefined) {
+  if (!notes) return '';
+  const bodyMarker = 'Email body:';
+  const bodyIndex = notes.indexOf(bodyMarker);
+  if (bodyIndex >= 0) return notes.slice(bodyIndex + bodyMarker.length).trim();
+  const excerptMarker = 'Email excerpt:';
+  const excerptIndex = notes.indexOf(excerptMarker);
+  return excerptIndex >= 0 ? notes.slice(excerptIndex + excerptMarker.length).trim() : notes.trim();
+}
+
+function latestEmailText(value?: string) {
+  const body = (value || '').trim();
+  if (!body) return '';
+
+  const quoteMarkers = [
+    /^From:\s.+$/im,
+    /^Sent:\s.+$/im,
+    /^To:\s.+$/im,
+    /^Subject:\s.+$/im,
+    /\bOn\s+(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),?[\s\S]{0,220}?wrote:/i,
+    /^-{2,}\s*Original Message\s*-{2,}$/im,
+    /^_{6,}$/m,
+  ];
+  const markerIndexes = quoteMarkers
+    .map((pattern) => body.search(pattern))
+    .filter((index) => index > 0);
+  const firstMarker = markerIndexes.length ? Math.min(...markerIndexes) : -1;
+  let latest = firstMarker > 0 ? body.slice(0, firstMarker) : body;
+
+  const signatureMarkers = [
+    /\n\s*(?:thanks|thank you|regards|best|sincerely),?\s*\n+[\s\S]{0,900}$/i,
+    /\s+(?:thanks|thank you|regards|best|sincerely),?\s+\*?[A-Z][A-Za-z .'-]+,?\s*(?:P\.?E\.?|S\.?E\.?|President|Principal|Manager|Director)\b[\s\S]{0,900}$/i,
+    /\s+(?:thanks|thank you|regards|best|sincerely),?\s+[\s\S]{0,220}@[A-Z0-9.-]+\.[A-Z]{2,}[\s\S]{0,900}$/i,
+    /\n\s*get outlook for ios\s*$/i,
+  ];
+  for (const marker of signatureMarkers) {
+    const match = latest.match(marker);
+    if (match && match.index && match.index > 0) {
+      latest = latest.slice(0, match.index).trim();
+      break;
+    }
+  }
+
+  return latest
+    .split(/\r?\n/)
+    .filter((line) => !line.trim().startsWith('>'))
+    .join('\n')
+    .trim();
+}
+
+function emailNeedsDaveAction(item: TaskBoardItem) {
+  const subject = cleanEmailSubject(item.emailSubject || item.title);
+  const latest = latestEmailText(item.emailBody || item.notes);
+  const text = `${subject}\n${latest}`.toLowerCase();
+  const latestCompact = latest.toLowerCase().replace(/[^a-z0-9?]+/g, ' ').trim();
+
+  if (!latestCompact) return false;
+
+  const noActionPatterns = [
+    /^(excellent|great|ok|okay|sounds good|thank you|thanks|thanks so much|perfect|received|got it|will do|understood|appreciate it)[.! ]*(thank you|thanks)?[.! ]*$/i,
+    /\b(we|i)\s+(will|ll)\s+(get|send|provide|prepare|review|respond|reply|circle back|follow up|get back to)\b/i,
+    /\b(no action required|for your information|fyi only|just fyi)\b/i,
+    /\b(receipt|confirmation|confirmed|scheduled transaction|password reset|statement is available)\b/i,
+  ];
+  if (noActionPatterns.some((pattern) => pattern.test(latest))) return false;
+
+  const actionPatterns = [
+    /\b(action required|requires your action|needs your attention|please respond|response required)\b/i,
+    /\b(can|could|would)\s+you\b/i,
+    /\bplease\s+(review|approve|confirm|send|provide|sign|complete|advise|respond|reply|call|let me know)\b/i,
+    /\b(need|needs|needed)\s+(your|you|dave)\b/i,
+    /\b(approve|approval|sign|signature|execute|review and comment|review\/comment|confirm|confirmation needed)\b/i,
+    /\b(are you available|availability|can we schedule|schedule a call|call me|give me a call)\b/i,
+    /\b(what do you think|your thoughts|your input|your decision|do you want|should we)\b/i,
+  ];
+
+  return actionPatterns.some((pattern) => pattern.test(text));
+}
+
+function cleanEmailSubject(value: string) {
+  return value.replace(/^(re|fw|fwd):\s*/i, '').trim();
+}
+
 async function readRawTasks(): Promise<RawTask[]> {
   try {
     const raw = await fs.readFile(tasksPath, 'utf8');
@@ -249,11 +343,25 @@ async function readRawTasks(): Promise<RawTask[]> {
   }
 }
 
-export async function getCalendarView(days = 14): Promise<{ googleEvents: CalendarEventItem[]; projectItems: ProjectCalendarItem[] }> {
+function calendarErrorMessage(error: unknown): string {
+  if (error && typeof error === 'object') {
+    const candidate = error as { code?: string | number; killed?: boolean; signal?: string; stderr?: string; message?: string };
+    if (candidate.killed || candidate.signal === 'SIGKILL') {
+      return `Google Calendar did not respond within ${calendarFetchTimeoutMs / 1000} seconds.`;
+    }
+    const stderr = candidate.stderr?.trim();
+    if (stderr) return stderr.split(/\r?\n/)[0];
+    if (candidate.message) return candidate.message.split(/\r?\n/)[0];
+  }
+  return 'Google Calendar is temporarily unavailable.';
+}
+
+export async function getCalendarView(days = 14): Promise<{ googleEvents: CalendarEventItem[]; projectItems: ProjectCalendarItem[]; googleError?: string }> {
   const now = new Date();
   const end = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
 
   let googleEvents: CalendarEventItem[] = [];
+  let googleError: string | undefined;
   try {
     const { stdout } = await execFileAsync('/usr/local/bin/gog', [
       'calendar',
@@ -266,7 +374,12 @@ export async function getCalendarView(days = 14): Promise<{ googleEvents: Calend
       '--to',
       end.toISOString(),
       '--json',
-    ], { maxBuffer: 10 * 1024 * 1024 });
+    ], {
+      maxBuffer: 10 * 1024 * 1024,
+      timeout: calendarFetchTimeoutMs,
+      killSignal: 'SIGKILL',
+      env: { ...process.env, GOG_KEYRING_PASSWORD: process.env.GOG_KEYRING_PASSWORD ?? '' },
+    });
 
     const parsed = JSON.parse(stdout) as { events?: any[] };
     googleEvents = (parsed.events || []).map((event) => {
@@ -287,8 +400,9 @@ export async function getCalendarView(days = 14): Promise<{ googleEvents: Calend
         allDay,
       } satisfies CalendarEventItem;
     });
-  } catch {
+  } catch (error) {
     googleEvents = [];
+    googleError = calendarErrorMessage(error);
   }
 
   let projectItems: ProjectCalendarItem[] = [];
@@ -316,14 +430,143 @@ export async function getCalendarView(days = 14): Promise<{ googleEvents: Calend
   }
 
   googleEvents.sort((a, b) => a.startSort.localeCompare(b.startSort));
-  return { googleEvents, projectItems };
+  return { googleEvents, projectItems, googleError };
+}
+
+function sessionStatus(updatedAt?: number): 'active' | 'idle' {
+  if (!updatedAt) return 'idle';
+  const ageMs = Date.now() - updatedAt;
+  return ageMs <= 15 * 60 * 1000 ? 'active' : 'idle';
+}
+
+function relativeActivityLabel(updatedAt?: number): string {
+  if (!updatedAt) return 'unknown';
+  const diffMs = Math.max(0, Date.now() - updatedAt);
+  const minutes = Math.floor(diffMs / 60000);
+  if (minutes <= 0) return 'just now';
+  if (minutes === 1) return '1 min ago';
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours === 1) return '1 hour ago';
+  if (hours < 24) return `${hours} hours ago`;
+  const days = Math.floor(hours / 24);
+  return days === 1 ? '1 day ago' : `${days} days ago`;
+}
+
+function extractWorkItems(messages: Array<{ role?: string; content?: string }> | undefined): AgentWorkItem[] {
+  if (!Array.isArray(messages) || messages.length === 0) return [];
+  const items: AgentWorkItem[] = [];
+  for (const message of messages) {
+    const text = typeof message?.content === 'string' ? message.content.trim() : '';
+    if (!text) continue;
+    const clean = text.replace(/\s+/g, ' ').trim();
+    items.push({
+      title: clean.slice(0, 120),
+      detail: clean.length > 120 ? clean.slice(120, 260) : undefined,
+    });
+    if (items.length >= 3) break;
+  }
+  return items;
+}
+
+async function getAgentActivities(agentTasks: TaskBoardItem[]): Promise<AgentActivityItem[]> {
+  const sessionsDir = path.join(openclawDir, 'agents', 'main', 'sessions');
+  try {
+    const files = (await fs.readdir(sessionsDir))
+      .filter((name) => name.endsWith('.jsonl') && !name.includes('.checkpoint.') && !name.includes('.reset.'))
+      .map((name) => path.join(sessionsDir, name));
+
+    const records = await Promise.all(files.map(async (filePath) => {
+      const stat = await fs.stat(filePath);
+      const raw = await fs.readFile(filePath, 'utf8');
+      const lines = raw.trim().split(/\r?\n/).filter(Boolean);
+      const recent = lines.slice(-30);
+      const workItems: AgentWorkItem[] = [];
+      let agent = 'main';
+      let channel = '';
+      for (const line of recent.reverse()) {
+        try {
+          const entry = JSON.parse(line);
+          const role = entry?.message?.role;
+          const content = Array.isArray(entry?.message?.content) ? entry.message.content : [];
+          const textBlock = content.find((item: any) => item?.type === 'text' && typeof item.text === 'string');
+          const text = typeof textBlock?.text === 'string' ? textBlock.text.replace(/\s+/g, ' ').trim() : '';
+          if (!channel && entry?.message?.metadata?.channel) channel = String(entry.message.metadata.channel);
+          if (!text) continue;
+          if (role === 'assistant' || role === 'user') {
+            workItems.unshift({
+              title: text.slice(0, 120),
+              detail: text.length > 120 ? text.slice(120, 260) : undefined,
+            });
+          }
+          if (text.toLowerCase().includes('subagent')) agent = 'subagent';
+          if (workItems.length >= 3) break;
+        } catch {}
+      }
+      return {
+        agent,
+        sessionCount: 1,
+        activeLabel: relativeActivityLabel(stat.mtimeMs),
+        status: sessionStatus(stat.mtimeMs),
+        store: filePath,
+        tasks: agent === 'main' ? agentTasks : [],
+        kind: agent === 'subagent' ? 'subagent' : 'session',
+        sessionKey: path.basename(filePath, '.jsonl'),
+        displayName: agent === 'main' ? 'Main session' : 'Subagent session',
+        model: 'gpt-5.4',
+        channel,
+        updatedAt: new Date(stat.mtimeMs).toISOString(),
+        transcriptPath: filePath,
+        workItems: workItems.reverse(),
+      } satisfies AgentActivityItem;
+    }));
+
+    if (records.length) {
+      return records.sort((a, b) => {
+        if (a.status !== b.status) return a.status === 'active' ? -1 : 1;
+        return (b.updatedAt || '').localeCompare(a.updatedAt || '');
+      }).slice(0, 8);
+    }
+  } catch {}
+
+  try {
+    const { stdout } = await execFileAsync('openclaw', ['status', '--all'], { maxBuffer: 10 * 1024 * 1024 });
+    const lines = stdout.split(/\r?\n/);
+    const start = lines.findIndex((line) => line.includes('│ Agent'));
+    if (start === -1) {
+      return [];
+    }
+
+    const activities: AgentActivityItem[] = [];
+    for (let i = start + 2; i < lines.length; i += 1) {
+      const line = lines[i];
+      if (!line || !line.includes('│')) continue;
+      if (line.includes('└') || line.includes('Diagnosis')) break;
+      const cells = line.split('│').map((part) => part.trim()).filter(Boolean);
+      if (cells.length < 5) continue;
+      const [agent, , sessions, activeLabel, store] = cells;
+      activities.push({
+        agent,
+        sessionCount: Number.parseInt(sessions, 10) || 0,
+        activeLabel,
+        status: /just now|\d+\s*(sec|min|minute|minutes|hour|hours)/i.test(activeLabel) ? 'active' : 'idle',
+        store,
+        tasks: agent === 'main' ? agentTasks : [],
+      });
+    }
+    return activities;
+  } catch {
+    return [];
+  }
 }
 
 export async function getTaskBoard(): Promise<{
   dueToday: TaskBoardItem[];
   dueThisWeek: TaskBoardItem[];
   dueLater: TaskBoardItem[];
+  emailTasks: TaskBoardItem[];
   agentTasks: TaskBoardItem[];
+  agentActivities: AgentActivityItem[];
 }> {
   const tasks = await readRawTasks();
   const now = new Date();
@@ -331,6 +574,7 @@ export async function getTaskBoard(): Promise<{
   const weekEnd = new Date(now);
   weekEnd.setHours(23, 59, 59, 999);
   weekEnd.setDate(now.getDate() + 7);
+  const weekEndKey = localDateKey(weekEnd);
 
   const dated = tasks
     .filter((task) => task.status === 'open' && task.dueDate)
@@ -341,9 +585,15 @@ export async function getTaskBoard(): Promise<{
         title: task.title,
         dueLabel: formatDateLabel(due, !task.dueTime),
         dueSort: due.toISOString(),
+        dueDateKey: task.dueDate,
         priority: task.priority || 'medium',
         project: task.project?.trim() || 'General',
         notes: task.notes || '',
+        domain: task.domain || '',
+        emailDate: extractEmailField(task.notes, 'Date'),
+        emailFrom: extractEmailField(task.notes, 'From'),
+        emailSubject: extractEmailField(task.notes, 'Subject') || task.title,
+        emailBody: extractEmailBody(task.notes),
       } satisfies TaskBoardItem;
     })
     .sort((a, b) => (a.dueSort || '').localeCompare(b.dueSort || ''));
@@ -351,21 +601,21 @@ export async function getTaskBoard(): Promise<{
   const agentTask = (item: TaskBoardItem) => item.project === 'Guy'
     || /^hey guy/i.test(item.title)
     || /^merge vehicle maintenance notes into one reference doc$/i.test(item.title);
-  const agentTasks = dated.filter(agentTask);
-  const personalTasks = dated.filter((item) => !agentTask(item));
+  const emailTask = (item: TaskBoardItem) => item.domain === 'email' || item.project.startsWith('Email');
+  const agentTasks = dated.filter((item) => !emailTask(item) && agentTask(item));
+  // Email tasks have already been conservatively filtered by the daily scanner before
+  // they are written to tasks.json. Do not re-filter here, or valid created tasks get
+  // hidden from Dave's Tasks from Email column.
+  const emailTasks = dated.filter(emailTask).sort((a, b) => (b.emailDate || b.dueSort || '').localeCompare(a.emailDate || a.dueSort || ''));
+  const personalTasks = dated.filter((item) => !agentTask(item) && !emailTask(item));
 
-  const dueToday = personalTasks.filter((item) => item.dueSort?.slice(0, 10) === todayKey);
-  const dueThisWeek = personalTasks.filter((item) => {
-    if (!item.dueSort) return false;
-    const due = new Date(item.dueSort);
-    return item.dueSort.slice(0, 10) !== todayKey && due <= weekEnd;
-  });
-  const dueLater = personalTasks.filter((item) => {
-    if (!item.dueSort) return false;
-    return new Date(item.dueSort) > weekEnd;
-  });
+  const dueToday = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey <= todayKey));
+  const dueThisWeek = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > todayKey && item.dueDateKey <= weekEndKey));
+  const dueLater = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > weekEndKey));
 
-  return { dueToday, dueThisWeek, dueLater, agentTasks };
+  const agentActivities = await getAgentActivities(agentTasks);
+
+  return { dueToday, dueThisWeek, dueLater, emailTasks, agentTasks, agentActivities };
 }
 
 export async function getMemoryDashboard(): Promise<MemoryDashboardData> {
