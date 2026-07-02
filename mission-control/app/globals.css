@@ -1094,6 +1094,182 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   text-align: right;
 }
 
+.teams-page {
+  gap: 16px;
+}
+
+.teams-header h1 {
+  margin: 12px 0 6px;
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.teams-header p {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(255,255,255,0.84);
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.team-card {
+  display: grid;
+  gap: 12px;
+  min-height: 228px;
+  padding: 15px;
+  border-radius: 14px;
+  border: 2px solid rgba(31, 90, 135, 0.22);
+  background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(225,239,249,0.88));
+  box-shadow: 0 10px 24px rgba(29, 74, 117, 0.09);
+}
+
+.team-card-active {
+  border-color: rgba(31, 167, 108, 0.36);
+}
+
+.team-card-top {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.team-avatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff, #d7ebf8);
+  border: 1px solid rgba(31, 90, 135, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+  font-size: 1.58rem;
+  line-height: 1;
+}
+
+.team-kind {
+  margin: 0 0 4px;
+  color: #6a829b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.team-card h2 {
+  margin: 0;
+  color: #153a5a;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.team-role {
+  margin: 0;
+  color: #244b70;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.team-focus {
+  margin: 0;
+  color: #536f8b;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-weight: 650;
+}
+
+.team-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  color: #5b7490;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.team-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.team-status-active {
+  background: rgba(27, 125, 90, 0.12);
+  color: #1b7d5a;
+}
+
+.team-status-scheduled {
+  background: rgba(23, 143, 199, 0.12);
+  color: #176f99;
+}
+
+.team-status-standing-by {
+  background: rgba(91, 116, 144, 0.12);
+  color: #5b7490;
+}
+
+.teams-activity {
+  display: grid;
+  gap: 12px;
+}
+
+.teams-activity-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.teams-activity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 90, 135, 0.14);
+  background: rgba(255,255,255,0.58);
+}
+
+.teams-activity-row div {
+  min-width: 0;
+}
+
+.teams-activity-row strong,
+.teams-activity-row span {
+  display: block;
+}
+
+.teams-activity-row strong {
+  color: #153a5a;
+  font-size: 0.9rem;
+}
+
+.teams-activity-row div span {
+  margin-top: 3px;
+  color: #5b7490;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 @media (max-width: 960px) {
   .agent-simple-header,
   .agent-simple-task-row {
@@ -1101,12 +1277,17 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   }
 
   .agent-simple-summary,
-  .agent-simple-layout {
+  .agent-simple-layout,
+  .teams-activity-list {
     grid-template-columns: 1fr;
   }
 
   .agent-simple-detail {
     position: static;
+  }
+
+  .teams-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1731,7 +1912,8 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   }
   .reference-board,
   .dashboard-footer-grid,
-  .grid-2-1 { grid-template-columns: 1fr; }
+  .grid-2-1,
+  .teams-grid { grid-template-columns: 1fr; }
   .guy-page-telegram-wrap {
     min-height: calc(100vh - 140px);
     height: calc(100vh - 140px);

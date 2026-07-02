@@ -4,6 +4,33 @@ Command failures and integration errors.
 
 ---
 
+## [ERR-20260702-001] mission-control-dev-base-path
+
+**Logged**: 2026-07-02T16:58:22-07:00
+**Priority**: low
+**Status**: pending
+**Area**: frontend
+
+### Summary
+Mission Control dev route verification used `/teams` and got a 404 because the app is mounted under `/mission-control`.
+
+### Error
+`GET /teams` returned 404; `GET /mission-control/teams` returned the expected page content.
+
+### Context
+- Command/operation attempted: verify the new Teams page via local Next dev server.
+- Environment: Mission Control Next app running on port 3001.
+- The app emits links and assets under `/mission-control`, so smoke tests should use the mounted path.
+
+### Suggested Fix
+Use `http://localhost:3001/mission-control/<route>` for local Mission Control route checks unless the base path is intentionally changed.
+
+### Metadata
+- Reproducible: yes
+- Related Files: mission-control/app/layout.tsx, mission-control/app/teams/page.tsx
+
+---
+
 ## [ERR-20260702-002] openclaw_cron_agentturn_no_shell
 
 **Logged**: 2026-07-02T16:38:39-07:00
