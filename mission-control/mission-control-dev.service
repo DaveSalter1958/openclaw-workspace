@@ -1,5 +1,5 @@
 [Unit]
-Description=Mission Control Next.js app
+Description=Mission Control Next.js app (dev mode)
 After=network-online.target
 Wants=network-online.target
 
@@ -7,8 +7,9 @@ Wants=network-online.target
 Type=simple
 User=davesalter
 WorkingDirectory=/home/davesalter/.openclaw/workspace/mission-control
-Environment=NODE_ENV=production
-ExecStart=/usr/bin/npm run start -- --hostname 0.0.0.0 --port 3010
+Environment=NODE_ENV=development
+Environment=PORT=3002
+ExecStart=/usr/bin/npm run dev -- --hostname 0.0.0.0 --port 3002
 Restart=always
 RestartSec=5
 
