@@ -1,4 +1,6 @@
 # Local/runtime workspace state
+.openclaw/
+.clawhub/
 .tmp/
 .trash/
 backups/
@@ -15,6 +17,17 @@ photo-drive-audit/
 *.bak
 __pycache__/
 *.pyc
+
+# Runtime memory/state logs; curated markdown memory remains trackable
+memory/.dreams/
+memory/*.log
+memory/*.jsonl
+memory/*state*.json
+memory/email-cleanup/
+state/*.jsonl
+
+# Accidental command-output/key files
+**/ssh -T git@github.com*
 
 # OS/editor noise
 .DS_Store
