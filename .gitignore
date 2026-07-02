@@ -11,8 +11,12 @@ reports/
 migration-bundles/
 planhubguy-backup/
 photo-drive-audit/
+.archive/
 
-# Generated logs and Python cache
+# Dependencies, builds, generated logs, and Python cache
+node_modules/
+.next/
+.venv/
 *.log
 *.bak
 __pycache__/
@@ -25,6 +29,7 @@ memory/*.jsonl
 memory/*state*.json
 memory/email-cleanup/
 state/*.jsonl
+state/
 
 # Accidental command-output/key files
 **/ssh -T git@github.com*
