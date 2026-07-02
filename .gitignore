@@ -1,0 +1,20 @@
+# Local/runtime workspace state
+.tmp/
+.trash/
+backups/
+exports/
+media/
+output/
+reports/
+migration-bundles/
+planhubguy-backup/
+photo-drive-audit/
+
+# Generated logs and Python cache
+*.log
+*.bak
+__pycache__/
+*.pyc
+
+# OS/editor noise
+.DS_Store

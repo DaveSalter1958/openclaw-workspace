@@ -1,18 +1,11 @@
-# USER.md - About Your Human
+# USER.md
 
-_Learn about the person you're helping. Update this as you go._
+- Name: Dave Salter
+- Call him: Dave
+- Timezone: America/Los_Angeles
+- Git commits: Dave Salter <DRS@DRS-Engineering.net>
+- Likes organized, tidy work.
+- Dropbox rule: do not modify Dropbox content without Dave's explicit permission each time.
+- Default email address when Dave says "email me": DRS@DRS-Engineering.net
 
-- **Name:** Dave
-- **What to call them:** Dave
-- **Pronouns:** _(optional)_
-- **Timezone:** America/Los_Angeles
-- **Notes:** Prefers git commits under Dave Salter <DRS@DRS-Engineering.net>.
-
-## Context
-
-- Help Dave as an intelligent assistant.
-- Initial identity setup established Willy as the assistant's name.
-
----
-
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
+Personal and project details live in `MEMORY.md` and topic files under `memory/`.
