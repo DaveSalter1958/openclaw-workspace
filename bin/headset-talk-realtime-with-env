@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Launch headset-talk-realtime using OPENAI_API_KEY from the running OpenClaw service env.
+
+Does not print or persist the key. It only copies it into this child process environment.
+"""
+
+import os
+import sys
+from pathlib import Path
+
+KEY = "OPENAI_API_KEY"
+SCRIPT = Path(__file__).resolve().parent / "headset-talk-realtime"
+
+
+def proc_env(pid: str):
+    try:
+        raw = Path("/proc") / pid / "environ"
+        data = raw.read_bytes()
+    except Exception:
+        return {}
+    env = {}
+    for part in data.split(b"\0"):
+        if b"=" not in part:
+            continue
+        k, v = part.split(b"=", 1)
+        try:
+            env[k.decode()] = v.decode()
+        except UnicodeDecodeError:
+            continue
+    return env
+
+
+def find_key():
+    # If user already exported it, respect that.
+    if os.environ.get(KEY):
+        return os.environ[KEY]
+
+    candidates = []
+    for p in Path("/proc").iterdir():
+        if not p.name.isdigit():
+            continue
+        env = proc_env(p.name)
+        val = env.get(KEY)
+        if not val:
+            continue
+        cmdline = ""
+        try:
+            cmdline = (Path("/proc") / p.name / "cmdline").read_bytes().replace(b"\0", b" ").decode(errors="ignore")
+        except Exception:
+            pass
+        score = 0
+        hay = (cmdline + " " + env.get("OPENCLAW_CONFIG_PATH", "") + " " + env.get("OPENCLAW_STATE_DIR", "")).lower()
+        if "openclaw" in hay:
+            score += 10
+        if "gateway" in hay:
+            score += 5
+        candidates.append((score, int(p.name), val))
+
+    if not candidates:
+        return None
+    candidates.sort(reverse=True)
+    return candidates[0][2]
+
+
+def main():
+    key = find_key()
+    if not key:
+        print("Could not find OPENAI_API_KEY in this shell or running OpenClaw processes.", file=sys.stderr)
+        print("Fallback: export OPENAI_API_KEY manually, then run bin/headset-talk-realtime.", file=sys.stderr)
+        return 2
+
+    os.environ[KEY] = key
+    os.execvpe(str(SCRIPT), [str(SCRIPT), *sys.argv[1:]], os.environ)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

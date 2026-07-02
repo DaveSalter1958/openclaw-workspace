@@ -1,0 +1,303 @@
+#!/usr/bin/env node
+/*
+ * Realtime speech-to-speech headset loop for Raspberry Pi + PulseAudio/PipeWire.
+ * Streams NUBWO mic PCM to OpenAI Realtime and streams returned PCM to headset.
+ */
+
+const { spawn } = require('node:child_process');
+const process = require('node:process');
+
+const API_KEY = process.env.OPENAI_API_KEY;
+const MODEL = process.env.HEADSET_REALTIME_MODEL || 'gpt-realtime-2';
+const VOICE = process.env.HEADSET_REALTIME_VOICE || 'echo';
+const MIC_SOURCE = process.env.HEADSET_TALK_MIC || 'alsa_input.usb-Generalplus_Usb_Audio_Device-00.mono-fallback';
+const SINK = process.env.HEADSET_TALK_SINK || '@DEFAULT_SINK@';
+const RATE = Number(process.env.HEADSET_REALTIME_RATE || 24000);
+const CHUNK_MS = Number(process.env.HEADSET_REALTIME_CHUNK_MS || 40);
+const CHUNK_BYTES = Math.floor(RATE * 2 * CHUNK_MS / 1000); // mono s16le
+const VAD_TYPE = process.env.HEADSET_REALTIME_VAD || 'semantic_vad'; // semantic_vad or server_vad
+const SHOW_EVENTS = process.env.HEADSET_REALTIME_DEBUG === '1';
+const SAFETY_ID = process.env.HEADSET_REALTIME_SAFETY_ID || 'dave-pi-headset';
+
+const fs = require('node:fs');
+const LOCK_PATH = process.env.HEADSET_REALTIME_LOCK || '/tmp/openclaw-headset-talk-realtime.lock';
+let lockFd;
+try {
+  lockFd = fs.openSync(LOCK_PATH, 'wx');
+  fs.writeFileSync(lockFd, String(process.pid));
+} catch (err) {
+  console.error('Another headset realtime loop appears to be running.');
+  console.error(`If you are sure it is stale, remove ${LOCK_PATH} and try again.`);
+  process.exit(3);
+}
+
+const INSTRUCTIONS = process.env.HEADSET_REALTIME_INSTRUCTIONS || `
+You are Guy, Dave's sharp technical partner. Speak naturally and concisely.
+Default to short conversational replies unless Dave asks for detail.
+Be truthful; say when you do not know. Do not claim access to Dave's OpenClaw tools in this realtime mode.
+`;
+
+if (!API_KEY) {
+  console.error('OPENAI_API_KEY is not set.');
+  console.error('Run this from a shell that has the OpenAI key, or export OPENAI_API_KEY first.');
+  process.exit(2);
+}
+
+if (typeof WebSocket !== 'function') {
+  console.error('This script requires Node 22+ with global WebSocket support.');
+  process.exit(2);
+}
+
+let ws;
+let mic;
+let speaker;
+let shuttingDown = false;
+let connected = false;
+let speaking = false;
+let responseActive = false;
+let pendingMic = Buffer.alloc(0);
+let audioBytesIn = 0;
+let audioBytesOut = 0;
+let lastTranscript = '';
+
+function log(...args) {
+  console.log(new Date().toLocaleTimeString(), ...args);
+}
+
+function send(event) {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(event));
+  }
+}
+
+function startAudio() {
+  mic = spawn('parec', [
+    `--device=${MIC_SOURCE}`,
+    '--raw',
+    '--format=s16le',
+    `--rate=${RATE}`,
+    '--channels=1',
+    '--latency-msec=20',
+    '--process-time-msec=10',
+  ], { stdio: ['ignore', 'pipe', 'pipe'] });
+
+  speaker = spawn('paplay', [
+    `--device=${SINK}`,
+    '--raw',
+    '--format=s16le',
+    `--rate=${RATE}`,
+    '--channels=1',
+    '--latency-msec=20',
+    '--process-time-msec=10',
+    '--stream-name=Guy realtime voice',
+  ], { stdio: ['pipe', 'ignore', 'pipe'] });
+
+  mic.stderr.on('data', d => SHOW_EVENTS && process.stderr.write(`[parec] ${d}`));
+  speaker.stderr.on('data', d => SHOW_EVENTS && process.stderr.write(`[paplay] ${d}`));
+
+  mic.on('exit', (code, sig) => {
+    if (!shuttingDown) console.error(`Mic process exited: code=${code} sig=${sig}`);
+  });
+  speaker.on('exit', (code, sig) => {
+    if (!shuttingDown) console.error(`Speaker process exited: code=${code} sig=${sig}`);
+  });
+
+  mic.stdout.on('data', chunk => {
+    if (!connected || shuttingDown) return;
+    pendingMic = Buffer.concat([pendingMic, chunk]);
+    while (pendingMic.length >= CHUNK_BYTES) {
+      const out = pendingMic.subarray(0, CHUNK_BYTES);
+      pendingMic = pendingMic.subarray(CHUNK_BYTES);
+      audioBytesIn += out.length;
+      send({ type: 'input_audio_buffer.append', audio: out.toString('base64') });
+    }
+  });
+}
+
+function flushSpeaker() {
+  // Best-effort barge-in. Restart paplay to drop queued assistant audio.
+  if (!speaker || shuttingDown) return;
+  try { speaker.kill('SIGTERM'); } catch {}
+  speaker = spawn('paplay', [
+    `--device=${SINK}`,
+    '--raw',
+    '--format=s16le',
+    `--rate=${RATE}`,
+    '--channels=1',
+    '--latency-msec=20',
+    '--process-time-msec=10',
+    '--stream-name=Guy realtime voice',
+  ], { stdio: ['pipe', 'ignore', 'pipe'] });
+}
+
+function makeSessionUpdate() {
+  if (VAD_TYPE === 'server_vad') {
+    return {
+      type: 'session.update',
+      session: {
+        type: 'realtime',
+        model: MODEL,
+        instructions: INSTRUCTIONS,
+        output_modalities: ['audio'],
+        audio: {
+          input: {
+            format: { type: 'audio/pcm', rate: RATE },
+            turn_detection: {
+              type: 'server_vad',
+              threshold: Number(process.env.HEADSET_REALTIME_VAD_THRESHOLD || 0.5),
+              prefix_padding_ms: Number(process.env.HEADSET_REALTIME_PREFIX_MS || 300),
+              silence_duration_ms: Number(process.env.HEADSET_REALTIME_SILENCE_MS || 450),
+            },
+          },
+          output: {
+            format: { type: 'audio/pcm', rate: RATE },
+            voice: VOICE,
+          },
+        },
+      },
+    };
+  }
+
+  return {
+    type: 'session.update',
+    session: {
+      type: 'realtime',
+      model: MODEL,
+      instructions: INSTRUCTIONS,
+      output_modalities: ['audio'],
+      audio: {
+        input: {
+          format: { type: 'audio/pcm', rate: RATE },
+          turn_detection: { type: 'semantic_vad' },
+        },
+        output: {
+          format: { type: 'audio/pcm', rate: RATE },
+          voice: VOICE,
+        },
+      },
+    },
+  };
+}
+
+function handleEvent(event) {
+  if (SHOW_EVENTS && !String(event.type).includes('delta')) {
+    console.error('event:', event.type);
+  }
+
+  switch (event.type) {
+    case 'session.created':
+      log(`Connected to ${MODEL}. Updating session...`);
+      send(makeSessionUpdate());
+      break;
+
+    case 'session.updated':
+      connected = true;
+      log(`Realtime headset loop ready. Voice=${VOICE}. Speak naturally. Ctrl-C to stop.`);
+      startAudio();
+      break;
+
+    case 'input_audio_buffer.speech_started':
+      log('Heard you...');
+      if (responseActive || speaking) {
+        send({ type: 'response.cancel' });
+        flushSpeaker();
+        responseActive = false;
+        speaking = false;
+      }
+      break;
+
+    case 'input_audio_buffer.speech_stopped':
+      log('Thinking...');
+      break;
+
+    case 'response.created':
+      responseActive = true;
+      break;
+
+    case 'response.output_audio.delta':
+    case 'response.audio.delta': { // compatibility with older event names
+      const b64 = event.delta || event.audio;
+      if (b64 && speaker && speaker.stdin.writable) {
+        const audio = Buffer.from(b64, 'base64');
+        audioBytesOut += audio.length;
+        speaking = true;
+        speaker.stdin.write(audio);
+      }
+      break;
+    }
+
+    case 'response.output_audio_transcript.delta':
+    case 'response.audio_transcript.delta':
+      if (event.delta) {
+        lastTranscript += event.delta;
+        process.stdout.write(event.delta);
+      }
+      break;
+
+    case 'response.output_audio_transcript.done':
+    case 'response.audio_transcript.done':
+      if (lastTranscript.trim()) process.stdout.write('\n');
+      lastTranscript = '';
+      break;
+
+    case 'response.output_audio.done':
+    case 'response.audio.done':
+      speaking = false;
+      break;
+
+    case 'response.done':
+      responseActive = false;
+      speaking = false;
+      log('Ready.');
+      break;
+
+    case 'error':
+      console.error('Realtime API error:', JSON.stringify(event.error || event, null, 2));
+      break;
+  }
+}
+
+function shutdown() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  log(`Stopping. Mic streamed ${(audioBytesIn / 1024).toFixed(1)} KiB; audio received ${(audioBytesOut / 1024).toFixed(1)} KiB.`);
+  try { mic?.kill('SIGTERM'); } catch {}
+  try { speaker?.stdin?.end(); } catch {}
+  try { speaker?.kill('SIGTERM'); } catch {}
+  try { ws?.close(); } catch {}
+  try { if (lockFd !== undefined) fs.closeSync(lockFd); } catch {}
+  try { fs.unlinkSync(LOCK_PATH); } catch {}
+  setTimeout(() => process.exit(0), 250).unref();
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
+const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(MODEL)}`;
+log(`Connecting to ${url}`);
+
+ws = new WebSocket(url, {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`,
+    'OpenAI-Safety-Identifier': SAFETY_ID,
+  },
+});
+
+ws.addEventListener('open', () => log('WebSocket open. Waiting for session...'));
+ws.addEventListener('message', (msg) => {
+  try {
+    const text = typeof msg.data === 'string' ? msg.data : Buffer.from(msg.data).toString('utf8');
+    handleEvent(JSON.parse(text));
+  } catch (err) {
+    console.error('Could not parse realtime message:', err.message);
+  }
+});
+ws.addEventListener('error', (err) => {
+  console.error('WebSocket error:', err.message || err);
+});
+ws.addEventListener('close', (ev) => {
+  if (!shuttingDown) {
+    console.error(`WebSocket closed: code=${ev.code} reason=${ev.reason || ''}`);
+    shutdown();
+  }
+});

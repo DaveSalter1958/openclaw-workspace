@@ -1,0 +1,24 @@
+[Unit]
+Description=Guy Voice Assistant (wake word: Hey Guy)
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=PYTHONUNBUFFERED=1
+Environment=GUY_VOICE_INPUT=pulse
+Environment=GUY_VOICE_OUTPUT=pulse
+Environment=GUY_VOICE_TTS_VOICE=onyx
+Environment=GUY_VOICE_TTS=gpt-4o-mini-tts
+Environment=GUY_VOICE_STT=gpt-4o-mini-transcribe
+Environment=GUY_VOICE_LLM=gpt-4o-mini
+Environment=GUY_VOICE_VAD=0
+Environment=GUY_VOICE_MAX_SILENCE_MS=1200
+Environment=GUY_VOICE_DEBUG=1
+EnvironmentFile=%h/.config/guy-voice.env
+ExecStart=/home/davesalter/.openclaw/workspace/voice-assistant/.venv/bin/python /home/davesalter/.openclaw/workspace/voice-assistant/voice_assistant.py
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=default.target

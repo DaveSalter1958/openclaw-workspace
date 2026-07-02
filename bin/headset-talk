@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Push-to-talk voice bridge for a USB headset on the Pi.
+# Flow: record mic -> transcribe -> OpenClaw agent -> TTS -> headset speaker.
+
+MIC_SOURCE="${HEADSET_TALK_MIC:-alsa_input.usb-Generalplus_Usb_Audio_Device-00.mono-fallback}"
+SESSION_ID="${HEADSET_TALK_SESSION:-main}"
+STT_MODEL="${HEADSET_TALK_STT_MODEL:-openai/gpt-4o-mini-transcribe}"
+TTS_MODEL="${HEADSET_TALK_TTS_MODEL:-openai/gpt-4o-mini-tts}"
+VOICE="${HEADSET_TALK_VOICE:-}"
+WORK_DIR="${HEADSET_TALK_WORK_DIR:-/tmp/openclaw-headset-talk}"
+KEEP_AUDIO="${HEADSET_TALK_KEEP_AUDIO:-0}"
+
+mkdir -p "$WORK_DIR"
+
+need() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "Missing required command: $1" >&2
+    exit 1
+  fi
+}
+
+need openclaw
+need ffmpeg
+need ffplay
+need python3
+
+json_pick_text() {
+  python3 -c '
+import json, sys
+raw = sys.stdin.read()
+try:
+    data = json.loads(raw)
+except Exception:
+    print(raw.strip())
+    raise SystemExit
+
+preferred = ("text", "transcript", "reply", "message", "content", "output", "response")
+
+def walk(x):
+    if isinstance(x, dict):
+        for k in preferred:
+            v = x.get(k)
+            if isinstance(v, str) and v.strip():
+                return v.strip()
+        # OpenClaw/LLM payloads often nest useful text in lists/objects.
+        for v in x.values():
+            found = walk(v)
+            if found:
+                return found
+    elif isinstance(x, list):
+        for v in x:
+            found = walk(v)
+            if found:
+                return found
+    return ""
+
+print(walk(data))
+'
+}
+
+say_line() {
+  printf '\n%s\n' "$*"
+}
+
+cleanup_files=()
+cleanup() {
+  if [[ "$KEEP_AUDIO" != "1" ]]; then
+    for f in "${cleanup_files[@]:-}"; do
+      [[ -n "$f" && -e "$f" ]] && rm -f -- "$f"
+    done
+  fi
+  return 0
+}
+trap cleanup EXIT
+
+say_line "Headset Talk — push-to-talk prototype"
+say_line "Session: $SESSION_ID"
+say_line "Press Enter to start recording, Enter again to stop. Type q then Enter to quit."
+
+while true; do
+  printf '\nready> '
+  IFS= read -r cmd || break
+  case "${cmd,,}" in
+    q|quit|exit) break ;;
+  esac
+
+  stamp="$(date +%Y%m%d-%H%M%S)"
+  wav="$WORK_DIR/input-$stamp.wav"
+  speech="$WORK_DIR/reply-$stamp.mp3"
+  cleanup_files+=("$wav" "$speech")
+
+  say_line "Recording... speak now. Press Enter to stop."
+  ffmpeg -hide_banner -loglevel error -y \
+    -f pulse -i "$MIC_SOURCE" \
+    -ac 1 -ar 16000 "$wav" &
+  rec_pid=$!
+
+  IFS= read -r _ || true
+  kill -INT "$rec_pid" >/dev/null 2>&1 || true
+  wait "$rec_pid" >/dev/null 2>&1 || true
+
+  if [[ ! -s "$wav" ]]; then
+    say_line "No audio captured."
+    continue
+  fi
+
+  say_line "Transcribing..."
+  transcript_json="$(openclaw infer audio transcribe --file "$wav" --model "$STT_MODEL" --json)"
+  transcript="$(printf '%s' "$transcript_json" | json_pick_text)"
+  transcript="${transcript//$'\r'/}"
+
+  if [[ -z "${transcript//[[:space:]]/}" ]]; then
+    say_line "I didn't catch anything usable."
+    continue
+  fi
+
+  say_line "You: $transcript"
+  say_line "Thinking..."
+
+  reply_json="$(openclaw agent --session-id "$SESSION_ID" --message "$transcript" --json)"
+  reply="$(printf '%s' "$reply_json" | json_pick_text)"
+  reply="${reply//$'\r'/}"
+
+  if [[ -z "${reply//[[:space:]]/}" ]]; then
+    say_line "No reply text came back from OpenClaw. Raw output:"
+    printf '%s\n' "$reply_json"
+    continue
+  fi
+
+  say_line "Guy: $reply"
+  say_line "Speaking..."
+
+  tts_args=(openclaw infer tts convert --text "$reply" --output "$speech" --model "$TTS_MODEL" --json)
+  if [[ -n "$VOICE" ]]; then
+    tts_args+=(--voice "$VOICE")
+  fi
+  "${tts_args[@]}" >/dev/null
+
+  if [[ -s "$speech" ]]; then
+    ffplay -nodisp -autoexit -loglevel error "$speech" </dev/null
+  else
+    say_line "TTS did not create an audio file: $speech"
+  fi
+done
+
+say_line "Headset Talk stopped."
+exit 0

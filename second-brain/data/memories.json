@@ -1,0 +1,101 @@
+[
+  {
+    "id": "m1",
+    "title": "Santa Ynez ridge drive",
+    "date": "2026-03-12",
+    "summary": "A good day out with the 4x4 club, followed by a note to sort trip photos before they vanish into the digital abyss.",
+    "tags": [
+      "offroad",
+      "photos",
+      "club"
+    ],
+    "energy": "restorative"
+  },
+  {
+    "id": "m2",
+    "title": "Landscape painting idea",
+    "date": "2026-03-10",
+    "summary": "Pulled a mountain photo aside as a possible acrylic composition with stronger foreground contrast.",
+    "tags": [
+      "painting",
+      "mountains",
+      "creative"
+    ],
+    "energy": "reflective"
+  },
+  {
+    "id": "m3",
+    "title": "Organise the workshop notes",
+    "date": "2026-03-08",
+    "summary": "Noted that vehicle maintenance instructions are spread across PDFs, photos, and random text files. Needs one canonical place.",
+    "tags": [
+      "maintenance",
+      "docs",
+      "organisation"
+    ],
+    "energy": "practical"
+  },
+  {
+    "id": "life-sandal-primary-early-childhood",
+    "title": "Early memories and Sandal Primary School",
+    "date": "1961-1963",
+    "summary": "Dave\u2019s early childhood memories include being caught peeing by the apple trees behind the garage, starting Sandal Primary School around 1963, playground games, Leslie Bates, a teacher with a monkey/chimpanzee, and being moved early into Mrs Black\u2019s Top Class before the Bradford Grammar School exam.",
+    "tags": [
+      "my-life",
+      "childhood",
+      "school",
+      "sandal-primary",
+      "bradford-grammar"
+    ],
+    "energy": "reflective",
+    "source": "memory/mylife/1961.md; memory/mylife/1962.md; memory/mylife/1963.md; memory/mylife/childhood-background.md",
+    "kind": "long-term"
+  },
+  {
+    "id": "life-thornville-bradford-grammar-junior-school",
+    "title": "Thornville, Bradford Grammar junior school",
+    "date": "1968-1969",
+    "summary": "Dave thinks he started Bradford Grammar School around 1968 through the junior school, Thornville, an old house on Manningham Lane. His dad dropped him off on the way to work; Dave hated going there and remembers canings, weird-smelling books, and walking to the main school for lunch.",
+    "tags": [
+      "my-life",
+      "childhood",
+      "school",
+      "bradford-grammar",
+      "thornville"
+    ],
+    "energy": "reflective",
+    "source": "memory/mylife/1968.md; memory/mylife/1969.md; memory/mylife/childhood-background.md",
+    "kind": "long-term"
+  },
+  {
+    "id": "life-main-bradford-grammar-school",
+    "title": "Main Bradford Grammar School",
+    "date": "1969-1970",
+    "summary": "Dave thinks he moved into the main Bradford Grammar School at about 11, probably 1969 or 1970, and did the rest of high school there. He remembers it as strange, formal, almost Hogwarts-like: teachers in black gowns and mortarboards, and boys in funny brown uniforms and caps.",
+    "tags": [
+      "my-life",
+      "childhood",
+      "school",
+      "bradford-grammar"
+    ],
+    "energy": "reflective",
+    "source": "memory/mylife/1969.md; memory/mylife/1970.md; memory/mylife/childhood-background.md",
+    "kind": "long-term"
+  },
+  {
+    "id": "life-bradford-grammar-friends-mischief",
+    "title": "Bradford Grammar friends and lunchtime mischief",
+    "date": "early 1970s",
+    "summary": "At Bradford Grammar, Dave was usually top of the class but mischievous. Basketball was about his only team sport. Friends included John Hudson from Keighley, plus Simon and Roger. Lunchtimes often meant smoking in bathrooms or crossing to the park opposite school to hide, hang out, and smoke near the boating lake, bandstand, museum/stately-home building, and coffee shop.",
+    "tags": [
+      "my-life",
+      "school",
+      "bradford-grammar",
+      "friends",
+      "mischief"
+    ],
+    "energy": "reflective",
+    "source": "memory/mylife/1970.md; memory/mylife/childhood-background.md",
+    "kind": "long-term"
+  }
+]

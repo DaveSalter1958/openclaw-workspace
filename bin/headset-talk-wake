@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+"""Wake-word-ish headset bridge: continuously listen, answer only after hearing the wake word."""
+
+import audioop
+import json
+import os
+import re
+import subprocess
+import time
+import wave
+from pathlib import Path
+
+MIC_SOURCE = os.environ.get("HEADSET_TALK_MIC", "alsa_input.usb-Generalplus_Usb_Audio_Device-00.mono-fallback")
+SESSION_ID = os.environ.get("HEADSET_TALK_SESSION", "main")
+STT_MODEL = os.environ.get("HEADSET_TALK_STT_MODEL", "openai/gpt-4o-mini-transcribe")
+TTS_MODEL = os.environ.get("HEADSET_TALK_TTS_MODEL", "openai/gpt-4o-mini-tts")
+VOICE = os.environ.get("HEADSET_TALK_VOICE", "")
+AGENT_MODEL = os.environ.get("HEADSET_TALK_AGENT_MODEL", "")
+AGENT_THINKING = os.environ.get("HEADSET_TALK_THINKING", "off")
+WORK_DIR = Path(os.environ.get("HEADSET_TALK_WORK_DIR", "/tmp/openclaw-headset-talk"))
+KEEP_AUDIO = os.environ.get("HEADSET_TALK_KEEP_AUDIO", "0") == "1"
+WAKE_WORD = os.environ.get("HEADSET_TALK_WAKE_WORD", "Guy").strip()
+
+RATE = int(os.environ.get("HEADSET_TALK_RATE", "16000"))
+CHANNELS = 1
+SAMPLE_WIDTH = 2
+CHUNK_MS = int(os.environ.get("HEADSET_TALK_CHUNK_MS", "100"))
+CHUNK_BYTES = int(RATE * CHANNELS * SAMPLE_WIDTH * CHUNK_MS / 1000)
+START_THRESHOLD = int(os.environ.get("HEADSET_TALK_START_RMS", "450"))
+STOP_THRESHOLD = int(os.environ.get("HEADSET_TALK_STOP_RMS", "280"))
+SILENCE_SECONDS = float(os.environ.get("HEADSET_TALK_SILENCE_SECONDS", "0.6"))
+MAX_SECONDS = float(os.environ.get("HEADSET_TALK_MAX_SECONDS", "30"))
+PRE_ROLL_SECONDS = float(os.environ.get("HEADSET_TALK_PREROLL_SECONDS", "0.5"))
+IDLE_SLEEP_SECONDS = float(os.environ.get("HEADSET_TALK_IDLE_SLEEP", "0.15"))
+
+WORK_DIR.mkdir(parents=True, exist_ok=True)
+
+def run_json(args):
+    out = subprocess.check_output(args, text=True)
+    try:
+        return json.loads(out), out
+    except Exception:
+        return None, out
+
+def pick_text(obj, raw=""):
+    preferred = ("text", "transcript", "reply", "message", "content", "output", "response")
+    def walk(x):
+        if isinstance(x, dict):
+            for k in preferred:
+                v = x.get(k)
+                if isinstance(v, str) and v.strip():
+                    return v.strip()
+            for v in x.values():
+                found = walk(v)
+                if found:
+                    return found
+        elif isinstance(x, list):
+            for v in x:
+                found = walk(v)
+                if found:
+                    return found
+        return ""
+    if obj is not None:
+        found = walk(obj)
+        if found:
+            return found
+    return raw.strip()
+
+def write_wav(path, pcm):
+    with wave.open(str(path), "wb") as w:
+        w.setnchannels(CHANNELS)
+        w.setsampwidth(SAMPLE_WIDTH)
+        w.setframerate(RATE)
+        w.writeframes(pcm)
+
+def record_one_utterance(path):
+    cmd = [
+        "parec",
+        f"--device={MIC_SOURCE}",
+        "--format=s16le",
+        f"--rate={RATE}",
+        f"--channels={CHANNELS}",
+    ]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    assert proc.stdout is not None
+    frames = []
+    preroll = []
+    preroll_chunks = max(1, int(PRE_ROLL_SECONDS * 1000 / CHUNK_MS))
+    started = False
+    start_time = time.monotonic()
+    last_voice = None
+
+    try:
+        while True:
+            chunk = proc.stdout.read(CHUNK_BYTES)
+            if not chunk:
+                break
+            rms = audioop.rms(chunk, SAMPLE_WIDTH)
+            now = time.monotonic()
+
+            if not started:
+                preroll.append(chunk)
+                preroll = preroll[-preroll_chunks:]
+                if rms >= START_THRESHOLD:
+                    started = True
+                    frames.extend(preroll)
+                    last_voice = now
+                    print("Voice detected...", flush=True)
+                continue
+
+            frames.append(chunk)
+            if rms >= STOP_THRESHOLD:
+                last_voice = now
+            elif last_voice and now - last_voice >= SILENCE_SECONDS:
+                break
+
+            if now - start_time >= MAX_SECONDS:
+                break
+    finally:
+        proc.terminate()
+        try:
+            proc.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+
+    if not frames:
+        return False
+    write_wav(path, b"".join(frames))
+    return True
+
+def wake_payload(transcript):
+    text = transcript.strip()
+    if not text:
+        return None
+
+    low = text.lower()
+    stop_phrases = (
+        "guy stop listening", "hey guy stop listening", "ok guy stop listening",
+        "guy quit", "hey guy quit", "guy exit", "hey guy exit",
+    )
+    if any(p in low for p in stop_phrases):
+        return "__STOP__"
+
+    wake = re.escape(WAKE_WORD.lower())
+    # Accept: "Guy ...", "Hey Guy ...", "OK Guy ...", or "Okay Guy ..."
+    m = re.match(rf"^(?:hey\s+|ok\s+|okay\s+)?{wake}\b[\s,.:;!?-]*(.*)$", low, flags=re.I)
+    if not m:
+        return None
+
+    # Preserve the original casing as much as possible by removing the same prefix length.
+    prefix = re.match(rf"^(?:hey\s+|ok\s+|okay\s+)?{wake}\b[\s,.:;!?-]*", text, flags=re.I)
+    payload = text[prefix.end():].strip() if prefix else m.group(1).strip()
+    return payload or "I'm here."
+
+def speak(text, out_path):
+    args = ["openclaw", "infer", "tts", "convert", "--text", text, "--output", str(out_path), "--model", TTS_MODEL, "--json"]
+    if VOICE:
+        args += ["--voice", VOICE]
+    subprocess.check_call(args, stdout=subprocess.DEVNULL)
+    subprocess.check_call(["ffplay", "-nodisp", "-autoexit", "-loglevel", "error", str(out_path)], stdin=subprocess.DEVNULL)
+
+def main():
+    print("Headset Talk Wake — continuous local listening, cloud transcription per utterance.\n")
+    print(f"Wake word: {WAKE_WORD!r}")
+    print(f"Session: {SESSION_ID}")
+    print("Say 'Guy stop listening' to quit. Press Ctrl-C to force stop.\n")
+
+    try:
+        while True:
+            stamp = time.strftime("%Y%m%d-%H%M%S")
+            wav = WORK_DIR / f"input-wake-{stamp}.wav"
+            mp3 = WORK_DIR / f"reply-wake-{stamp}.mp3"
+
+            ok = record_one_utterance(wav)
+            if not ok:
+                time.sleep(IDLE_SLEEP_SECONDS)
+                continue
+
+            try:
+                print("Transcribing...")
+                t0 = time.monotonic()
+                data, raw = run_json(["openclaw", "infer", "audio", "transcribe", "--file", str(wav), "--model", STT_MODEL, "--json"])
+                print(f"Transcribed in {time.monotonic() - t0:.1f}s")
+                transcript = pick_text(data, raw)
+                if not transcript:
+                    print("Heard audio, but no usable transcript.")
+                    continue
+                print(f"Heard: {transcript}")
+
+                payload = wake_payload(transcript)
+                if payload is None:
+                    print(f"Ignored — did not start with {WAKE_WORD!r}.")
+                    continue
+                if payload == "__STOP__":
+                    print("Stopping wake mode.")
+                    break
+
+                print(f"Sending: {payload}")
+                t0 = time.monotonic()
+                agent_args = ["openclaw", "agent", "--session-id", SESSION_ID, "--message", payload, "--thinking", AGENT_THINKING, "--json"]
+                if AGENT_MODEL:
+                    agent_args += ["--model", AGENT_MODEL]
+                data, raw = run_json(agent_args)
+                print(f"Reply generated in {time.monotonic() - t0:.1f}s")
+                reply = pick_text(data, raw)
+                if not reply:
+                    print("No reply text came back from OpenClaw.")
+                    print(raw)
+                    continue
+                print(f"Guy: {reply}")
+                print("Speaking...")
+                t0 = time.monotonic()
+                speak(reply, mp3)
+                print(f"Speech generated/played in {time.monotonic() - t0:.1f}s")
+            finally:
+                if not KEEP_AUDIO:
+                    for p in (wav, mp3):
+                        try:
+                            p.unlink()
+                        except FileNotFoundError:
+                            pass
+    except KeyboardInterrupt:
+        print("\nInterrupted.")
+
+    print("Headset Talk Wake stopped.")
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())

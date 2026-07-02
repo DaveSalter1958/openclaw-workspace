@@ -19,6 +19,7 @@ node_modules/
 .venv/
 *.log
 *.bak
+*.bak-*
 __pycache__/
 *.pyc
 

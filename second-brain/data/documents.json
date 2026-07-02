@@ -1,0 +1,29 @@
+[
+  {
+    "id": "d1",
+    "title": "Overlanding packing checklist",
+    "type": "Checklist",
+    "updatedAt": "2026-03-14",
+    "status": "active",
+    "summary": "Working checklist for recovery gear, water, food, and camp kit.",
+    "source": "local/data/documents.json"
+  },
+  {
+    "id": "d2",
+    "title": "Workshop maintenance references",
+    "type": "Reference",
+    "updatedAt": "2026-03-09",
+    "status": "needs review",
+    "summary": "Torque specs, service intervals, and assorted notes that want consolidating.",
+    "source": "local/data/documents.json"
+  },
+  {
+    "id": "d3",
+    "title": "Painting ideas backlog",
+    "type": "Idea bank",
+    "updatedAt": "2026-03-11",
+    "status": "active",
+    "summary": "Photos and quick prompts for future acrylic landscapes.",
+    "source": "local/data/documents.json"
+  }
+]
