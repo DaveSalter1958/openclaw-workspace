@@ -1,0 +1,12 @@
+[Unit]
+Description=PlanHubGuy weekday 1pm run
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/davesalter/.openclaw/workspace/mission-control
+Environment=PATH=/home/davesalter/.npm-global/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/bash /home/davesalter/.openclaw/workspace/mission-control/scripts/planhubguy-cron.sh
+StandardOutput=append:/home/davesalter/.openclaw/workspace/memory/planhubguy-weekday-run.log
+StandardError=append:/home/davesalter/.openclaw/workspace/memory/planhubguy-weekday-run.log

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run PlanHubGuy every weekday at 1pm
+
+[Timer]
+OnCalendar=Mon..Fri 13:00
+Persistent=true
+Unit=planhubguy-weekday-run.service
+
+[Install]
+WantedBy=timers.target

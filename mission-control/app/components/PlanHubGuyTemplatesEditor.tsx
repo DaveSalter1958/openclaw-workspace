@@ -21,7 +21,7 @@ export function PlanHubGuyTemplatesEditor({ initialTemplates }: { initialTemplat
 
   async function save() {
     setStatus('Saving…');
-    const res = await fetch('/mission-control/api/planhubguy/templates', {
+    const res = await fetch('/api/planhubguy/templates', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(templates),
@@ -35,7 +35,7 @@ export function PlanHubGuyTemplatesEditor({ initialTemplates }: { initialTemplat
 
   async function reload() {
     setStatus('Reloading…');
-    const res = await fetch('/mission-control/api/planhubguy/templates');
+    const res = await fetch('/api/planhubguy/templates');
     const data = await res.json();
     setTemplates(data);
     setStatus('Reloaded from file.');

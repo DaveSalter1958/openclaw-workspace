@@ -1,0 +1,99 @@
+{
+  "counts": {
+    "responseEvents": 1161,
+    "responsesByType": {
+      "inbound_automatic_reply": 199,
+      "inbound_bounce": 489,
+      "inbound_real_person_response": 471,
+      "inbound_response": 2
+    },
+    "sentByType": {
+      "sent_final_followup": 1086,
+      "sent_followup1": 2215,
+      "sent_initial": 2402
+    },
+    "sentEvents": 5703,
+    "totalEvents": 6864,
+    "uniqueRealPersonResponseThreads": 330,
+    "uniqueSentRecipients": 2530,
+    "uniqueSentThreads": 5683
+  },
+  "dateRange": {
+    "end": "2026-06-17",
+    "start": "2026-04-01"
+  },
+  "generatedAt": "2026-06-17T18:09:06.505484+00:00",
+  "notes": [
+    "Gmail sent events are immutable mailbox evidence and are deduped by Gmail message id.",
+    "Inbound events currently use Response Log rows; row/thread dedupe is reported for real-person response threads.",
+    "This script does not send email, change labels, or write Google Sheets."
+  ],
+  "outputs": {
+    "eventsJsonl": "data/planhubguy/campaign-events.jsonl",
+    "summaryJson": "data/planhubguy/campaign-ledger-summary.json"
+  },
+  "readOnly": true,
+  "sources": {
+    "cacheDir": "scripts/tmp/planhubguy-ledger-cache",
+    "gmailSearchQueries": {
+      "in:sent after:2026/03/31 before:2026/06/18 subject:\"Final follow up\"": 1086,
+      "in:sent after:2026/03/31 before:2026/06/18 subject:\"Final follow-up\"": 1086,
+      "in:sent after:2026/03/31 before:2026/06/18 subject:\"Re:\"": 2700,
+      "in:sent after:2026/03/31 before:2026/06/18 subject:Regarding": 2621
+    },
+    "gmailSearchRejectedAfterClassification": 468,
+    "gmailSentAccount": "Dave@DRS-Engineering.net",
+    "responseSheetRange": "Response Log!A1:I12000"
+  },
+  "validation": {
+    "actualLedgerCounts": {
+      "autoFollowups": 3301,
+      "finalFollowupEmails": 1086,
+      "followup1Emails": 2215,
+      "initialEmails": 2402,
+      "realPersonResponseThreads": 330
+    },
+    "actualLedgerCountsThrough20260519": {
+      "finalFollowupEmails": 0,
+      "followup1Emails": 697,
+      "initialEmails": 2231,
+      "sentOutreachRows": 2928
+    },
+    "differenceVs20260519Snapshot": {
+      "followup1Emails": -54,
+      "initialEmails": -550,
+      "sentOutreachRows": -787
+    },
+    "differenceVsMarketingStats": {
+      "autoFollowups": 244,
+      "finalFollowupEmails": 401,
+      "followup1Emails": -157,
+      "initialEmails": -465,
+      "realPersonResponseThreads": 0
+    },
+    "expectedCounts": {
+      "marketingStats": {
+        "autoFollowups": 3057,
+        "finalFollowupEmails": 685,
+        "followup1Emails": 2372,
+        "initialEmails": 2867,
+        "realPersonResponseThreads": 330
+      },
+      "snapshot20260519": {
+        "sentOutreachRows": 3715,
+        "stageCounts": {
+          "FollowUp1": 751,
+          "Initial": 2639,
+          "ManualReply": 325
+        },
+        "templateCounts": {
+          "manual-reply": 75,
+          "manual-reply-reconciled": 108,
+          "template1": 2781,
+          "template2": 751
+        },
+        "uniqueSentEmailAddresses": 2523
+      }
+    }
+  }
+}

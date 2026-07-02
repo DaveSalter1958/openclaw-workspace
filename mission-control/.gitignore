@@ -5,3 +5,6 @@ out
 .trash
 __pycache__
 *.pyc
+scripts/tmp/
+*.bak
+data/planhubguy/*.jsonl
