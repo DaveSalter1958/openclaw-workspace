@@ -4,6 +4,35 @@ Command failures and integration errors.
 
 ---
 
+## [ERR-20260703-001] pkill_f_self_match
+
+**Logged**: 2026-07-03T11:17:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Using `pkill -f` to close Chromium matched the invoking shell command line and interrupted the shell.
+
+### Error
+```text
+Process exited with code -1 while closing Chromium via pkill -f.
+```
+
+### Context
+- Command/operation attempted: close a stale Chromium dashboard process so a new no-keyring browser launcher would be used.
+- The target process was removed, but the shell was interrupted because the `pkill -f` pattern also appeared in the command line.
+- No private command output or tokens are logged here.
+
+### Suggested Fix
+Prefer selecting process IDs first with `pgrep`/`ps`, then pass exact PIDs to `kill`, or use a pattern that cannot match the invoking shell.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.local/share/applications/chromium-no-keyring.desktop
+
+---
+
 ## [ERR-20260702-001] mission-control-dev-base-path
 
 **Logged**: 2026-07-02T16:58:22-07:00

@@ -140,7 +140,7 @@ export default async function TeamsPage() {
       <section className="reference-header teams-header">
         <div className="reference-header-top">
           <div>
-            <div className="reference-title-pill">◉ Teams</div>
+            <div className="reference-title-pill">◉ Agents</div>
             <h1>Agent roster</h1>
             <p>Guy's working bench: standing agents, scheduled operators, and subagents named by the job they do.</p>
           </div>

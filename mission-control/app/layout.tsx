@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const navItems = [
   { href: '/', label: 'Tasks', icon: '▣' },
-  { href: '/teams', label: 'Teams', icon: '◉' },
+  { href: '/teams', label: 'Agents', icon: '◉' },
   { href: '/workflows', label: 'PlanHubGuy', icon: '⚑' },
   { href: '/tools', label: 'Calendar', icon: '◷' },
   { href: '/willy', label: 'MyLife', icon: '✎' },
