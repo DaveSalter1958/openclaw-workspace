@@ -1,5 +1,16 @@
 [
   {
+    "id": "task-house-paint-1783044975252",
+    "title": "Find the house paint",
+    "status": "open",
+    "priority": "medium",
+    "dueDate": "2026-07-03",
+    "dueTime": "17:00",
+    "project": "Personal",
+    "notes": "Created from Telegram: Task find the house paint tomorrow 5:00 p.m.",
+    "scope": "personal"
+  },
+  {
     "id": "task-projector-checkout-1783038234806",
     "title": "Check out the projector",
     "status": "open",
