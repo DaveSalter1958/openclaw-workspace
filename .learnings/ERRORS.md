@@ -60,6 +60,36 @@ Use `http://localhost:3001/mission-control/<route>` for local Mission Control ro
 
 ---
 
+## [ERR-20260704-001] credential_audit_redaction
+
+**Logged**: 2026-07-04T08:00:00-07:00
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Credential audit metadata inspection must redact fields named `access` and `refresh`, not only names containing `token`, `secret`, `key`, or `credential`.
+
+### Error
+```text
+An auth-profile metadata inspection command redacted key/token-named fields but allowed OAuth fields named access and refresh into command output.
+```
+
+### Context
+- Task: daily API key health and spend audit.
+- The report artifacts should remain fully redacted; the mistake was in diagnostic command output during inspection.
+- Future audit commands should default to allowlisting safe metadata fields rather than denylisting secret-looking names.
+
+### Suggested Fix
+Use an allowlist for provider/type/email/account/plan metadata, and redact any field not explicitly allowed when inspecting auth stores.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/agents/main/agent/openclaw-agent.sqlite
+- See Also: none
+
+---
+
 ## [ERR-20260702-002] openclaw_cron_agentturn_no_shell
 
 **Logged**: 2026-07-02T16:38:39-07:00
