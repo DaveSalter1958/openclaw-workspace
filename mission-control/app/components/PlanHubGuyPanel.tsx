@@ -323,31 +323,9 @@ export function PlanHubGuyPanel({ campaignReport }: { campaignReport?: CampaignR
     const previousAttachmentConfigured = attachmentConfigured;
     const previousAttachmentReason = attachmentReason;
     const previousForceSoqAttachment = forceSoqAttachment;
-    queueRequestRef.current += 1;
-    threadRequestRef.current += 1;
-    draftRequestRef.current += 1;
-    const optimisticNextItems = replyQueue.filter((item) => item.id !== sentMessageId);
-    const optimisticNextItem = optimisticNextItems[0];
 
     setIsSendingReply(true);
     setLastRunMessage('Sending reply…');
-    setDraftBody('');
-    setSuggestedDraftBody('');
-    setForceSoqAttachment(false);
-    setReplyQueue(optimisticNextItems);
-
-    if (!optimisticNextItem) {
-      setSelectedThreadId('');
-      setSelectedMessageId('');
-      setSelectedThreadMessages([]);
-      setAttachmentAvailable(false);
-    } else {
-      setSelectedThreadId(optimisticNextItem.threadId);
-      setSelectedMessageId(optimisticNextItem.id);
-      setSelectedThreadMessages([]);
-      setAttachmentAvailable(false);
-      void openReplyThread(optimisticNextItem.threadId, optimisticNextItem.id);
-    }
 
     try {
       const res = await fetch('/mission-control/api/planhubguy/reply-send', {
@@ -373,8 +351,32 @@ export function PlanHubGuyPanel({ campaignReport }: { campaignReport?: CampaignR
       }
 
       const respondedIds = new Set<string>(Array.isArray(data.respondedMessageIds) ? data.respondedMessageIds : [sentMessageId]);
-      const confirmedNextItems = optimisticNextItems.filter((item) => !respondedIds.has(item.id));
+      const confirmedNextItems = previousQueue.filter((item) => !respondedIds.has(item.id));
+      const confirmedNextItem = confirmedNextItems[0];
+      queueRequestRef.current += 1;
+      threadRequestRef.current += 1;
+      draftRequestRef.current += 1;
+      setIsSendingReply(false);
       setReplyQueue(confirmedNextItems);
+      setDraftBody('');
+      setSuggestedDraftBody('');
+      setForceSoqAttachment(false);
+      if (!confirmedNextItem) {
+        setSelectedThreadId('');
+        setSelectedMessageId('');
+        setSelectedThreadMessages([]);
+        setAttachmentAvailable(false);
+        setAttachmentConfigured(false);
+        setAttachmentReason('');
+      } else {
+        setSelectedThreadId(confirmedNextItem.threadId);
+        setSelectedMessageId(confirmedNextItem.id);
+        setSelectedThreadMessages([]);
+        setAttachmentAvailable(false);
+        setAttachmentConfigured(false);
+        setAttachmentReason('');
+        void openReplyThread(confirmedNextItem.threadId, confirmedNextItem.id);
+      }
       setLastRunMessage(`Reply sent${data.attachmentIncluded ? ' with SOQ attached' : ''}.`);
     } catch (error: any) {
       setReplyQueue(previousQueue);

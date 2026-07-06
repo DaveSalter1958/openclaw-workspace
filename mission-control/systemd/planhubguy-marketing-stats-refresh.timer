@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh PlanHubGuy marketing statistics every night
+
+[Timer]
+OnCalendar=*-*-* 23:00
+Persistent=false
+Unit=planhubguy-marketing-stats-refresh.service
+
+[Install]
+WantedBy=timers.target

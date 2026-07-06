@@ -82,7 +82,7 @@ def main() -> int:
 
     all_dates = [str(event.get('eventDate') or '')[:10] for event in events if event.get('eventDate')]
     start = min(all_dates) if all_dates else '2026-04-01'
-    end = max(all_dates) if all_dates else dt.date.today().isoformat()
+    end = dt.date.today().isoformat()
 
     stats = [
         {'metric': 'Unique initial-outreach contacts', 'count': denominator, 'percent': '100.00%', 'note': 'Unique recipients of real initial client outreach from Dave@DRS-Engineering.net; legacy/test/internal traffic excluded.', 'emphasis': True},

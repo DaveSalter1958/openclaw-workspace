@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh PlanHubGuy marketing statistics
+
+[Service]
+Type=oneshot
+Environment=GOG_KEYRING_PASSWORD=
+WorkingDirectory=/home/davesalter/.openclaw/workspace/mission-control
+ExecStart=/usr/bin/bash /home/davesalter/.openclaw/workspace/mission-control/scripts/planhubguy-nightly-marketing-stats-refresh.sh
+StandardOutput=append:/home/davesalter/.openclaw/workspace/memory/planhubguy-marketing-stats-refresh.log
+StandardError=append:/home/davesalter/.openclaw/workspace/memory/planhubguy-marketing-stats-refresh.log
