@@ -43,13 +43,14 @@ verify_labels_exist = _labels.verify_labels_exist
 _effective_label = effective_label
 
 WORKBOOK_ID = '1AJ5p4YHb3T1PtfFW8CFulVK1cHcDZT7cqrTxoo3An7s'
-SHEETS_ACCOUNT = os.environ.get('PLANHUBGUY_SHEETS_ACCOUNT', 'drs@drs-engineering.net')
-SEND_ACCOUNT = 'Dave@DRS-Engineering.net'
-INBOUND_ACCOUNT = 'Dave@DRS-Engineering.net'
-SEND_AS = 'Dave@DRS-Engineering.net'
-NOTIFY_TO = 'Dave@DRS-Engineering.net'
-SIGNATURE_SOURCE_ACCOUNT = 'drs@drs-engineering.net'
-SIGNATURE_SOURCE_EMAIL = 'drs@drs-engineering.net'
+PLANHUBGUY_ACCOUNT = 'Dave@DRS-Engineering.net'
+SHEETS_ACCOUNT = os.environ.get('PLANHUBGUY_SHEETS_ACCOUNT', PLANHUBGUY_ACCOUNT)
+SEND_ACCOUNT = PLANHUBGUY_ACCOUNT
+INBOUND_ACCOUNT = PLANHUBGUY_ACCOUNT
+SEND_AS = PLANHUBGUY_ACCOUNT
+NOTIFY_TO = PLANHUBGUY_ACCOUNT
+SIGNATURE_SOURCE_ACCOUNT = PLANHUBGUY_ACCOUNT
+SIGNATURE_SOURCE_EMAIL = PLANHUBGUY_ACCOUNT
 DEDICATED_RESPONSE_MAILBOX = True
 INTERNAL_SENDERS = {
     'dave@drs-engineering.net',
@@ -739,7 +740,7 @@ def image_data_uri(path):
 
 _SIGNATURE_HTML_CACHE = None
 _PROFILE_EMAIL_CACHE = {}
-LEGACY_DRS_OUTBOUND_ACCOUNT = 'drs@drs-engineering.net'
+LEGACY_DRS_OUTBOUND_ACCOUNT = os.environ.get('PLANHUBGUY_LEGACY_DRS_OUTBOUND_ACCOUNT', '').strip()
 INTERNAL_DRS_RECIPIENT = 'drs@drs-engineering.net'
 INTERNAL_DRS_SEND_AS = 'DRS@drs-engineering.net'
 
@@ -862,9 +863,16 @@ def sent_message_exists_in_account(account, message_id_header):
 
 
 def assert_no_legacy_drs_send_leak(message_id_header, recipient):
+    if not LEGACY_DRS_OUTBOUND_ACCOUNT:
+        return
     if LEGACY_DRS_OUTBOUND_ACCOUNT.strip().lower() == SEND_ACCOUNT.strip().lower():
         return
-    if sent_message_exists_in_account(LEGACY_DRS_OUTBOUND_ACCOUNT, message_id_header):
+    try:
+        leaked = sent_message_exists_in_account(LEGACY_DRS_OUTBOUND_ACCOUNT, message_id_header)
+    except Exception as exc:
+        log({'status': 'legacy_drs_leak_check_skipped', 'recipient': recipient, 'messageId': message_id_header, 'legacyAccount': LEGACY_DRS_OUTBOUND_ACCOUNT, 'error': str(exc)})
+        return
+    if leaked:
         log({'status': 'live_send_blocked_legacy_drs_leak', 'recipient': recipient, 'messageId': message_id_header, 'legacyAccount': LEGACY_DRS_OUTBOUND_ACCOUNT})
         raise RuntimeError(f'Live send blocked: message also appeared in {LEGACY_DRS_OUTBOUND_ACCOUNT} sent mail, which would route bounces there')
 
@@ -907,7 +915,7 @@ def internal_delivery_identity(to, account, send_from):
     recipient = (to or '').strip().lower()
     active_account = (account or '').strip().lower()
     active_from = (send_from or '').strip().lower()
-    if recipient == INTERNAL_DRS_RECIPIENT and active_account == SEND_ACCOUNT.lower() and active_from == SEND_AS.lower():
+    if LEGACY_DRS_OUTBOUND_ACCOUNT and recipient == INTERNAL_DRS_RECIPIENT and active_account == SEND_ACCOUNT.lower() and active_from == SEND_AS.lower():
         log({'status': 'internal_drs_reroute', 'to': to, 'from': send_from, 'account': account, 'reroutedAccount': LEGACY_DRS_OUTBOUND_ACCOUNT, 'reroutedFrom': INTERNAL_DRS_SEND_AS})
         return LEGACY_DRS_OUTBOUND_ACCOUNT, INTERNAL_DRS_SEND_AS
     return account, send_from

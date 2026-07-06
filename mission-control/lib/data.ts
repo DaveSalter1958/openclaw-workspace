@@ -32,6 +32,8 @@ const openclawDir = path.resolve(workspaceDir, '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
 const execFileAsync = promisify(execFile);
 const calendarFetchTimeoutMs = 3000;
+const googleCalendarAccount = process.env.MISSION_CONTROL_GOOGLE_ACCOUNT ?? 'drs@drs-engineering.net';
+const googleCalendarId = process.env.MISSION_CONTROL_GOOGLE_CALENDAR_ID ?? 'drs@drs-engineering.net';
 
 async function readData(): Promise<MissionControlData> {
   try {
@@ -366,9 +368,9 @@ export async function getCalendarView(days = 14): Promise<{ googleEvents: Calend
     const { stdout } = await execFileAsync('/usr/local/bin/gog', [
       'calendar',
       'events',
-      'drs@drs-engineering.net',
+      googleCalendarId,
       '-a',
-      'drs@drs-engineering.net',
+      googleCalendarAccount,
       '--from',
       now.toISOString(),
       '--to',
