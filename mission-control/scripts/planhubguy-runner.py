@@ -43,7 +43,7 @@ verify_labels_exist = _labels.verify_labels_exist
 _effective_label = effective_label
 
 WORKBOOK_ID = '1AJ5p4YHb3T1PtfFW8CFulVK1cHcDZT7cqrTxoo3An7s'
-SHEETS_ACCOUNT = 'drs@drs-engineering.net'
+SHEETS_ACCOUNT = os.environ.get('PLANHUBGUY_SHEETS_ACCOUNT', 'drs@drs-engineering.net')
 SEND_ACCOUNT = 'Dave@DRS-Engineering.net'
 INBOUND_ACCOUNT = 'Dave@DRS-Engineering.net'
 SEND_AS = 'Dave@DRS-Engineering.net'
