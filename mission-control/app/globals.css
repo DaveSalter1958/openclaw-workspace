@@ -504,6 +504,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   background: rgba(231, 244, 255, 0.94);
   color: #174f93;
 }
+.compact-task-button.remove {
+  background: rgba(247, 249, 252, 0.96);
+  color: #43566b;
+}
 .compact-task-empty {
   min-height: 38px;
   padding: 10px;
@@ -587,6 +591,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .email-task-body,
 .email-original-message,
 .email-attachments-panel,
+.email-chain-summary-panel,
 .email-conversation-summary {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -604,10 +609,12 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   font-size: 0.82rem;
 }
 .email-original-message,
+.email-chain-summary-panel,
 .email-attachments-panel {
   margin-top: 12px;
 }
 .email-original-message h3,
+.email-chain-summary-panel h3,
 .email-attachments-panel h3 {
   margin: 0 0 10px;
   color: #163b5f;
@@ -618,6 +625,24 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+.email-chain-summary-panel {
+  display: grid;
+  gap: 8px;
+  background: rgba(249, 252, 255, 0.94);
+}
+.email-chain-summary-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.email-chain-summary-heading h3 {
+  margin: 0;
+}
+.email-chain-summary-panel p {
+  margin: 0;
 }
 .email-original-frame {
   display: block;

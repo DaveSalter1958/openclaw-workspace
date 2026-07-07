@@ -7,6 +7,7 @@ import { promisify } from 'util';
 const execFileAsync = promisify(execFile);
 const workspaceDir = path.resolve(process.cwd(), '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
+const gogEnv = { ...process.env, GOG_KEYRING_PASSWORD: process.env.GOG_KEYRING_PASSWORD ?? '' };
 
 type Task = { id: string; domain?: string; project?: string; notes?: string };
 type GmailPart = { mimeType?: string; body?: { data?: string }; parts?: GmailPart[] };
@@ -177,7 +178,7 @@ export async function GET(request: NextRequest) {
     const args: string[] = [];
     if (account === 'drs7890@gmail.com') args.push('--client', 'personal');
     args.push('gmail', 'thread', 'get', threadId, '--account', account, '--json', '--full');
-    const result = await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 25 * 1024 * 1024 });
+    const result = await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 25 * 1024 * 1024, env: gogEnv });
     const data = JSON.parse(result.stdout);
     const messages = (data?.thread?.messages || []) as GmailMessage[];
     const accountLower = account.toLowerCase();

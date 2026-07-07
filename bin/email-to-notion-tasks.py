@@ -59,6 +59,10 @@ BULK_SENDER_PATTERNS = [
     "sales@", "offers@", "events@", "webinars@", "psohub",
     "budget@", "e.budget.com", "resnexus.com", "garmin", "homedepot.com",
     "order.homedepot.com", "vrbo", "democrats.org", "tommylatrainer",
+    "donotreply@", "do-not-reply", "thetollroads.com", "usps.com",
+    "service.feverup.com", "payments@", "mechanicsbank.com", "construction.com",
+    "interngrad-solutions.com", "bluettipower.com", "email.anthropic.com",
+    "renaesbouquet.com", "sbglendingmortgage.com",
 ]
 
 BULK_SUBJECT_PATTERNS = [
@@ -80,6 +84,11 @@ BULK_SUBJECT_PATTERNS = [
     "confirmation:", "delivery confirmation", "security alert", "thanks for your order",
     "summer’s calling", "summer's calling",
     "wfbn meets", "newly open categories", "share with professionals you trust",
+    "toll roads", "price changes", "terms of use", "terms of service",
+    "invoice for account", "funds transfer request", "transfer request will occur",
+    "has been scheduled", "has your issue been solved", "no action required",
+    "supporting manufacturing", "track every project", "cash flow issues",
+    "office closed for holiday", "tower site report",
 ]
 
 MARKETING_BODY_PATTERNS = [
@@ -103,7 +112,7 @@ ACTION_PATTERNS = [
     r"\bplease\s+(?:send|review|confirm|approve|provide|complete|sign|respond|reply|call|schedule|let me know)\b",
     r"\b(?:need|needs|needed)\s+(?:your|you to|approval|signature|response|review|confirmation|decision)\b",
     r"\b(?:review|approve|confirm|respond|reply|send|provide|complete|sign)\s+(?:the|this|attached|your|by|before)\b",
-    r"\blet me know\b",
+    r"\blet me know\s+(?:if|whether)\s+(?:you|dave|drs|this|that|the|these|those|it|we)\b",
     r"\bcall me\b",
     r"\bfeel free to call\b",
     r"\btime works\b",
@@ -111,6 +120,11 @@ ACTION_PATTERNS = [
     r"\b(?:deadline|due)\s+(?:for|by)\s+(?:your|you|dave)\b",
     r"\bare you available\b",
     r"\bdoes .* work for you\b",
+]
+
+DIRECT_QUESTION_PATTERNS = [
+    r"\b(?:can|could|would|will|do|does|did|are|is)\s+(?:you|dave|drs|we)\b[^?]{0,180}\?",
+    r"\b(?:what|when|where|which|how)\b[^?]{0,180}\b(?:you|dave|drs|we)\b[^?]{0,180}\?",
 ]
 
 HIGH_PATTERNS = [r"\burgent\b", r"\basap\b", r"\bdeadline\b", r"\bdue today\b", r"\baction required\b"]
@@ -129,6 +143,23 @@ NON_ACTIONABLE_SUBJECT_PATTERNS = [
     r"\bthanks for your order\b",
     r"\bbill tracker update\b",
     r"\bpayment (?:received|confirmation)\b",
+    r"\bno action required\b",
+    r"\bterms of (?:use|service)\b",
+    r"\bprice changes?\b",
+    r"\binvoice for account\b",
+    r"\bfunds transfer request\b",
+    r"\btransfer request will occur\b",
+    r"\btower site report\b",
+    r"\bhas your issue been solved\b",
+]
+
+NON_ACTIONABLE_BODY_PATTERNS = [
+    r"\bno action (?:is )?required\b",
+    r"\bthis is (?:an )?(?:automated|automatic) (?:email|message|notification)\b",
+    r"\bdo not reply\b",
+    r"\byour (?:invoice|statement|receipt|payment|transfer|reservation|order|delivery)\b",
+    r"\bhas been (?:scheduled|processed|confirmed|received|shipped|delivered)\b",
+    r"\bterms of (?:use|service)\b",
 ]
 
 
@@ -263,6 +294,10 @@ def looks_like_marketing_text(text: str) -> bool:
     return any(re.search(pattern, text, re.I) for pattern in MARKETING_BODY_PATTERNS)
 
 
+def looks_non_actionable_text(text: str) -> bool:
+    return any(re.search(pattern, text, re.I) for pattern in NON_ACTIONABLE_BODY_PATTERNS)
+
+
 def is_bulk(message: dict[str, Any]) -> bool:
     sender_raw = (message.get("from") or "").lower()
     subject = (message.get("subject") or "").lower()
@@ -294,11 +329,18 @@ def is_actionable(message: dict[str, Any]) -> bool:
         return False
     if looks_like_marketing_text(text):
         return False
+    if looks_non_actionable_text(text):
+        return False
     if any(re.search(pattern, text) for pattern in ACTION_PATTERNS):
         return True
-    # A direct human email with a real question is worth a quick review, but only if it is not a bulk/update category.
+    # A direct human question is worth review only when it appears addressed to Dave/DRS.
     labels = {str(label).upper() for label in message.get("labels", [])}
-    return "?" in text and "CATEGORY_UPDATES" not in labels and not looks_like_marketing_text(text)
+    return (
+        "?" in text
+        and "CATEGORY_UPDATES" not in labels
+        and not looks_like_marketing_text(text)
+        and any(re.search(pattern, text) for pattern in DIRECT_QUESTION_PATTERNS)
+    )
 
 
 def priority_for(message: dict[str, Any]) -> str:

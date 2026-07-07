@@ -8,6 +8,7 @@ const execFileAsync = promisify(execFile);
 const workspaceDir = path.resolve(process.cwd(), '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
 const feedbackPath = path.join(workspaceDir, 'state', 'email-task-feedback.jsonl');
+const gogEnv = { ...process.env, GOG_KEYRING_PASSWORD: process.env.GOG_KEYRING_PASSWORD ?? '' };
 
 type Task = {
   id: string;
@@ -96,7 +97,7 @@ export async function POST(request: NextRequest) {
     args.push('gmail', 'trash', messageId, '--account', account, '--force', '--no-input', '--json');
 
     try {
-      await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 1024 * 1024 });
+      await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 1024 * 1024, env: gogEnv });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Could not trash email in Gmail';
       return NextResponse.json({ error: message }, { status: 500 });

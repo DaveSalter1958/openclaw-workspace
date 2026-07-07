@@ -120,17 +120,6 @@ function dialogueLabel(reply: EmailReplyHistoryItem) {
   return `${senderName(reply.from) || 'They'} said`;
 }
 
-function actionHistory(notes?: string) {
-  const text = notes || '';
-  const index = text.indexOf('Action history:');
-  if (index < 0) return [] as string[];
-  return text
-    .slice(index + 'Action history:'.length)
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
 function emailBodyText(item: TaskBoardItem) {
   if (item.emailBody?.trim()) return latestEmailText(item.emailBody);
   const marker = 'Email body:';
@@ -158,6 +147,49 @@ function emailSummary(item: TaskBoardItem) {
   ];
 }
 
+function compactSummaryText(value: string) {
+  return (value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^["“]|["”]$/g, '')
+    .slice(0, 360);
+}
+
+function looksLikeAcknowledgement(value: string) {
+  const text = value.toLowerCase();
+  return /\b(thank you|thanks|received|got it|appreciate|looks good|perfect|that works)\b/.test(text)
+    && !/\?|\b(can|could|would|please|need|send|share|provide|confirm|approve|review)\b/.test(text);
+}
+
+function looksLikeRequest(value: string) {
+  const text = value.toLowerCase();
+  return /\?|\b(can|could|would) you\b|\bplease\b|\bneed\b|\basking\b|\bshare\b|\bsend\b|\bprovide\b|\bconfirm\b|\bapprove\b|\breview\b/.test(text);
+}
+
+function requestResponseSummary(replies: EmailReplyHistoryItem[], fallbackRequest: string) {
+  const incoming = replies.filter((reply) => reply.direction !== 'outgoing' && reply.body.trim());
+  const outgoing = replies.filter((reply) => reply.direction === 'outgoing' && reply.body.trim());
+  const latestIncoming = incoming[incoming.length - 1];
+  const latestRequest = [...incoming].reverse().find((reply) => looksLikeRequest(reply.body) && !looksLikeAcknowledgement(reply.body)) || latestIncoming;
+  const latestOutgoing = outgoing[outgoing.length - 1];
+  const latestRequestAt = latestRequest ? emailReplyDateValue(latestRequest) : 0;
+  const latestIncomingAt = latestIncoming ? emailReplyDateValue(latestIncoming) : 0;
+  const latestOutgoingAt = latestOutgoing ? emailReplyDateValue(latestOutgoing) : 0;
+  const request = compactSummaryText(latestRequest?.body || fallbackRequest);
+  const response = latestOutgoing ? compactSummaryText(latestOutgoing.body) : '';
+  const latestInboundNote = latestIncoming && latestOutgoingAt && latestIncomingAt > latestOutgoingAt
+    ? compactSummaryText(latestIncoming.body)
+    : '';
+  return {
+    request,
+    response,
+    latestInboundNote,
+    incomingCount: incoming.length || (request ? 1 : 0),
+    outgoingCount: outgoing.length,
+    responded: Boolean(latestOutgoing && (!latestRequestAt || !latestOutgoingAt || latestOutgoingAt >= latestRequestAt)),
+  };
+}
+
 export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
   const [active, setActive] = useState<TaskBoardItem | null>(null);
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
@@ -174,6 +206,21 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
   const [threadHistoryStatus, setThreadHistoryStatus] = useState('');
   const [originalEmailHtml, setOriginalEmailHtml] = useState('');
   const [originalEmailStatus, setOriginalEmailStatus] = useState('');
+
+  async function refreshThreadHistory(item: TaskBoardItem, clearExisting = false) {
+    if (clearExisting) setThreadReplies([]);
+    setThreadHistoryStatus(clearExisting ? 'Loading email chain...' : 'Refreshing email chain...');
+    try {
+      const response = await fetch(`/mission-control/api/tasks/email-thread-history?taskId=${encodeURIComponent(item.id)}`);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Could not load email chain.');
+      const replies = sortRepliesOldestFirst((data.replies as EmailReplyHistoryItem[]) || []);
+      setThreadReplies(replies);
+      setThreadHistoryStatus(replies.length ? '' : 'No email chain found for this thread.');
+    } catch (historyError) {
+      setThreadHistoryStatus(historyError instanceof Error ? historyError.message : 'Could not load email chain.');
+    }
+  }
 
   useEffect(() => {
     if (!active) {
@@ -222,24 +269,15 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
         setAttachmentsStatus(attachmentError instanceof Error ? attachmentError.message : 'Could not load attachments.');
       });
 
-    setThreadReplies([]);
-    setThreadHistoryStatus('Loading email chain…');
-    fetch(`/mission-control/api/tasks/email-thread-history?taskId=${encodeURIComponent(active.id)}`)
-      .then(async (response) => {
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error || 'Could not load email chain.');
-        return data.replies as EmailReplyHistoryItem[];
-      })
-      .then((items) => {
-        if (cancelled) return;
-        setThreadReplies(sortRepliesOldestFirst(items || []));
-        setThreadHistoryStatus(items?.length ? '' : 'No email chain found for this thread.');
-      })
-      .catch((historyError) => {
-        if (cancelled) return;
-        setThreadHistoryStatus(historyError instanceof Error ? historyError.message : 'Could not load email chain.');
-      });
+    refreshThreadHistory(active, true);
     return () => { cancelled = true; };
+  }, [active]);
+
+  useEffect(() => {
+    if (!active) return;
+    const refreshActiveThread = () => refreshThreadHistory(active, false);
+    window.addEventListener('focus', refreshActiveThread);
+    return () => window.removeEventListener('focus', refreshActiveThread);
   }, [active]);
 
   function setBusy(id: string, busy: boolean) {
@@ -351,7 +389,7 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
 
   async function handleEmailAction(item: TaskBoardItem, action: 'ignore-task' | 'trash-email') {
     setError('');
-    setReplyStatus(action === 'trash-email' ? 'Deleting email from Gmail…' : 'Ignoring task…');
+    setReplyStatus(action === 'trash-email' ? 'Deleting email from Gmail…' : 'Removing email task from list…');
     setBusy(item.id, true);
     const response = await fetch('/mission-control/api/tasks/email-action', {
       method: 'POST',
@@ -361,7 +399,7 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
     setBusy(item.id, false);
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
-      const fallback = action === 'trash-email' ? 'Could not delete email from Gmail.' : 'Could not ignore task.';
+      const fallback = action === 'trash-email' ? 'Could not delete email from Gmail.' : 'Could not remove email task from list.';
       setError(data.error || fallback);
       setReplyStatus('');
       return;
@@ -388,6 +426,7 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
                 <span className="compact-task-title" title={cleanTitle(item)}>{cleanTitle(item)}</span>
                 <div className="compact-task-actions">
                   <button className="compact-task-button reply" type="button" disabled={busy} onClick={(event) => { event.stopPropagation(); openTask(item); }}>Open</button>
+                  <button className="compact-task-button remove" type="button" disabled={busy} onClick={(event) => { event.stopPropagation(); handleEmailAction(item, 'ignore-task'); }}>Remove</button>
                 </div>
               </article>
             );
@@ -406,6 +445,7 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
               </div>
               <div className="email-modal-header-actions">
                 {gmailMessageUrl(active) ? <a className="button secondary email-modal-top-button" href={gmailMessageUrl(active)} target="_blank" rel="noreferrer">Open in Gmail</a> : null}
+                <button className="button secondary email-modal-top-button" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => handleEmailAction(active, 'ignore-task')}>Remove from List</button>
                 <button className="button secondary email-modal-top-button" type="button" onClick={() => setActive(null)}>Close</button>
               </div>
             </div>
@@ -413,6 +453,23 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
               {emailSummary(active).map((item) => (
                 <p key={item.label}><strong>{item.label}:</strong> {item.value}</p>
               ))}
+            </div>
+            <div className="email-chain-summary-panel">
+              <div className="email-chain-summary-heading">
+                <h3>Request and response summary</h3>
+                <button className="compact-task-button reply" type="button" disabled={threadHistoryStatus.startsWith('Refreshing')} onClick={() => refreshThreadHistory(active, false)}>Refresh</button>
+              </div>
+              {(() => {
+                const summary = requestResponseSummary(threadReplies, emailBodyText(active));
+                return summary.request ? (
+                  <>
+                    <p><strong>Latest request:</strong> {summary.request}</p>
+                    <p><strong>Latest response:</strong> {summary.responded ? summary.response : summary.response ? `Earlier response found: ${summary.response}` : 'No response found yet.'}</p>
+                    {summary.latestInboundNote ? <p><strong>Latest inbound:</strong> {summary.latestInboundNote}</p> : null}
+                    <p className="muted small">Thread count: {summary.incomingCount} incoming, {summary.outgoingCount} outgoing.</p>
+                  </>
+                ) : <p className="muted small">{threadHistoryStatus || 'Loading email chain summary...'}</p>;
+              })()}
             </div>
             <div className="email-original-message">
               <h3>Original email</h3>
@@ -468,8 +525,8 @@ export function EmailTaskColumn({ items }: { items: TaskBoardItem[] }) {
               <div className="footer-actions email-modal-actions">
                 <button className="button" type="button" disabled={sending || !replyText.trim()} onClick={submitReply}>Reply</button>
                 <button className="button secondary" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => markReplyLater(active)}>Reply Later</button>
-                <button className="button danger" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => handleEmailAction(active, 'trash-email')}>Delete</button>
-                <button className="button secondary" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => handleEmailAction(active, 'ignore-task')}>Ignore</button>
+                <button className="button danger" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => handleEmailAction(active, 'trash-email')}>Delete from Gmail</button>
+                <button className="button secondary" type="button" disabled={sending || busyIds.has(active.id)} onClick={() => handleEmailAction(active, 'ignore-task')}>Remove from List</button>
                 {replyStatus ? <p className="muted small">{replyStatus}</p> : null}
                 {error ? <p className="muted small compact-task-error">{error}</p> : null}
               </div>

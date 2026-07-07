@@ -8,6 +8,7 @@ import { promisify } from 'util';
 const execFileAsync = promisify(execFile);
 const workspaceDir = path.resolve(process.cwd(), '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
+const gogEnv = { ...process.env, GOG_KEYRING_PASSWORD: process.env.GOG_KEYRING_PASSWORD ?? '' };
 
 type Task = {
   id: string;
@@ -79,7 +80,7 @@ async function messageForTask(task: Task) {
 
   const args = gogBaseArgs(account);
   args.push('gmail', 'get', messageId, '--account', account, '--format', 'full', '--json');
-  const result = await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 20 * 1024 * 1024 });
+  const result = await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 20 * 1024 * 1024, env: gogEnv });
   return { account, messageId, data: JSON.parse(result.stdout) };
 }
 
@@ -126,7 +127,7 @@ export async function GET(request: NextRequest) {
     const outPath = path.join(tmpDir, filename);
     const args = gogBaseArgs(account);
     args.push('gmail', 'attachment', messageId, attachmentId, '--account', account, '--out', outPath, '--name', filename, '--force', '--no-input');
-    await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 1024 * 1024 });
+    await execFileAsync('gog', args, { timeout: 120000, maxBuffer: 1024 * 1024, env: gogEnv });
     const file = await fs.readFile(outPath);
     await fs.rm(tmpDir, { recursive: true, force: true });
 
