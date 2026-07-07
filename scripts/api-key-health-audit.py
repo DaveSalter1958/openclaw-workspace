@@ -435,29 +435,52 @@ def main() -> int:
             warnings.append(f"Notion token validation status: {status}")
         providers.append(item)
 
-    for account, client in [("Dave@DRS-Engineering.net", ""), ("drs7890@gmail.com", "personal")]:
-        args = ["gog", "auth", "status", "--account", account, "--json"]
-        if client:
+    ok_accounts, accounts_payload, accounts_err = run_json(["gog", "auth", "list", "--json", "--no-input"])
+    gog_accounts = []
+    if ok_accounts and isinstance(accounts_payload, dict):
+        for account_payload in accounts_payload.get("accounts") or []:
+            if isinstance(account_payload, dict) and account_payload.get("email"):
+                gog_accounts.append(account_payload)
+    else:
+        unavailable.append(f"Google/Gmail OAuth account discovery failed: {redact_error(accounts_err)}")
+
+    for account_payload in gog_accounts:
+        account = str(account_payload.get("email") or "")
+        client = str(account_payload.get("client") or "")
+        args = [
+            "gog",
+            "gmail",
+            "labels",
+            "list",
+            "--account",
+            account,
+            "--json",
+            "--no-input",
+            "--select",
+            "labels.id",
+        ]
+        if client and client != "default":
             args.extend(["--client", client])
-        ok, payload, err = run_json(args)
-        status = "configured" if ok else "error"
+        ok, _, err = run_json(args)
+        status = "valid" if ok else "error"
         item = {
             "provider": "Google Workspace/Gmail OAuth",
             "account": account,
             "credential": "OAuth refresh token redacted",
-            "configured": ok,
+            "configured": True,
             "validation_status": status,
             "spend_available": False,
             "cap_available": False,
             "notes": ["Gmail/Google Workspace spend is not exposed through OAuth user credentials"],
         }
-        if ok and isinstance(payload, dict):
-            acct = payload.get("account") or {}
-            item["credential_exists"] = bool(acct.get("credentials_exists"))
-            item["client"] = acct.get("client") or client or "default"
+        item["credential_exists"] = True
+        item["client"] = client or "default"
+        item["services"] = account_payload.get("services") or []
+        if ok:
+            item["notes"].append("Read-only Gmail label-list API call succeeded")
         else:
-            item["notes"].append(redact_error(err) or "gog auth status failed")
-            warnings.append(f"Google/Gmail OAuth status failed for {account}")
+            item["notes"].append(redact_error(err) or "Gmail label-list API call failed")
+            warnings.append(f"Google/Gmail OAuth validation failed for {account}")
         providers.append(item)
 
     ok, remotes, err = run_json(["rclone", "listremotes"])
@@ -526,6 +549,12 @@ def main() -> int:
             total_spend += float(spend)
             spend_provider_count += 1
 
+    prior_snapshot_count = len([snap for snap in load_prior_snapshots() if snap.get("date") != TODAY])
+    if spend_provider_count:
+        spend_history_note = f"Checked provider spend with local history where current spend was available; {prior_snapshot_count} prior local snapshot(s) were available."
+    else:
+        spend_history_note = f"No provider exposed current spend through available credentials/APIs, so 7-day spend anomaly comparison could not be performed; {prior_snapshot_count} prior local snapshot(s) were available."
+
     snapshot = {
         "timestamp_utc": NOW_UTC.isoformat(),
         "date": TODAY,
@@ -535,6 +564,7 @@ def main() -> int:
         "providers": providers,
         "total_spend_usd_available_today": round(total_spend, 6),
         "spend_provider_count": spend_provider_count,
+        "spend_history_note": spend_history_note,
         "warnings": warnings,
         "unavailable": unavailable,
     }
@@ -552,6 +582,7 @@ def main() -> int:
         f"- Time: {NOW_LOCAL_LABEL} ({NOW_UTC.isoformat()})",
         f"- Workspace: `{WORKSPACE}`",
         f"- Total API spend available today: `${total_spend:.2f}` across {spend_provider_count} provider(s)",
+        f"- Spend history comparison: {spend_history_note}",
         "",
         "## Warnings",
     ]
