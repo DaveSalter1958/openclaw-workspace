@@ -25,8 +25,18 @@ WORKSPACE = Path("/home/davesalter/.openclaw/workspace")
 AUDIT_DIR = WORKSPACE / "state" / "api-key-audits"
 SNAPSHOT_DIR = AUDIT_DIR / "snapshots"
 OPENCLAW_DIR = Path("/home/davesalter/.openclaw")
-NOW_UTC = dt.datetime(2026, 7, 6, 15, 0, 0, tzinfo=dt.timezone.utc)
-NOW_LOCAL_LABEL = "2026-07-06 08:00 America/Los_Angeles"
+def audit_now() -> dt.datetime:
+    raw = os.environ.get("AUDIT_NOW_UTC")
+    if raw:
+        parsed = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(dt.timezone.utc)
+    return dt.datetime.now(dt.timezone.utc)
+
+
+NOW_UTC = audit_now()
+NOW_LOCAL_LABEL = os.environ.get("AUDIT_NOW_LOCAL_LABEL", NOW_UTC.isoformat())
 TODAY = NOW_UTC.date().isoformat()
 
 SECRET_NAME_RE = re.compile(r"(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.I)
