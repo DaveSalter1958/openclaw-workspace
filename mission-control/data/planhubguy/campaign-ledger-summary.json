@@ -8,21 +8,21 @@
       "inbound_response": 2
     },
     "sentByType": {
-      "sent_final_followup": 2379,
+      "sent_final_followup": 2393,
       "sent_followup1": 2273,
       "sent_initial": 2513
     },
-    "sentEvents": 7165,
-    "totalEvents": 8460,
+    "sentEvents": 7179,
+    "totalEvents": 8474,
     "uniqueRealPersonResponseThreads": 412,
-    "uniqueSentRecipients": 2614,
-    "uniqueSentThreads": 7130
+    "uniqueSentRecipients": 2616,
+    "uniqueSentThreads": 7131
   },
   "dateRange": {
     "end": "2026-07-06",
     "start": "2026-04-01"
   },
-  "generatedAt": "2026-07-06T21:41:43.171014+00:00",
+  "generatedAt": "2026-07-07T06:10:42.340452+00:00",
   "notes": [
     "Gmail sent events are immutable mailbox evidence and are deduped by Gmail message id.",
     "Inbound events currently use Response Log rows; row/thread dedupe is reported for real-person response threads.",
@@ -48,23 +48,23 @@
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:\"Final follow-up\"": 2258,
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:\"Re:\"": 273,
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:Regarding": 187,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Final follow up\"": 131,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Final follow-up\"": 131,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Re:\"": 19,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Final follow up\"": 145,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Final follow-up\"": 145,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:\"Re:\"": 34,
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/07 subject:Regarding": 41
     },
-    "gmailSearchRejectedAfterClassification": 484,
+    "gmailSearchRejectedAfterClassification": 486,
     "gmailSentAccounts": [
       "Dave@DRS-Engineering.net"
     ],
-    "gmailSentEventsAfterDedupe": 7165,
-    "gmailSentRawEventsBeforeDedupe": 7165,
+    "gmailSentEventsAfterDedupe": 7179,
+    "gmailSentRawEventsBeforeDedupe": 7179,
     "responseSheetRange": "Response Log!A1:I12000"
   },
   "validation": {
     "actualLedgerCounts": {
-      "autoFollowups": 4652,
-      "finalFollowupEmails": 2379,
+      "autoFollowups": 4666,
+      "finalFollowupEmails": 2393,
       "followup1Emails": 2273,
       "initialEmails": 2513,
       "realPersonResponseThreads": 412
@@ -81,19 +81,19 @@
       "sentOutreachRows": -787
     },
     "differenceVsMarketingStats": {
-      "autoFollowups": 1358,
-      "finalFollowupEmails": 1297,
-      "followup1Emails": 61,
-      "initialEmails": 111,
-      "realPersonResponseThreads": 82
+      "autoFollowups": 21,
+      "finalFollowupEmails": 18,
+      "followup1Emails": 3,
+      "initialEmails": 0,
+      "realPersonResponseThreads": 0
     },
     "expectedCounts": {
       "marketingStats": {
-        "autoFollowups": 3294,
-        "finalFollowupEmails": 1082,
-        "followup1Emails": 2212,
-        "initialEmails": 2402,
-        "realPersonResponseThreads": 330
+        "autoFollowups": 4645,
+        "finalFollowupEmails": 2375,
+        "followup1Emails": 2270,
+        "initialEmails": 2513,
+        "realPersonResponseThreads": 412
       },
       "snapshot20260519": {
         "sentOutreachRows": 3715,

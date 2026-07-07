@@ -14,21 +14,21 @@
     "eventsFile": "data/planhubguy/campaign-events.jsonl"
   },
   "rows": {
-    "sentEvents": 7158,
+    "sentEvents": 7172,
     "initialRows": 2513,
     "template1InitialEmails": 2513,
     "followup1Emails": 2270,
-    "finalFollowupEmails": 2375,
-    "autoFollowups": 4645,
+    "finalFollowupEmails": 2389,
+    "autoFollowups": 4659,
     "responseRowsInRange": 1295,
     "realPersonResponseThreads": 412
   },
   "summary": {
     "initialEmails": 2513,
     "uniqueInitialContacts": 2398,
-    "autoFollowups": 4645,
+    "autoFollowups": 4659,
     "followup1Emails": 2270,
-    "finalFollowupEmails": 2375,
+    "finalFollowupEmails": 2389,
     "realPersonResponses": 412
   },
   "stats": [
@@ -54,14 +54,14 @@
     },
     {
       "metric": "Final follow-up emails sent",
-      "count": 2375,
-      "percent": "99.04%",
+      "count": 2389,
+      "percent": "99.62%",
       "note": "Immutable Gmail Sent evidence, excluding internal/test recipients."
     },
     {
       "metric": "Total auto follow-ups sent",
-      "count": 4645,
-      "percent": "193.70%",
+      "count": 4659,
+      "percent": "194.29%",
       "note": "Follow-up 1 plus final follow-up emails."
     },
     {
@@ -85,14 +85,14 @@
     },
     {
       "metric": "Unique sent recipients across all real outreach",
-      "count": 2611,
-      "percent": "108.88%",
+      "count": 2613,
+      "percent": "108.97%",
       "note": "Unique recipients across initial, follow-up 1, and final follow-up messages."
     }
   ],
   "supportingCounts": {
     "sentByType": {
-      "sent_final_followup": 2375,
+      "sent_final_followup": 2389,
       "sent_followup1": 2270,
       "sent_initial": 2513
     },
@@ -102,7 +102,7 @@
       "inbound_real_person_response": 558,
       "inbound_response": 2
     },
-    "uniqueSentContacts": 2611,
-    "ledgerGeneratedAt": "2026-07-06T21:41:43.171014+00:00"
+    "uniqueSentContacts": 2613,
+    "ledgerGeneratedAt": "2026-07-07T06:10:42.340452+00:00"
   }
 }
