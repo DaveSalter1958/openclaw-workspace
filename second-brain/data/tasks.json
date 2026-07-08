@@ -1,17 +1,5 @@
 [
   {
-    "id": "email-drs-drs-engineering-net-19f3dd00d96832fc",
-    "title": "2939 Glendower Ave - Shoring Wall Structural Observation Record",
-    "status": "open",
-    "priority": "medium",
-    "domain": "email",
-    "dueDate": "2026-07-07",
-    "dueTime": "17:00",
-    "project": "Email \u2014 DRS",
-    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Zaf Ustuner <zaf@labuildcorp.com>\nDate: 2026-07-07 11:20\nSubject: 2939 Glendower Ave - Shoring Wall Structural Observation Record\nGmail message ID: 19f3dd00d96832fc\nThread ID: 19f3dd00d96832fc\n\nEmail body:\nHi David,\n\nWe are in the process of closing an E permit with the city and they are asking about the structural observation report regarding the shoring wall (please see attached).\n\n[cid:d3a7b184-a428-45c4-aff1-1e51f765cc35]\n\nThis is way before my time so I am having some trouble finding these records, if you have a record of it in your archive, can you share it with us ?\n\nBest,\n\n[cid:eca61d94-f328-4fde-8c2e-5b7c54340d8c]\n\nZafer Ustuner\n\nProject Manager\n\nL.A. Build Corp.\n\nMobile: (424) 402-7936\n\nOffice: (818 ) 921-7390\n\nWeb www.labuildcorp.com \n\nEmail info@labuildcorp.com \n\n21022 Victory Blvd., Woodland Hills, CA 91367\n\n[Title: linkedin - Description: linkedin icon] [Title: instagram - Description: instagram icon] [Title: Facebook - Description: Facebook icon]",
-    "scope": "business"
-  },
-  {
     "id": "task-house-paint-1783044975252",
     "title": "Find the house paint",
     "status": "open",
@@ -78,7 +66,7 @@
     "dueDate": "2026-06-24",
     "dueTime": "10:00",
     "project": "",
-    "notes": "Created from Telegram: \u201cTask call Tina tomorrow 10:00 a.m.\u201d",
+    "notes": "Created from Telegram: “Task call Tina tomorrow 10:00 a.m.”",
     "scope": "personal"
   },
   {
@@ -174,7 +162,7 @@
     "dueDate": "2026-06-11",
     "dueTime": "09:00",
     "project": "Mountain View Crossing",
-    "notes": "Created from Telegram: \u201cTask Insurance call Joseph at 9:00 a.m. maybe a call with Emmanuel reference Mountain View Crossing\u201d",
+    "notes": "Created from Telegram: “Task Insurance call Joseph at 9:00 a.m. maybe a call with Emmanuel reference Mountain View Crossing”",
     "scope": ""
   },
   {
@@ -186,7 +174,7 @@
     "dueDate": "2026-06-11",
     "dueTime": "17:00",
     "project": "Design Document",
-    "notes": "Created from Telegram: \u201cTask change hell block to heal Block in the design document tomorrow 5:00\u201d",
+    "notes": "Created from Telegram: “Task change hell block to heal Block in the design document tomorrow 5:00”",
     "scope": ""
   },
   {
@@ -198,7 +186,7 @@
     "dueDate": "2026-06-18",
     "dueTime": "17:00",
     "project": "Personal",
-    "notes": "Created from Telegram: \u201cTask fill out the forms for Rob Rosenberry online a week tomorrow due date and 5:00 p.m.\u201d",
+    "notes": "Created from Telegram: “Task fill out the forms for Rob Rosenberry online a week tomorrow due date and 5:00 p.m.”",
     "scope": ""
   },
   {
@@ -210,7 +198,7 @@
     "dueDate": "2026-06-10",
     "dueTime": "12:00",
     "project": "PlanHubGuy",
-    "notes": "Created from Telegram: \u201cTask today noon plan Hub guy review\u201d",
+    "notes": "Created from Telegram: “Task today noon plan Hub guy review”",
     "scope": ""
   },
   {
@@ -222,7 +210,7 @@
     "dueDate": "2026-06-10",
     "dueTime": "15:00",
     "project": "Personal",
-    "notes": "Created from Telegram: \u201cTask tomorrow 3:00 p.m. call Rob Rosenberry\u201d",
+    "notes": "Created from Telegram: “Task tomorrow 3:00 p.m. call Rob Rosenberry”",
     "scope": ""
   },
   {
@@ -234,7 +222,7 @@
     "dueDate": "2026-06-11",
     "dueTime": "12:00",
     "project": "Personal",
-    "notes": "Created from Telegram: \u201cTask shovel clamps on roof Thursday noon\u201d",
+    "notes": "Created from Telegram: “Task shovel clamps on roof Thursday noon”",
     "scope": ""
   },
   {
@@ -246,7 +234,7 @@
     "dueDate": "2026-06-23",
     "dueTime": "17:00",
     "project": "Personal",
-    "notes": "Created from Telegram: \u201cTask 2 weeks from now clean out the cottage\u201d",
+    "notes": "Created from Telegram: “Task 2 weeks from now clean out the cottage”",
     "scope": ""
   },
   {
@@ -281,7 +269,7 @@
     "domain": "",
     "dueDate": "2026-06-08",
     "dueTime": "17:00",
-    "project": "2024-261 \u2014 1643 Woods Drive - Upsher",
+    "project": "2024-261 — 1643 Woods Drive - Upsher",
     "notes": "",
     "scope": ""
   },
@@ -557,7 +545,7 @@
     "domain": "",
     "dueDate": "",
     "dueTime": "17:00",
-    "project": "2025-246 \u2014 Delita Drive - HSSA Law",
+    "project": "2025-246 — Delita Drive - HSSA Law",
     "notes": "",
     "scope": ""
   },
@@ -1001,7 +989,7 @@
     "dueDate": "2026-07-31",
     "dueTime": "17:00",
     "project": "Personal",
-    "notes": "Adrian Galysh \u2014 8186251974"
+    "notes": "Adrian Galysh — 8186251974"
   },
   {
     "id": "t1763746270000",
@@ -1093,7 +1081,7 @@
     "dueDate": "2026-06-12",
     "dueTime": "17:00",
     "project": "Personal",
-    "notes": "Created from Telegram: \u201cTask things I need for off-road and oil for cooking\u201d",
+    "notes": "Created from Telegram: “Task things I need for off-road and oil for cooking”",
     "scope": "personal"
   }
 ]
