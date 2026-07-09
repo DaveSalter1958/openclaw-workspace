@@ -11,6 +11,17 @@ const gmailAccount = 'drs@drs-engineering.net';
 const recipient = 'drs@drs-engineering.net';
 const logDir = path.join(workspaceDir, 'second-brain', 'logs');
 const logPath = path.join(logDir, 'morning-brief.log');
+const weatherLocation = 'Los Angeles';
+const newsQueries = [
+  {
+    label: 'Landslides',
+    query: '"Los Angeles" (landslide OR landslides OR mudslide OR "slope failure")'
+  },
+  {
+    label: 'Earth retention and major projects',
+    query: '"Los Angeles" ("earth retention" OR shoring OR "retaining wall" OR "soldier pile" OR excavation) project'
+  }
+];
 
 function summarizeText(text, maxLength = 180) {
   const cleaned = String(text || '').replace(/\s+/g, ' ').trim();
@@ -20,6 +31,13 @@ function summarizeText(text, maxLength = 180) {
 
 function shortSender(from) {
   return String(from || '').split('<')[0].replaceAll('"', '').trim() || String(from || 'Unknown sender');
+}
+
+function isObviousMarketingEmail(item) {
+  const labels = (item.labels || []).join(' ').toLowerCase();
+  const text = `${item.from || ''} ${item.subject || ''} ${item.snippet || ''}`.toLowerCase();
+  if (/category_promotions|promotions|marketing junk/.test(labels)) return true;
+  return /newsletter|unsubscribe|sale|discount|deal|offer|promotion|promotional|marketing|webinar|masterclass|sponsored|advertisement|advertising|limited time|register now|download our|whitepaper|ebook|podcast|rough country|labusinessjournal/.test(text);
 }
 
 function priorityRank(priority) {
@@ -102,6 +120,109 @@ async function runCommand(step, command, args) {
   }
 }
 
+function decodeXmlEntities(value) {
+  const entityMap = {
+    amp: '&',
+    apos: "'",
+    gt: '>',
+    lt: '<',
+    quot: '"'
+  };
+  return String(value || '').replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (match, entity) => {
+    if (entity.startsWith('#x')) return String.fromCodePoint(Number.parseInt(entity.slice(2), 16));
+    if (entity.startsWith('#')) return String.fromCodePoint(Number.parseInt(entity.slice(1), 10));
+    return entityMap[entity] || match;
+  });
+}
+
+function stripTags(value) {
+  return decodeXmlEntities(String(value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
+}
+
+async function fetchWithTimeout(url, { timeoutMs = 8000, headers = {} } = {}) {
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(timeoutMs),
+    headers: {
+      'user-agent': 'OpenClaw morning brief/1.0',
+      ...headers
+    }
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+  return response;
+}
+
+async function fetchWeatherForecast() {
+  const url = `https://wttr.in/${encodeURIComponent(weatherLocation)}?format=j1`;
+  try {
+    const response = await fetchWithTimeout(url);
+    const parsed = await response.json();
+    const current = parsed.current_condition?.[0] || {};
+    const today = parsed.weather?.[0] || {};
+    const hourly = today.hourly || [];
+    const condition = current.weatherDesc?.[0]?.value || today.hourly?.[4]?.weatherDesc?.[0]?.value || 'forecast unavailable';
+    const rainChance = hourly.reduce((max, hour) => Math.max(max, Number(hour.chanceofrain || 0)), 0);
+    const windMph = current.windspeedMiles || hourly.find((hour) => hour.windspeedMiles)?.windspeedMiles;
+    const parts = [
+      `${weatherLocation}: ${condition}`,
+      today.maxtempF && today.mintempF ? `high ${today.maxtempF}F, low ${today.mintempF}F` : null,
+      current.temp_F ? `currently ${current.temp_F}F` : null,
+      Number.isFinite(rainChance) ? `${rainChance}% rain risk` : null,
+      windMph ? `wind ${windMph} mph` : null
+    ].filter(Boolean);
+    return {
+      ok: true,
+      headline: parts.join(', '),
+      lines: [
+        `- ${parts.join(', ')}`,
+        today.uvIndex ? `- UV index ${today.uvIndex}` : null
+      ].filter(Boolean)
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      headline: 'Weather forecast unavailable',
+      lines: [`- Weather forecast unavailable: ${error.message}`]
+    };
+  }
+}
+
+function parseRssItems(xml, label) {
+  const items = [];
+  const itemMatches = String(xml || '').matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi);
+  for (const match of itemMatches) {
+    const raw = match[1];
+    const title = stripTags(raw.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]);
+    const link = decodeXmlEntities(raw.match(/<link\b[^>]*>([\s\S]*?)<\/link>/i)?.[1] || '').trim();
+    const source = stripTags(raw.match(/<source\b[^>]*>([\s\S]*?)<\/source>/i)?.[1]);
+    const published = stripTags(raw.match(/<pubDate\b[^>]*>([\s\S]*?)<\/pubDate>/i)?.[1]);
+    if (!title) continue;
+    items.push({ label, title, link, source, published });
+  }
+  return items;
+}
+
+async function fetchNewsItems() {
+  const results = [];
+  for (const { label, query } of newsQueries) {
+    const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+    try {
+      const response = await fetchWithTimeout(url, { headers: { accept: 'application/rss+xml, application/xml, text/xml' } });
+      const xml = await response.text();
+      results.push(...parseRssItems(xml, label).slice(0, 3));
+    } catch (error) {
+      results.push({ label, title: `News search unavailable: ${error.message}`, source: '', published: '', link: '' });
+    }
+  }
+
+  const seen = new Set();
+  return results.filter((item) => {
+    const key = item.title.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 6);
+}
+
 async function main() {
   const now = new Date();
   const start = new Date(now); start.setHours(0, 0, 0, 0);
@@ -127,27 +248,46 @@ async function main() {
   }));
   const replyCandidates = [...inboxItems].sort((a, b) => (b.needsReplyScore || 0) - (a.needsReplyScore || 0)).filter((item) => (item.needsReplyScore || 0) >= 3).slice(0, 5);
   const conflictWarnings = buildConflictWarnings(events);
+  const [weatherForecast, newsItems] = await Promise.all([
+    fetchWeatherForecast(),
+    fetchNewsItems()
+  ]);
   const todayKey = now.toISOString().slice(0, 10);
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowKey = tomorrow.toISOString().slice(0, 10);
   const todayTasks = sortTasksForBrief(allOpenTasks.filter((task) => task.dueDate === todayKey));
   const tomorrowTasks = sortTasksForBrief(allOpenTasks.filter((task) => task.dueDate === tomorrowKey));
-  const emailScan = inboxItems.slice(0, 6).map((item) => ({
+  const emailScan = inboxItems.filter((item) => !isObviousMarketingEmail(item)).slice(0, 6).map((item) => ({
     ...item,
     sender: shortSender(item.from),
-    responseHint: (item.needsReplyScore || 0) >= 3 ? 'Reply likely' : 'Probably FYI'
+    textSummary: summarizeText(item.snippet || item.subject || '', 180)
   }));
 
   const lines = [];
   lines.push('Morning Brief');
   lines.push('');
   lines.push('Summary');
-  lines.push(todayTasks[0] ? `- Today’s top task: ${todayTasks[0].title}${todayTasks[0].dueTime ? ` at ${todayTasks[0].dueTime}` : ''}` : '- No task due today surfaced');
-  lines.push(tomorrowTasks[0] ? `- Next up tomorrow: ${tomorrowTasks[0].title}${tomorrowTasks[0].dueTime ? ` at ${tomorrowTasks[0].dueTime}` : ''}` : '- No task due tomorrow surfaced');
+  lines.push(`- Weather: ${weatherForecast.headline}`);
   lines.push(`- ${events.length} calendar item(s) today`);
+  lines.push(todayTasks[0] ? `- Work focus: ${todayTasks[0].title}${todayTasks[0].dueTime ? ` at ${todayTasks[0].dueTime}` : ''}` : '- No urgent task due today surfaced');
   lines.push(replyCandidates[0] ? `- Email most likely needing reply: ${shortSender(replyCandidates[0].from)}` : '- No obvious reply-needed email surfaced');
+  lines.push(newsItems[0] ? `- LA terrain/project watch: ${newsItems[0].title}` : '- LA terrain/project watch: no targeted news surfaced');
   if (conflictWarnings[0]) lines.push(`- ${conflictWarnings[0]}`);
+  lines.push('');
+  lines.push('Weather forecast');
+  lines.push(...weatherForecast.lines);
+  lines.push('');
+  lines.push('LA landslides and earth retention');
+  if (newsItems.length) {
+    for (const item of newsItems) {
+      const source = item.source ? ` — ${item.source}` : '';
+      const published = item.published ? ` — ${item.published}` : '';
+      lines.push(`- [${item.label}] ${item.title}${source}${published}${item.link ? ` — ${item.link}` : ''}`);
+    }
+  } else {
+    lines.push('- No targeted LA landslide or earth-retention news surfaced.');
+  }
   lines.push('');
   lines.push('Today');
   if (todayTasks.length) {
@@ -175,9 +315,9 @@ async function main() {
   lines.push('');
   lines.push('Email scan');
   if (emailScan.length) {
-    for (const item of emailScan) lines.push(`- ${item.sender} — ${item.responseHint}`);
+    for (const item of emailScan) lines.push(`- ${item.sender} — ${item.textSummary}`);
   } else {
-    lines.push('- No inbox items surfaced');
+    lines.push('- No non-marketing inbox items surfaced');
   }
   lines.push('');
   lines.push('Recently completed');
