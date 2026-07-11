@@ -14,95 +14,95 @@
     "eventsFile": "data/planhubguy/campaign-events.jsonl"
   },
   "rows": {
-    "sentEvents": 7317,
-    "initialRows": 2548,
-    "template1InitialEmails": 2548,
+    "sentEvents": 7359,
+    "initialRows": 2565,
+    "template1InitialEmails": 2565,
     "followup1Emails": 2270,
-    "finalFollowupEmails": 2499,
-    "autoFollowups": 4769,
-    "responseRowsInRange": 1302,
+    "finalFollowupEmails": 2524,
+    "autoFollowups": 4794,
+    "responseRowsInRange": 1309,
     "realPersonResponseThreads": 414
   },
   "summary": {
-    "initialEmails": 2548,
-    "uniqueInitialContacts": 2421,
-    "autoFollowups": 4769,
+    "initialEmails": 2565,
+    "uniqueInitialContacts": 2438,
+    "autoFollowups": 4794,
     "followup1Emails": 2270,
-    "finalFollowupEmails": 2499,
+    "finalFollowupEmails": 2524,
     "realPersonResponses": 414
   },
   "stats": [
     {
       "metric": "Unique initial-outreach contacts",
-      "count": 2421,
+      "count": 2438,
       "percent": "100.00%",
       "note": "Unique recipients of real initial client outreach from Dave@DRS-Engineering.net; legacy/test/internal traffic excluded.",
       "emphasis": true
     },
     {
       "metric": "Initial emails sent",
-      "count": 2548,
-      "percent": "105.25%",
+      "count": 2565,
+      "percent": "105.21%",
       "note": "Immutable Gmail Sent evidence from Dave@DRS-Engineering.net only; legacy DRS test traffic excluded.",
       "emphasis": true
     },
     {
       "metric": "Follow-up 1 emails sent",
       "count": 2270,
-      "percent": "93.76%",
+      "percent": "93.11%",
       "note": "Immutable Gmail Sent evidence, excluding internal/test recipients."
     },
     {
       "metric": "Final follow-up emails sent",
-      "count": 2499,
-      "percent": "103.22%",
+      "count": 2524,
+      "percent": "103.53%",
       "note": "Immutable Gmail Sent evidence, excluding internal/test recipients."
     },
     {
       "metric": "Total auto follow-ups sent",
-      "count": 4769,
-      "percent": "196.98%",
+      "count": 4794,
+      "percent": "196.64%",
       "note": "Follow-up 1 plus final follow-up emails."
     },
     {
       "metric": "Real person responses received",
       "count": 414,
-      "percent": "17.10%",
+      "percent": "16.98%",
       "note": "Unique Response Log threads classified as valid or possible_work; excludes bounces, automatic replies, and system rows.",
       "emphasis": true
     },
     {
       "metric": "Bounces / undeliverable responses",
-      "count": 511,
-      "percent": "21.11%",
+      "count": 514,
+      "percent": "21.08%",
       "note": "Response Log bounce rows; not deduped by address."
     },
     {
       "metric": "Automatic replies",
-      "count": 228,
-      "percent": "9.42%",
+      "count": 232,
+      "percent": "9.52%",
       "note": "Response Log automatic/out-of-office rows."
     },
     {
       "metric": "Unique sent recipients across all real outreach",
-      "count": 2638,
-      "percent": "108.96%",
+      "count": 2655,
+      "percent": "108.90%",
       "note": "Unique recipients across initial, follow-up 1, and final follow-up messages."
     }
   ],
   "supportingCounts": {
     "sentByType": {
-      "sent_final_followup": 2499,
+      "sent_final_followup": 2524,
       "sent_followup1": 2270,
-      "sent_initial": 2548
+      "sent_initial": 2565
     },
     "responsesByType": {
-      "inbound_automatic_reply": 228,
-      "inbound_bounce": 511,
+      "inbound_automatic_reply": 232,
+      "inbound_bounce": 514,
       "inbound_real_person_response": 561,
       "inbound_response": 2
     },
-    "uniqueSentContacts": 2638,
-    "ledgerGeneratedAt": "2026-07-10T06:10:04.404912+00:00"
+    "uniqueSentContacts": 2655,
+    "ledgerGeneratedAt": "2026-07-11T06:10:26.914419+00:00"
   }
 }
