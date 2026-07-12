@@ -555,6 +555,19 @@ def main() -> int:
     else:
         spend_history_note = f"No provider exposed current spend through available credentials/APIs, so 7-day spend anomaly comparison could not be performed; {prior_snapshot_count} prior local snapshot(s) were available."
 
+    notification_reasons = list(warnings)
+    notification_required = bool(notification_reasons)
+    telegram_text = None
+    if notification_required:
+        reason_text = "; ".join(notification_reasons[:3])
+        if len(notification_reasons) > 3:
+            reason_text += f"; +{len(notification_reasons) - 3} more"
+        telegram_text = (
+            f"API key audit warning: {reason_text}. "
+            f"Total spend available today: ${total_spend:.2f} across {spend_provider_count} provider(s). "
+            f"Latest report: {AUDIT_DIR / 'latest.md'}"
+        )
+
     snapshot = {
         "timestamp_utc": NOW_UTC.isoformat(),
         "date": TODAY,
@@ -567,6 +580,9 @@ def main() -> int:
         "spend_history_note": spend_history_note,
         "warnings": warnings,
         "unavailable": unavailable,
+        "notification_required": notification_required,
+        "notification_reasons": notification_reasons,
+        "telegram_text": telegram_text,
     }
 
     stamp = NOW_UTC.strftime("%Y%m%dT%H%M%SZ")
@@ -583,6 +599,7 @@ def main() -> int:
         f"- Workspace: `{WORKSPACE}`",
         f"- Total API spend available today: `${total_spend:.2f}` across {spend_provider_count} provider(s)",
         f"- Spend history comparison: {spend_history_note}",
+        f"- Telegram notification required: {'yes' if notification_required else 'no'}",
         "",
         "## Warnings",
     ]
@@ -615,12 +632,27 @@ def main() -> int:
         lines.extend(f"- {entry}" for entry in unavailable)
     else:
         lines.append("- None.")
+    lines.extend(["", "## Notification", ""])
+    if notification_required:
+        lines.append(f"- Required: yes")
+        lines.append(f"- Reason: {'; '.join(notification_reasons)}")
+        lines.append(f"- Suggested Telegram text: {telegram_text}")
+    else:
+        lines.append("- Required: no")
     lines.extend(["", "## Files", "", f"- Snapshot: `{snapshot_path}`", f"- Report: `{report_path}`"])
     report = "\n".join(lines) + "\n"
     report_path.write_text(report)
     latest_path.write_text(report)
 
-    print(json.dumps({"snapshot": str(snapshot_path), "report": str(report_path), "latest": str(latest_path), "warnings": warnings, "total_spend": round(total_spend, 6)}, indent=2))
+    print(json.dumps({
+        "snapshot": str(snapshot_path),
+        "report": str(report_path),
+        "latest": str(latest_path),
+        "warnings": warnings,
+        "total_spend": round(total_spend, 6),
+        "notification_required": notification_required,
+        "telegram_text": telegram_text,
+    }, indent=2))
     return 0
 
 
