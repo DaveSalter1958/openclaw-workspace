@@ -11,7 +11,7 @@ const gmailAccount = 'drs@drs-engineering.net';
 const recipient = 'drs@drs-engineering.net';
 const logDir = path.join(workspaceDir, 'second-brain', 'logs');
 const logPath = path.join(logDir, 'morning-brief.log');
-const weatherLocation = 'Los Angeles';
+const weatherLocation = 'Santa Ynez, CA';
 const newsQueries = [
   {
     label: 'Landslides',

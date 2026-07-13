@@ -17,6 +17,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import sqlite3
 from pathlib import Path
 from typing import Any
 
@@ -257,7 +258,60 @@ def discover_configured_secret_names() -> list[str]:
         for name in read_env_file(path):
             if SECRET_NAME_RE.search(name):
                 names.add(name)
+    for profile_name, profile in load_openclaw_auth_profiles().items():
+        provider = profile.get("provider") if isinstance(profile, dict) else None
+        if provider:
+            names.add(f"OPENCLAW_AUTH_PROFILE_{str(provider).upper()}")
     return sorted(names)
+
+
+def load_openclaw_auth_profiles() -> dict[str, dict[str, Any]]:
+    db_path = OPENCLAW_DIR / "agents" / "main" / "agent" / "openclaw-agent.sqlite"
+    if not db_path.exists():
+        return {}
+    try:
+        con = sqlite3.connect(str(db_path))
+        row = con.execute("select store_json from auth_profile_store where store_key='primary'").fetchone()
+    except Exception:
+        return {}
+    if not row or not row[0]:
+        return {}
+    try:
+        data = json.loads(row[0])
+    except json.JSONDecodeError:
+        return {}
+    profiles = data.get("profiles") if isinstance(data, dict) else None
+    if not isinstance(profiles, dict):
+        return {}
+    return {str(name): value for name, value in profiles.items() if isinstance(value, dict)}
+
+
+def load_openclaw_auth_state() -> dict[str, Any]:
+    db_path = OPENCLAW_DIR / "agents" / "main" / "agent" / "openclaw-agent.sqlite"
+    if not db_path.exists():
+        return {}
+    try:
+        con = sqlite3.connect(str(db_path))
+        row = con.execute("select state_json from auth_profile_state where state_key='primary'").fetchone()
+    except Exception:
+        return {}
+    if not row or not row[0]:
+        return {}
+    try:
+        data = json.loads(row[0])
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def iso_from_ms(value: Any) -> str | None:
+    if not isinstance(value, (int, float)):
+        return None
+    seconds = float(value) / 1000 if value > 10**12 else float(value)
+    try:
+        return dt.datetime.fromtimestamp(seconds, tz=dt.timezone.utc).isoformat()
+    except Exception:
+        return None
 
 
 def redact_error(value: str | None) -> str | None:
@@ -405,6 +459,69 @@ def main() -> int:
             providers.append(item)
         if not found:
             unavailable.append(f"{provider_name} not configured via recognized env vars")
+
+    auth_profiles = load_openclaw_auth_profiles()
+    auth_state = load_openclaw_auth_state()
+    last_good = auth_state.get("lastGood") if isinstance(auth_state.get("lastGood"), dict) else {}
+    for profile_name, profile in auth_profiles.items():
+        provider_id = str(profile.get("provider") or "")
+        if provider_id == "anthropic" and profile.get("key"):
+            code, data, err = http_json(
+                "https://api.anthropic.com/v1/models",
+                headers={"x-api-key": str(profile["key"]), "anthropic-version": "2023-06-01"},
+            )
+            status = status_from_code(code)
+            item = {
+                "provider": "Anthropic",
+                "account": f"OpenClaw auth profile {profile_name}",
+                "credential": "redacted",
+                "configured": True,
+                "sources": [str(OPENCLAW_DIR / "agents/main/agent/openclaw-agent.sqlite")],
+                "validation_status": status,
+                "validation_http_status": code,
+                "usage_available": False,
+                "spend_available": False,
+                "cap_available": False,
+                "notes": ["Anthropic usage/spend/cap details are unavailable through this minimal key check"],
+            }
+            if last_good.get("anthropic") == profile_name:
+                item["notes"].append("OpenClaw marks this as the last good Anthropic auth profile")
+            if isinstance(data, dict):
+                item["model_count_visible"] = len(data.get("data") or [])
+            if status != "valid":
+                item["notes"].append(redact_error(err) or "validation failed")
+                warnings.append(f"Anthropic OpenClaw auth profile {profile_name} validation status: {status}")
+            providers.append(item)
+            unavailable = [entry for entry in unavailable if entry != "Anthropic not configured via recognized env vars"]
+        elif provider_id == "openai" and (profile.get("access") or profile.get("refresh")):
+            expires_iso = iso_from_ms(profile.get("expires"))
+            refresh_present = bool(profile.get("refresh"))
+            now_ms = int(NOW_UTC.timestamp() * 1000)
+            access_expired = isinstance(profile.get("expires"), (int, float)) and float(profile["expires"]) < now_ms
+            status = "valid_unexpired" if not access_expired else ("refresh_token_present_access_expired" if refresh_present else "expired")
+            item = {
+                "provider": "OpenAI",
+                "account": f"OpenClaw OAuth profile {profile_name}",
+                "credential": "OAuth credential redacted",
+                "configured": True,
+                "sources": [str(OPENCLAW_DIR / "agents/main/agent/openclaw-agent.sqlite")],
+                "validation_status": status,
+                "spend_available": False,
+                "cap_available": False,
+                "notes": ["OpenAI OAuth profile discovered in OpenClaw auth store; spend/cap APIs are unavailable through this credential path"],
+            }
+            if profile.get("email"):
+                item["account_detail"] = profile.get("email")
+            if expires_iso:
+                item["access_expires_utc"] = expires_iso
+                item["notes"].append(f"Access token expiry: {expires_iso}")
+            if refresh_present:
+                item["notes"].append("Refresh token present; an expired access token is not treated as a broken credential by itself")
+            if last_good.get("openai") == profile_name:
+                item["notes"].append("OpenClaw marks this as the last good OpenAI auth profile")
+            if status == "expired":
+                warnings.append(f"OpenAI OpenClaw OAuth profile {profile_name} appears expired without a refresh token")
+            providers.append(item)
 
     notion_path = Path("/home/davesalter/.config/openclaw/notion-token")
     if notion_path.exists():

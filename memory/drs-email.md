@@ -4,7 +4,7 @@ Split from `MEMORY.md` on 2026-07-02.
 
 ## Morning Brief And Tasks
 
-- As of 2026-07-09, Dave wants the morning brief to stay general, with a daily Los Angeles weather forecast and targeted news about Los Angeles landslides plus earth-retention/shoring/retaining-wall work on major projects.
+- As of 2026-07-13, Dave wants the morning brief to stay general, with a daily Santa Ynez, CA weather forecast and targeted news about Los Angeles landslides plus earth-retention/shoring/retaining-wall work on major projects.
 - As of 2026-07-09, when reporting emails to Dave, show who it is from plus a short summary of the text, and exclude obvious marketing emails.
 - Dave wants the morning brief simplified: email section should mostly show sender and whether a response is likely.
 - Tasks should be clean and ordered by priority for today first, then tomorrow.
