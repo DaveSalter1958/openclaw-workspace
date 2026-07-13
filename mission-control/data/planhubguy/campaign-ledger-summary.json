@@ -19,10 +19,10 @@
     "uniqueSentThreads": 7293
   },
   "dateRange": {
-    "end": "2026-07-11",
+    "end": "2026-07-12",
     "start": "2026-04-01"
   },
-  "generatedAt": "2026-07-12T06:10:17.408157+00:00",
+  "generatedAt": "2026-07-13T06:10:07.277060+00:00",
   "notes": [
     "Gmail sent events are immutable mailbox evidence and are deduped by Gmail message id.",
     "Inbound events currently use Response Log rows; row/thread dedupe is reported for real-person response threads.",
@@ -48,10 +48,10 @@
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:\"Final follow-up\"": 2258,
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:\"Re:\"": 273,
       "Dave@DRS-Engineering.net :: in:sent after:2026/05/31 before:2026/07/01 subject:Regarding": 187,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/12 subject:\"Final follow up\"": 280,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/12 subject:\"Final follow-up\"": 280,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/12 subject:\"Re:\"": 61,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/12 subject:Regarding": 94
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/13 subject:\"Final follow up\"": 280,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/13 subject:\"Final follow-up\"": 280,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/13 subject:\"Re:\"": 61,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/07/13 subject:Regarding": 94
     },
     "gmailSearchRejectedAfterClassification": 489,
     "gmailSentAccounts": [
