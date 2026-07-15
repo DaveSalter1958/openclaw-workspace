@@ -149,3 +149,32 @@ Ensure heartbeat/non-interactive shells include `/home/davesalter/.npm-global/bi
 - Related Files: /home/davesalter/.openclaw/workspace/HEARTBEAT.md
 
 ---
+## [ERR-20260715-001] jq_missing_in_cron_health_report
+
+**Logged**: 2026-07-15T09:05:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+`jq` was not installed in the workspace shell when validating the cron health JSON report.
+
+### Error
+```text
+/bin/bash: line 1: jq: command not found
+```
+
+### Context
+- Command attempted: `jq . state/cron-health/latest.json >/dev/null`
+- Task: validate generated cron health monitor snapshot JSON.
+- Fallback validation with Node.js `JSON.parse` succeeded.
+
+### Suggested Fix
+Use Node.js for JSON validation in this workspace, or install `jq` if command-line JSON inspection should be standard.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/state/cron-health/latest.json
+- See Also: none
+
+---
