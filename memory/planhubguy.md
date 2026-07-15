@@ -7,6 +7,7 @@ Split from `MEMORY.md` on 2026-07-02.
 - PlanHubGuy must never send more than one initial template email to the same contact for the same project; suppression should not rely on Outreach Log alone.
 - Scheduled/live runs must have strict send caps. Do not allow inflated state limits such as `liveBatchLimit=100000`.
 - Inbound email routine should label automatic/bounce/out-of-office style replies as `Automatic Reply` and real human-written responses as `Follow up`.
+- PlanHubGuy must never send to `john@labibfunk.com` or `info@labibfunk.com`; these Labib Funk addresses are hard-blocked in the runner do-not-contact guard and listed in `memory/planhubguy-state.json`.
 
 ## Reply Goals
 

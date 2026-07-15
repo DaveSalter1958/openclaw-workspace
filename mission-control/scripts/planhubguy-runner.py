@@ -57,6 +57,10 @@ INTERNAL_SENDERS = {
     'drs@drs-engineering.net',
     'luke@drs-engineering.net',
 }
+HARDCODED_DO_NOT_CONTACT_EMAILS = {
+    'john@labibfunk.com',
+    'info@labibfunk.com',
+}
 GMAIL_DAILY_SEND_LIMIT = 495
 GMAIL_DAILY_SEND_WINDOW_HOURS = 24
 STATE_FILE = Path('/home/davesalter/.openclaw/workspace/memory/planhubguy-state.json')
@@ -895,17 +899,56 @@ def outbound_email_hold_enabled():
         return True
 
 
+EMAIL_ADDRESS_RE = re.compile(r'([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})', re.I)
+
+
+def extract_recipient_addresses(*values):
+    recipients = []
+    for value in values:
+        recipients.extend(addr.strip().lower() for addr in EMAIL_ADDRESS_RE.findall(value or ''))
+    return recipients
+
+
+def configured_do_not_contact_emails():
+    blocked = set(HARDCODED_DO_NOT_CONTACT_EMAILS)
+    try:
+        state = load_state()
+    except Exception:
+        state = {}
+    for key in ('doNotContactEmails', 'blockedRecipients', 'neverSendEmails'):
+        value = state.get(key) if isinstance(state, dict) else None
+        if isinstance(value, str):
+            blocked.update(extract_recipient_addresses(value))
+        elif isinstance(value, list):
+            for item in value:
+                if isinstance(item, str):
+                    blocked.update(extract_recipient_addresses(item))
+                elif isinstance(item, dict):
+                    blocked.update(extract_recipient_addresses(item.get('email') or item.get('address') or ''))
+    return blocked
+
+
+def recipient_is_do_not_contact(email):
+    return (email or '').strip().lower() in configured_do_not_contact_emails()
+
+
+def assert_recipient_not_do_not_contact(to='', cc=''):
+    blocked = sorted(set(extract_recipient_addresses(to, cc)) & configured_do_not_contact_emails())
+    if blocked:
+        log({'status': 'send_blocked_do_not_contact', 'recipients': blocked})
+        raise RuntimeError(f'PlanHubGuy do-not-contact recipient blocked: {", ".join(blocked)}')
+
+
 def is_internal_recipient(email):
     email = (email or '').strip().lower()
     return email.endswith('@drs-engineering.net')
 
 
 def assert_external_email_allowed(to='', cc=''):
+    assert_recipient_not_do_not_contact(to, cc)
     if not outbound_email_hold_enabled():
         return
-    recipients = []
-    recipients.extend(re.findall(r'([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})', to or '', re.I))
-    recipients.extend(re.findall(r'([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})', cc or '', re.I))
+    recipients = extract_recipient_addresses(to, cc)
     external = [addr for addr in recipients if not is_internal_recipient(addr)]
     if external:
         raise RuntimeError(f'External email blocked by Dave hold: {", ".join(sorted(set(external)))}')
@@ -1927,6 +1970,9 @@ def run_initial_outreach(ctx: ProcessContext, manual_run: bool, validation_only:
     for email, contact in sorted(ctx.unique_map_allowed.items()):
         if processed >= limit:
             break
+        if recipient_is_do_not_contact(email):
+            log({'status': 'initial_outreach_suppressed_do_not_contact', 'email': email})
+            continue
         unsent_projects = select_unsent_projects(contact, sent_hist, response_hist)
         if not unsent_projects:
             continue
@@ -1974,6 +2020,9 @@ def run_followups(ctx: ProcessContext, validation_only: bool = False):
     for idx, rec in enumerate(ctx.outreach_records, start=2):
         if processed >= limit:
             break
+        if recipient_is_do_not_contact(rec.email):
+            log({'status': 'followup_suppressed_do_not_contact', 'email': rec.email, 'row': idx})
+            continue
         if not rec.email or not rec.date_sent or rec.response_date or rec.campaign_status in {'Replied', 'Responded', 'Bounced', 'Closed', 'Do Not Contact'}:
             continue
         try:

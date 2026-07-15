@@ -17,6 +17,10 @@ WORKBOOK_ID = '1AJ5p4YHb3T1PtfFW8CFulVK1cHcDZT7cqrTxoo3An7s'
 ACCOUNT = 'drs@drs-engineering.net'
 SEND_AS = 'Dave@DRS-Engineering.net'
 NOTIFY_TO = 'DRS@DRS-Engineering.net'
+HARDCODED_DO_NOT_CONTACT_EMAILS = {
+    'john@labibfunk.com',
+    'info@labibfunk.com',
+}
 STATE_FILE = Path('/home/davesalter/.openclaw/workspace/memory/planhubguy-state.json')
 LOG_FILE = Path('/home/davesalter/.openclaw/workspace/memory/planhubguy-log.jsonl')
 TEMPLATES_FILE = Path('/home/davesalter/.openclaw/workspace/mission-control/data/planhubguy-templates.json')
@@ -35,6 +39,7 @@ BOUNCE_MARKERS = [
     'message blocked', 'recipient address rejected'
 ]
 AUTO_REPLY_MARKERS = ['out of office', 'automatic reply', 'auto reply', 'autoreply', 'vacation', 'away from the office']
+EMAIL_ADDRESS_RE = re.compile(r'([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})', re.I)
 
 OUTREACH_EMAIL = 0
 OUTREACH_TITLE = 1
@@ -188,6 +193,43 @@ def load_state():
 def save_state(state):
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     STATE_FILE.write_text(json.dumps(state, indent=2) + '\n', encoding='utf-8')
+
+
+def extract_recipient_addresses(*values):
+    recipients = []
+    for value in values:
+        recipients.extend(addr.strip().lower() for addr in EMAIL_ADDRESS_RE.findall(value or ''))
+    return recipients
+
+
+def configured_do_not_contact_emails():
+    blocked = set(HARDCODED_DO_NOT_CONTACT_EMAILS)
+    try:
+        state = load_state()
+    except Exception:
+        state = {}
+    for key in ('doNotContactEmails', 'blockedRecipients', 'neverSendEmails'):
+        value = state.get(key) if isinstance(state, dict) else None
+        if isinstance(value, str):
+            blocked.update(extract_recipient_addresses(value))
+        elif isinstance(value, list):
+            for item in value:
+                if isinstance(item, str):
+                    blocked.update(extract_recipient_addresses(item))
+                elif isinstance(item, dict):
+                    blocked.update(extract_recipient_addresses(item.get('email') or item.get('address') or ''))
+    return blocked
+
+
+def recipient_is_do_not_contact(email):
+    return (email or '').strip().lower() in configured_do_not_contact_emails()
+
+
+def assert_recipient_not_do_not_contact(to=''):
+    blocked = sorted(set(extract_recipient_addresses(to)) & configured_do_not_contact_emails())
+    if blocked:
+        log({'status': 'send_blocked_do_not_contact', 'recipients': blocked})
+        raise RuntimeError(f'PlanHubGuy do-not-contact recipient blocked: {", ".join(blocked)}')
 
 
 def set_stage(state, stage, detail=''):
@@ -488,6 +530,7 @@ def append_test_log(mode, action, intended, actual, subject, projects, template,
 
 
 def deliver_email(state, to, subject, html_body, template_name, projects, note):
+    assert_recipient_not_do_not_contact(to)
     test_sample_sent = int(state.get('testSampleSent', 0) or 0)
     first_live_copy_mode = bool(state.get('firstLiveCopyMode'))
     if state['mode'] == 'test':
@@ -526,6 +569,7 @@ def deliver_email(state, to, subject, html_body, template_name, projects, note):
 
 
 def send_explicit_sample(state, unique_map, templates, sample_email, sample_template):
+    assert_recipient_not_do_not_contact(sample_email)
     info = unique_map.get(sample_email.lower())
     if not info:
         raise ValueError(f'Sample email not found in unique map: {sample_email}')
@@ -595,6 +639,9 @@ def run_test_group(state, unique_map, templates):
     for item in details:
         email = str(item.get('email', '')).strip().lower()
         source_email = str(item.get('sourceEmail', email)).strip().lower()
+        if recipient_is_do_not_contact(email) or recipient_is_do_not_contact(source_email):
+            log({'status': 'test_group_suppressed_do_not_contact', 'email': email, 'sourceEmail': source_email})
+            continue
         info = unique_map.get(email) or unique_map.get(source_email)
         if not info:
             log({'status': 'test_group_skipped_missing_info', 'email': email, 'sourceEmail': source_email})
@@ -913,6 +960,9 @@ def run_initial_outreach(ctx: ProcessContext, manual_run: bool, validation_only:
     for email, contact in sorted(ctx.unique_map_allowed.items()):
         if processed >= limit:
             break
+        if recipient_is_do_not_contact(email):
+            log({'status': 'initial_outreach_suppressed_do_not_contact', 'email': email})
+            continue
         unsent_projects = select_unsent_projects(contact, sent_hist)
         if not unsent_projects:
             continue
@@ -956,6 +1006,9 @@ def run_followups(ctx: ProcessContext, validation_only: bool = False):
     for idx, rec in enumerate(ctx.outreach_records, start=2):
         if processed >= limit:
             break
+        if recipient_is_do_not_contact(rec.email):
+            log({'status': 'followup_suppressed_do_not_contact', 'email': rec.email, 'row': idx})
+            continue
         if not rec.email or not rec.date_sent or rec.response_date or rec.campaign_status in {'Replied', 'Bounced', 'Closed', 'Do Not Contact'}:
             continue
         try:
