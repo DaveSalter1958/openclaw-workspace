@@ -3,6 +3,34 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260718-001] shell_heredoc_redirection
+
+**Logged**: 2026-07-18T09:04:38-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+A Node heredoc command failed because output redirection was placed after the heredoc terminator inside the script text.
+
+### Error
+```text
+Expression expected
+```
+
+### Context
+- Command attempted during cron health report collection.
+- The redirection should be attached to the heredoc-opening command, not written after the `NODE` terminator.
+
+### Suggested Fix
+For shell heredocs, use `node - <<'NODE' > /tmp/file` before the script body when redirecting stdout.
+
+### Metadata
+- Reproducible: yes
+- Related Files: none
+- See Also: none
+
+---
 
 ## [ERR-20260703-001] pkill_f_self_match
 
