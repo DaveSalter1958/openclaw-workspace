@@ -641,6 +641,22 @@ def main() -> int:
             })
         except json.JSONDecodeError:
             pass
+    app_calendar = os.environ.get("AUDIT_GOOGLE_CALENDAR_APP_STATUS_JSON")
+    if app_calendar:
+        try:
+            payload = json.loads(app_calendar)
+            providers.append({
+                "provider": "Google Calendar connector",
+                "account": payload.get("email") or "configured Google Calendar connector",
+                "credential": "connector credential redacted",
+                "configured": True,
+                "validation_status": "valid",
+                "spend_available": False,
+                "cap_available": False,
+                "notes": ["Google Calendar connector profile read succeeded; spend unavailable through Calendar API"],
+            })
+        except json.JSONDecodeError:
+            pass
     app_dropbox = os.environ.get("AUDIT_DROPBOX_APP_STATUS_JSON")
     if app_dropbox:
         try:
