@@ -226,13 +226,19 @@ Plugin approval unavailable (no approval route)
 - Proposal: `job-site-inspection-reporter-20260723-a33d9a0206`.
 - Dave explicitly requested: `apply job-site-inspection-reporter-20260723-a33d9a0206`.
 - Follow-up inspect confirmed the proposal remained `pending`.
+- 2026-07-23 follow-up: proposal inspected clean and complete; direct apply still returned the same error.
+- OpenClaw doctor reported no `commands.ownerAllowFrom` owner allowlist, which can block private owner approval routes.
+- Agent-side gateway config patches for both `plugins.entries.codex.config.codexPlugins.allow_destructive_actions` and `commands.ownerAllowFrom` were rejected as protected paths.
+- `plugin.approval.list` returned no pending approvals after the failed apply attempt.
 
 ### Suggested Fix
 Provide an approval route for `skill_workshop apply` in Telegram/OpenClaw direct sessions, or expose a clear user-facing alternate command/UI path for applying pending proposals.
 
 ### Metadata
-- Reproducible: unknown
+- Reproducible: yes
 - Related Files: none
 - See Also: none
+- Recurrence-Count: 2
+- Last-Seen: 2026-07-23
 
 ---
