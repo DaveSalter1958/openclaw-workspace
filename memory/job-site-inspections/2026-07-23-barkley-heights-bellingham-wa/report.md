@@ -33,6 +33,8 @@ No safety concerns captured yet.
 - Which specific retaining walls are included in the inspection?
 - Are there known prior measurements, surveys, cracks, repairs, drainage issues, or movement history?
 - What is the intended report audience?
+- Which statements from the brief history document are verified facts versus allegations from pleadings or neighbor reports?
+- Are the Tyson Engineering, Geosync Consultants, soils report, Bradley design calculations, and DEI retrofit report available for review?
 
 ## Evidence Index
 
@@ -43,3 +45,6 @@ No evidence captured yet.
 No recorded conversation notes captured yet.
 
 ## Appendix
+
+- Travel/expense receipt `R001`: breakfast at SBA Airport Restaurant and Coffee Shop, ordered 2026-07-23 09:42 AM, total $18.72.
+- Reference document `D001`: brief history/case background from Erin, received 2026-07-23, summarized in `plan-review-notes.md`.
