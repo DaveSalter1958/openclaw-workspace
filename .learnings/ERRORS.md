@@ -206,3 +206,33 @@ Use Node.js for JSON validation in this workspace, or install `jq` if command-li
 - See Also: none
 
 ---
+## [ERR-20260722-001] skill_workshop_apply_approval_route_unavailable
+
+**Logged**: 2026-07-22T21:00:00-07:00
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+`skill_workshop` could create and inspect a pending skill proposal from Telegram, but could not apply it after Dave explicitly approved.
+
+### Error
+```text
+Plugin approval unavailable (no approval route)
+```
+
+### Context
+- Operation attempted: `skill_workshop action=apply`.
+- Proposal: `job-site-inspection-reporter-20260723-a33d9a0206`.
+- Dave explicitly requested: `apply job-site-inspection-reporter-20260723-a33d9a0206`.
+- Follow-up inspect confirmed the proposal remained `pending`.
+
+### Suggested Fix
+Provide an approval route for `skill_workshop apply` in Telegram/OpenClaw direct sessions, or expose a clear user-facing alternate command/UI path for applying pending proposals.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: none
+- See Also: none
+
+---
