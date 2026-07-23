@@ -17,6 +17,7 @@ Dave is visiting Barkley Heights in Bellingham, Washington to review retaining w
 
 - 2026-07-23 08:30 PT: Dave left home to drive to the airport.
 - 2026-07-23 10:45 PT: Dave boarded flight for Seattle.
+- 2026-07-23 13:30 PT: Dave arrived at Seattle airport.
 
 ## Open Items
 
