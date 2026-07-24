@@ -61,5 +61,8 @@ Draft pending site notes, photos, videos, and/or recorded conversations. Purpose
 ## Appendix
 
 - Travel/expense receipt `R001`: breakfast at SBA Airport Restaurant and Coffee Shop, ordered 2026-07-23 09:42 AM, total $18.72.
+- Travel/expense receipt `R003`: return-travel fuel at GURANAND, 4603 S 188th St, SeaTac, WA, receipt timestamp 2026-07-24 06:36:17 AM, 7.327 gallons regular gasoline at $6.199/gallon, total $45.42.
+- Travel/expense receipt `R004`: return-travel breakfast at Capitol Hill Foo, SEATAC Airport, receipt timestamp 2026-07-24 07:40 AM, large latte with vanilla and blueberry muffin, total $15.24.
 - Reference document `D001`: brief history/case background from Erin, received 2026-07-23, summarized in `plan-review-notes.md`.
 - Site chronology `N008`: Dave left the Barkley Heights job site at 2026-07-23 19:00 PT.
+- Travel chronology `N009`: Dave left the hotel in Bellingham at 2026-07-24 04:45 PT to drive back to Seattle airport.
