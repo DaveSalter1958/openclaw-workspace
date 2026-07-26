@@ -1,5 +1,17 @@
 [
   {
+    "id": "email-drs-drs-engineering-net-19f9a299e0beffe9",
+    "title": "apologies and thank you",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-07-26",
+    "dueTime": "17:00",
+    "project": "Email \u2014 DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Jamie <solvangfilmsociety@gmail.com>\nDate: 2026-07-25 09:43\nSubject: apologies and thank you\nGmail message ID: 19f9a299e0beffe9\nThread ID: 19f9a299e0beffe9\n\nEmail body:\nHello,\n\nI want to apologize to everyone for sending that mass e-mail that should\nhave been BCC'd. It was an accident, and I'm really sorry. I also would\nlike to thank you for the overwhelmingly positive response you have\nregarding the Solvang Film Society.\n\nThe interest has been so great that it looks like we will be adding a\nsecond showing of ONCE UPON A TIME IN A CINEMA at 5:30pm on July 30th.\n\nTicket reservations for the 8:00pm show are going fast, so if you want to\nsecure a seat, please respond to this email in the next few days. If the\n5:30pm show works best for your schedule, please contact me as well. We\nonly have 45 seats, and it's first come, first served.\n\nTickets are $10 and can be purchased using Venmo or cash at the door. Once\nthe website is up, tickets will be able to be purchased by cc.\n\nThe response has been incredible, and I really want to thank you. Having a\nsmall theater for locals to enjoy and gather is something I've been trying\nto build ever since we lost the Park Plaza. Your response and feedback are\nmaking it possible.\n\nJamie Baker\nSolvang Film Society\n320 Alisal Road, #102\nSolvang, CA 93463\n(Situated in the old outlet mall between Hotel Corque and WorldMark.)\nVenmo - @solvangfilmsociety",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-19f9037899e5aa4b",
     "title": "2939 Glendower Shoring Wall and Transformer Pad Wall",
     "status": "open",
