@@ -28,6 +28,7 @@ Dave is visiting Barkley Heights in Bellingham, Washington to review retaining w
 - 2026-07-24 04:45 PT: Dave left the hotel in Bellingham to drive back to Seattle airport.
 - 2026-07-24 06:36 PT: Dave purchased regular gasoline in SeaTac during return travel for the Barkley Heights inspection trip.
 - 2026-07-24 07:40 PT: Dave purchased breakfast at SEATAC Airport during return travel for the Barkley Heights inspection trip.
+- 2026-07-24 13:58 PT: Dave paid $46.00 for parking at Santa Barbara Airport for the Barkley Heights inspection trip.
 
 ## Open Items
 
@@ -50,6 +51,7 @@ Dave is visiting Barkley Heights in Bellingham, Washington to review retaining w
 | `R002` | Receipt image | 2026-07-23 14:37 PT | Telegram image receipt from Hudson at SEA-TAC International Airport | Lunch for the Barkley Heights trip; Hudson receipt timestamp 2026-07-23 14:33, total $23.23, Mastercard ending 8609. |
 | `R003` | Receipt image | 2026-07-24 07:20 PT | `media://inbound/23c5ac22-3003-492b-a1f4-27e8e96cc20a.jpg` | Return-travel fuel for the Barkley Heights trip; GURANAND receipt timestamp 2026-07-24 06:36:17 AM, SeaTac, regular gasoline 7.327 gallons at $6.199/gallon, total $45.42, Mastercard ending 8609. |
 | `R004` | Receipt image | 2026-07-24 07:43 PT | `media://inbound/70c0d28b-855d-404e-a630-88cf9f2d7ae1.jpg` | Return-travel breakfast for the Barkley Heights trip; Capitol Hill Foo receipt timestamp 2026-07-24 07:40 AM, SEATAC Airport, large latte with vanilla and blueberry muffin, total $15.24, Mastercard ending 8609. |
+| `R005` | Receipt image | 2026-07-26 15:56 PT | `media://inbound/e82f96e2-1914-498a-899e-74d41dc3efd3.jpg` | Parking at Santa Barbara Airport for the Barkley Heights trip; receipt timestamp 2026-07-24 01:58 PM, entry 2026-07-23 09:16 AM, ticket 30472590, total $46.00, Mastercard ending 1676. |
 | `P001` | Site photo | 2026-07-23 18:06 PT | `media://inbound/ae9d764e-0959-4bdf-84da-045bdcb42b5f.jpg` | Overview photo of retaining/shoring wall area and adjacent partially constructed residential foundation; no caption provided. |
 | `P002` | Site photo | 2026-07-23 18:07 PT | `media://inbound/82ae2b35-bd84-486e-b896-8f7f65dec3c7.jpg` | Overview photo of retaining/shoring wall from lower grade with uphill existing residence/deck, foreground framing/foundation work, construction materials, vehicles, and adjacent completed residences; no caption provided. |
 | `P003` | Site photo | 2026-07-23 18:07 PT | `media://inbound/4283524b-8fa1-4eb6-a205-09678056586a.jpg` | Centered overview photo of retaining/shoring wall below uphill existing residence/deck with foreground framing/foundation work, blue dumpster, ladder, covered materials, and exposed soil/rock at left; no caption provided. |
