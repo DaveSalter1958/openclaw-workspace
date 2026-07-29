@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260729-001] api_key_audit_script_not_executable
+
+**Logged**: 2026-07-29T08:00:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+The daily API key audit script exists but is not executable, so direct invocation failed.
+
+### Error
+```text
+/bin/bash: line 1: scripts/api-key-health-audit.py: Permission denied
+```
+
+### Context
+- Command attempted: `scripts/api-key-health-audit.py` with audit timestamp and connector status environment variables.
+- The script can still be run with `python3 scripts/api-key-health-audit.py`.
+- No secrets were printed.
+
+### Suggested Fix
+Either set the executable bit on `scripts/api-key-health-audit.py` or call it via `python3` in recurring automation.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/scripts/api-key-health-audit.py
+- See Also: none
+
+---
 ## [ERR-20260718-001] shell_heredoc_redirection
 
 **Logged**: 2026-07-18T09:04:38-07:00
