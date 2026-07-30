@@ -1,5 +1,17 @@
 [
   {
+    "id": "t1785388095066",
+    "title": "Text Steve",
+    "status": "open",
+    "priority": "medium",
+    "domain": "",
+    "dueDate": "2026-07-30",
+    "dueTime": "10:00",
+    "project": "Personal",
+    "notes": "Created from Telegram request: Task...text Steve tomorrow 10am",
+    "scope": "personal"
+  },
+  {
     "id": "t1785362338231",
     "title": "VW to Solvang Garage",
     "status": "open",
