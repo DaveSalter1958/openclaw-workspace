@@ -14,95 +14,95 @@
     "eventsFile": "data/planhubguy/campaign-events.jsonl"
   },
   "rows": {
-    "sentEvents": 7901,
-    "initialRows": 2739,
-    "template1InitialEmails": 2739,
-    "followup1Emails": 2444,
-    "finalFollowupEmails": 2718,
-    "autoFollowups": 5162,
-    "responseRowsInRange": 1381,
-    "realPersonResponseThreads": 458
+    "sentEvents": 7920,
+    "initialRows": 2746,
+    "template1InitialEmails": 2746,
+    "followup1Emails": 2455,
+    "finalFollowupEmails": 2719,
+    "autoFollowups": 5174,
+    "responseRowsInRange": 1391,
+    "realPersonResponseThreads": 461
   },
   "summary": {
-    "initialEmails": 2739,
-    "uniqueInitialContacts": 2574,
-    "autoFollowups": 5162,
-    "followup1Emails": 2444,
-    "finalFollowupEmails": 2718,
-    "realPersonResponses": 458
+    "initialEmails": 2746,
+    "uniqueInitialContacts": 2581,
+    "autoFollowups": 5174,
+    "followup1Emails": 2455,
+    "finalFollowupEmails": 2719,
+    "realPersonResponses": 461
   },
   "stats": [
     {
       "metric": "Unique initial-outreach contacts",
-      "count": 2574,
+      "count": 2581,
       "percent": "100.00%",
       "note": "Unique recipients of real initial client outreach from Dave@DRS-Engineering.net; legacy/test/internal traffic excluded.",
       "emphasis": true
     },
     {
       "metric": "Initial emails sent",
-      "count": 2739,
-      "percent": "106.41%",
+      "count": 2746,
+      "percent": "106.39%",
       "note": "Immutable Gmail Sent evidence from Dave@DRS-Engineering.net only; legacy DRS test traffic excluded.",
       "emphasis": true
     },
     {
       "metric": "Follow-up 1 emails sent",
-      "count": 2444,
-      "percent": "94.95%",
+      "count": 2455,
+      "percent": "95.12%",
       "note": "Immutable Gmail Sent evidence, excluding internal/test recipients."
     },
     {
       "metric": "Final follow-up emails sent",
-      "count": 2718,
-      "percent": "105.59%",
+      "count": 2719,
+      "percent": "105.35%",
       "note": "Immutable Gmail Sent evidence, excluding internal/test recipients."
     },
     {
       "metric": "Total auto follow-ups sent",
-      "count": 5162,
-      "percent": "200.54%",
+      "count": 5174,
+      "percent": "200.46%",
       "note": "Follow-up 1 plus final follow-up emails."
     },
     {
       "metric": "Real person responses received",
-      "count": 458,
-      "percent": "17.79%",
+      "count": 461,
+      "percent": "17.86%",
       "note": "Unique Response Log threads classified as valid or possible_work; excludes bounces, automatic replies, and system rows.",
       "emphasis": true
     },
     {
       "metric": "Bounces / undeliverable responses",
-      "count": 531,
-      "percent": "20.63%",
+      "count": 534,
+      "percent": "20.69%",
       "note": "Response Log bounce rows; not deduped by address."
     },
     {
       "metric": "Automatic replies",
-      "count": 241,
-      "percent": "9.36%",
+      "count": 244,
+      "percent": "9.45%",
       "note": "Response Log automatic/out-of-office rows."
     },
     {
       "metric": "Unique sent recipients across all real outreach",
-      "count": 2788,
-      "percent": "108.31%",
+      "count": 2795,
+      "percent": "108.29%",
       "note": "Unique recipients across initial, follow-up 1, and final follow-up messages."
     }
   ],
   "supportingCounts": {
     "sentByType": {
-      "sent_final_followup": 2718,
-      "sent_followup1": 2444,
-      "sent_initial": 2739
+      "sent_final_followup": 2719,
+      "sent_followup1": 2455,
+      "sent_initial": 2746
     },
     "responsesByType": {
-      "inbound_automatic_reply": 241,
-      "inbound_bounce": 531,
-      "inbound_real_person_response": 607,
+      "inbound_automatic_reply": 244,
+      "inbound_bounce": 534,
+      "inbound_real_person_response": 611,
       "inbound_response": 2
     },
-    "uniqueSentContacts": 2788,
-    "ledgerGeneratedAt": "2026-07-30T06:10:47.923002+00:00"
+    "uniqueSentContacts": 2795,
+    "ledgerGeneratedAt": "2026-07-31T06:11:21.103047+00:00"
   }
 }
