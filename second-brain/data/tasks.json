@@ -1,5 +1,17 @@
 [
   {
+    "id": "t1785950372000",
+    "title": "Get IRS form for $80 payment from Luke",
+    "status": "open",
+    "priority": "medium",
+    "domain": "finance",
+    "dueDate": "2026-08-05",
+    "dueTime": "17:00",
+    "project": "DRS",
+    "notes": "Created from Telegram: \"Task get the IRS form for $80 payment from Luke tomorrow 5:00 p.m.\"",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-19fccfc20f284c15",
     "title": "Bid estimation support",
     "status": "open",
