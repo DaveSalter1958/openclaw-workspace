@@ -1,5 +1,17 @@
 [
   {
+    "id": "t1786038675770",
+    "title": "Prepare expenses for Tuesday LA trip",
+    "status": "open",
+    "priority": "medium",
+    "domain": "expenses",
+    "dueDate": "2026-08-06",
+    "dueTime": "17:00",
+    "project": "DRS",
+    "notes": "Created from Telegram request: Task expenses for trip to LA on Tuesday today 5:00 p.m.",
+    "scope": "business"
+  },
+  {
     "id": "t1785942535541",
     "title": "Send Barclay invocie",
     "status": "open",
