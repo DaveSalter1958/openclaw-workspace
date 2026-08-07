@@ -1,28 +1,28 @@
 {
   "counts": {
-    "responseEvents": 1399,
+    "responseEvents": 1402,
     "responsesByType": {
-      "inbound_automatic_reply": 247,
-      "inbound_bounce": 538,
-      "inbound_real_person_response": 612,
+      "inbound_automatic_reply": 248,
+      "inbound_bounce": 539,
+      "inbound_real_person_response": 613,
       "inbound_response": 2
     },
     "sentByType": {
       "sent_final_followup": 2726,
-      "sent_followup1": 2479,
-      "sent_initial": 2790
+      "sent_followup1": 2492,
+      "sent_initial": 2814
     },
-    "sentEvents": 7995,
-    "totalEvents": 9394,
-    "uniqueRealPersonResponseThreads": 462,
-    "uniqueSentRecipients": 2823,
-    "uniqueSentThreads": 7908
+    "sentEvents": 8032,
+    "totalEvents": 9434,
+    "uniqueRealPersonResponseThreads": 463,
+    "uniqueSentRecipients": 2835,
+    "uniqueSentThreads": 7945
   },
   "dateRange": {
-    "end": "2026-08-05",
+    "end": "2026-08-06",
     "start": "2026-04-01"
   },
-  "generatedAt": "2026-08-06T06:12:27.080339+00:00",
+  "generatedAt": "2026-08-07T06:11:18.459953+00:00",
   "notes": [
     "Gmail sent events are immutable mailbox evidence and are deduped by Gmail message id.",
     "Inbound events currently use Response Log rows; row/thread dedupe is reported for real-person response threads.",
@@ -52,26 +52,26 @@
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:\"Final follow-up\"": 478,
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:\"Re:\"": 311,
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:Regarding": 291,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/06 subject:\"Final follow up\"": 3,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/06 subject:\"Final follow-up\"": 3,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/06 subject:\"Re:\"": 29,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/06 subject:Regarding": 47
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/07 subject:\"Final follow up\"": 3,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/07 subject:\"Final follow-up\"": 3,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/07 subject:\"Re:\"": 43,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/07 subject:Regarding": 71
     },
-    "gmailSearchRejectedAfterClassification": 533,
+    "gmailSearchRejectedAfterClassification": 534,
     "gmailSentAccounts": [
       "Dave@DRS-Engineering.net"
     ],
-    "gmailSentEventsAfterDedupe": 7995,
-    "gmailSentRawEventsBeforeDedupe": 7995,
+    "gmailSentEventsAfterDedupe": 8032,
+    "gmailSentRawEventsBeforeDedupe": 8032,
     "responseSheetRange": "Response Log!A1:I12000"
   },
   "validation": {
     "actualLedgerCounts": {
-      "autoFollowups": 5205,
+      "autoFollowups": 5218,
       "finalFollowupEmails": 2726,
-      "followup1Emails": 2479,
-      "initialEmails": 2790,
-      "realPersonResponseThreads": 462
+      "followup1Emails": 2492,
+      "initialEmails": 2814,
+      "realPersonResponseThreads": 463
     },
     "actualLedgerCountsThrough20260519": {
       "finalFollowupEmails": 0,
@@ -85,18 +85,18 @@
       "sentOutreachRows": -787
     },
     "differenceVsMarketingStats": {
-      "autoFollowups": 13,
+      "autoFollowups": 20,
       "finalFollowupEmails": 4,
-      "followup1Emails": 9,
-      "initialEmails": 14,
-      "realPersonResponseThreads": 0
+      "followup1Emails": 16,
+      "initialEmails": 24,
+      "realPersonResponseThreads": 1
     },
     "expectedCounts": {
       "marketingStats": {
-        "autoFollowups": 5192,
+        "autoFollowups": 5198,
         "finalFollowupEmails": 2722,
-        "followup1Emails": 2470,
-        "initialEmails": 2776,
+        "followup1Emails": 2476,
+        "initialEmails": 2790,
         "realPersonResponseThreads": 462
       },
       "snapshot20260519": {
