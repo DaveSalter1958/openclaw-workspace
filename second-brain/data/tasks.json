@@ -1,5 +1,17 @@
 [
   {
+    "id": "t1786067076770",
+    "title": "Review 2026-08 Sunset Boulevard for proposals",
+    "status": "open",
+    "priority": "medium",
+    "domain": "proposals",
+    "dueDate": "2026-08-10",
+    "dueTime": "17:00",
+    "project": "Sunset Boulevard",
+    "notes": "Created from Telegram request: Task review 2026-08 Sunset Boulevard for proposals Monday 5:00 p.m.",
+    "scope": "business"
+  },
+  {
     "id": "t1786038675770",
     "title": "Prepare expenses for Tuesday LA trip",
     "status": "open",
