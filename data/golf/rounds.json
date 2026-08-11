@@ -197,10 +197,71 @@
         "score": 5,
         "fairway": "",
         "putts": 2
+      },
+      {
+        "number": 6,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score-only entry from dictation: Hole six scored seven. Putt count not specified clearly.",
+            "createdAt": "2026-08-11T21:28:20.736Z"
+          }
+        ],
+        "score": 7,
+        "fairway": ""
+      },
+      {
+        "number": 7,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score entry from dictation: Hole seven also scored seven, two putts.",
+            "createdAt": "2026-08-11T21:28:30.530Z"
+          }
+        ],
+        "score": 7,
+        "putts": 2,
+        "fairway": ""
+      },
+      {
+        "number": 8,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score-only entry from dictation: scored 6 on hole 8.",
+            "createdAt": "2026-08-11T22:20:24.081Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 9,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score-only entry from dictation: scored 5 on hole 9.",
+            "createdAt": "2026-08-11T22:20:23.497Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 10,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score-only entry from dictation: scored 6 on hole 10.",
+            "createdAt": "2026-08-11T22:20:24.018Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
       }
     ],
     "notes": "Dave said: 'it will be at the ranch course probably white tees so start scoring now'. Tee/course treated as probable until confirmed.",
     "createdAt": "2026-08-11T19:34:11.002Z",
-    "updatedAt": "2026-08-11T20:57:35.764Z"
+    "updatedAt": "2026-08-11T22:20:24.081Z"
   }
 ]
