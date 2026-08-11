@@ -1,1 +1,206 @@
-[]
+[
+  {
+    "id": "round-2026-08-11-the-ranch-course-1786476851003",
+    "date": "2026-08-11",
+    "course": "The Ranch Course",
+    "teeColor": "white",
+    "teeName": "",
+    "format": "stroke",
+    "gameType": "",
+    "players": [
+      "Dave"
+    ],
+    "status": "in_progress",
+    "holes": [
+      {
+        "number": 1,
+        "shots": [
+          {
+            "shot": 1,
+            "club": "",
+            "from": "tee",
+            "to": "rough-left",
+            "distance": 180,
+            "result": "left of the fairway",
+            "penalty": 0,
+            "text": "first shot left of the Fairway about 180 yards",
+            "createdAt": "2026-08-11T19:58:02.473Z"
+          },
+          {
+            "shot": 2,
+            "club": "",
+            "from": "",
+            "to": "",
+            "distance": 100,
+            "result": "skied it",
+            "penalty": 0,
+            "text": "second shot skied it no 100 yards",
+            "createdAt": "2026-08-11T19:58:02.471Z"
+          }
+        ],
+        "notes": [
+          {
+            "text": "Raw dictation: Hole number one scored six first shot left of the Fairway about 180 yards second shot skied it no 100 yards that shot in front of the green for Shipton and then two parts. Interpreted as score 6 with two putts; phrase 'for Shipton' uncertain.",
+            "createdAt": "2026-08-11T19:58:02.477Z"
+          },
+          {
+            "text": "Score 6, two putts. Clear dictation: tee shot left of fairway about 180 yards; second shot skied about 100 yards; later shot finished in front of green. Uncertain phrase retained in raw note.",
+            "createdAt": "2026-08-11T19:58:16.633Z"
+          }
+        ],
+        "score": 6,
+        "putts": 2,
+        "fairway": "miss-left",
+        "gir": false,
+        "penalties": 0
+      },
+      {
+        "number": 2,
+        "shots": [
+          {
+            "shot": 1,
+            "club": "",
+            "from": "tee",
+            "to": "trees-left",
+            "result": "left, hit a tree",
+            "penalty": 0,
+            "text": "Hole number two is a par 3; hit left, hit a tree",
+            "createdAt": "2026-08-11T20:06:02.616Z"
+          },
+          {
+            "shot": 2,
+            "club": "",
+            "from": "",
+            "to": "",
+            "result": "bad chip in front of the green",
+            "penalty": 0,
+            "text": "bad chip in front of the green",
+            "createdAt": "2026-08-11T20:06:12.364Z"
+          },
+          {
+            "shot": 3,
+            "club": "",
+            "from": "",
+            "to": "green",
+            "result": "chip onto the green",
+            "penalty": 0,
+            "text": "chip onto the green",
+            "createdAt": "2026-08-11T20:06:25.173Z"
+          }
+        ],
+        "notes": [
+          {
+            "text": "Par 3. Raw dictation: Phone/hole number two is a par 3, hit left, hit a tree, bad chip in front of the green, chip onto the green, and three-putt. Phrase around 'past the hole for Ford/in the hole' uncertain.",
+            "createdAt": "2026-08-11T20:06:38.626Z"
+          }
+        ],
+        "score": 6,
+        "putts": 3,
+        "fairway": "na",
+        "gir": false,
+        "penalties": 0
+      },
+      {
+        "number": 3,
+        "shots": [
+          {
+            "shot": 1,
+            "club": "",
+            "from": "tee",
+            "to": "left",
+            "result": "terrible drive left",
+            "penalty": 0,
+            "text": "Whole/hole number three terrible drive to the left",
+            "createdAt": "2026-08-11T20:07:26.605Z"
+          },
+          {
+            "shot": 2,
+            "club": "",
+            "from": "",
+            "to": "left",
+            "result": "shot left",
+            "penalty": 0,
+            "text": "terrible shot to the left / not terrible shot to the left",
+            "createdAt": "2026-08-11T20:07:37.244Z"
+          },
+          {
+            "shot": 3,
+            "club": "",
+            "from": "",
+            "to": "front-of-green",
+            "result": "not bad, in front of the green",
+            "penalty": 0,
+            "text": "not bad shot to in front of the green",
+            "createdAt": "2026-08-11T20:07:47.064Z"
+          },
+          {
+            "shot": 4,
+            "club": "",
+            "from": "",
+            "to": "green",
+            "result": "chip onto the green",
+            "penalty": 0,
+            "text": "Fourth shot/chip onto the green; raw dictation: Fourth old chips it's all on the Greek joke on the Green six sevenSix seven in",
+            "createdAt": "2026-08-11T20:25:57.352Z"
+          }
+        ],
+        "notes": [
+          {
+            "text": "Raw dictation: Whole number three terrible drive to the left terrible shot to the left not terrible shot to the left not bad shot to in front of the green. No final score or putts given yet.",
+            "createdAt": "2026-08-11T20:07:56.950Z"
+          },
+          {
+            "text": "Interpreted finish from dictation as score 7 in. Putt count not clear; raw phrase: 'six sevenSix seven in'.",
+            "createdAt": "2026-08-11T20:26:10.397Z"
+          },
+          {
+            "text": "Correction/update: Dave clarified hole 3 had two putts.",
+            "createdAt": "2026-08-11T20:57:15.729Z"
+          }
+        ],
+        "score": 7,
+        "fairway": "miss-left",
+        "gir": false,
+        "penalties": 0,
+        "putts": 2
+      },
+      {
+        "number": 4,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Dave requested score-only entry: 'Hole number four total score 8; we won't record any of the intermediate shots.'",
+            "createdAt": "2026-08-11T20:31:59.213Z"
+          },
+          {
+            "text": "Correction/update: Dave clarified hole 4 had two putts.",
+            "createdAt": "2026-08-11T20:57:25.482Z"
+          }
+        ],
+        "score": 8,
+        "fairway": "",
+        "putts": 2
+      },
+      {
+        "number": 5,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score-only entry from dictation: Hole number five scored five.",
+            "createdAt": "2026-08-11T20:44:26.727Z"
+          },
+          {
+            "text": "Correction/update: Dave clarified hole 5 had two putts.",
+            "createdAt": "2026-08-11T20:57:35.763Z"
+          }
+        ],
+        "score": 5,
+        "fairway": "",
+        "putts": 2
+      }
+    ],
+    "notes": "Dave said: 'it will be at the ranch course probably white tees so start scoring now'. Tee/course treated as probable until confirmed.",
+    "createdAt": "2026-08-11T19:34:11.002Z",
+    "updatedAt": "2026-08-11T20:57:35.764Z"
+  }
+]
