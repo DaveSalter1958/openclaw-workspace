@@ -5,6 +5,7 @@ This is Dave's local golf round store. It is meant for quick Telegram dictation 
 ## Files
 
 - Data store: `data/golf/rounds.json`
+- Course reference notes: `data/golf/course-reference.json`
 - Capture/query script: `scripts/golf-store.mjs`
 
 ## Round Setup

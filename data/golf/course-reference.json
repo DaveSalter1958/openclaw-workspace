@@ -1,0 +1,58 @@
+[
+  {
+    "id": "alisal-coast-course-reference-2026-08-13",
+    "course": "Coast Course at the Alisal",
+    "source": {
+      "type": "telegram_photo",
+      "dateReceived": "2026-08-13",
+      "description": "Dave sent a photo and described it as the Coast layout and rules. The photographed card shows River Course branding/footer."
+    },
+    "layout": {
+      "holesShown": 18,
+      "notes": "Course routing/layout card received from Dave for future golf scoring reference."
+    },
+    "tees": [
+      {
+        "tee": "Gold",
+        "courseRating": 73.0,
+        "slope": 128,
+        "par": 72
+      },
+      {
+        "tee": "Blue",
+        "courseRating": 70.9,
+        "slope": 123,
+        "par": 72
+      },
+      {
+        "tee": "White",
+        "courseRating": 69.4,
+        "slope": 119,
+        "par": 72
+      },
+      {
+        "tee": "Red",
+        "courseRating": 67.3,
+        "slope": 114,
+        "par": 72
+      }
+    ],
+    "localRules": [
+      "USGA rules govern all play except when local rules prevail.",
+      "Appropriate golf attire is required for the golf course and practice facility.",
+      "Lost ball or out of bounds: stroke and distance.",
+      "For a ball hit from #15 tee that is presumed not to have crossed past the white line at the dry creek, use the Forward Tee Box as a drop area.",
+      "On holes #13 and #16, a golf ball required to be dropped due to hitting into the penalty area or resting on the cart path is to be dropped on the golf course side of the penalty area or cart path.",
+      "No relief is given from the rock wall bordering the bunker on #17.",
+      "Hole #8 on the left will be deemed environmental drainage area, not the fence line.",
+      "No outside food or alcoholic beverages are permitted on property."
+    ],
+    "etiquette": [
+      "Pace of play is 4:15.",
+      "Leave the golf course better than found by filling divots, repairing ball marks, and following cart rules.",
+      "Do not drive carts near or behind greens or tee boxes.",
+      "Rake bunkers and leave rakes inside bunkers with the handle resting on the bunker lip."
+    ],
+    "notes": "Use this as reference context for future Coast/Alisal scorecard interpretation unless Dave later clarifies the course name or provides a cleaner card."
+  }
+]

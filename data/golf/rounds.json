@@ -1,5 +1,240 @@
 [
   {
+    "id": "round-2026-07-13-river-course-at-the-alisal-1786657080719",
+    "date": "2026-07-13",
+    "course": "River Course at the Alisal",
+    "teeColor": "",
+    "teeName": "",
+    "format": "stroke",
+    "gameType": "",
+    "players": [
+      "Dave"
+    ],
+    "status": "completed",
+    "holes": [
+      {
+        "number": 1,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.785Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 2,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.817Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 3,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.852Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 4,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.892Z"
+          }
+        ],
+        "score": 3,
+        "fairway": ""
+      },
+      {
+        "number": 5,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.932Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 6,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:00.973Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 7,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.008Z"
+          }
+        ],
+        "score": 7,
+        "fairway": ""
+      },
+      {
+        "number": 8,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.044Z"
+          }
+        ],
+        "score": 4,
+        "fairway": ""
+      },
+      {
+        "number": 9,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.076Z"
+          }
+        ],
+        "score": 4,
+        "fairway": ""
+      },
+      {
+        "number": 10,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.116Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 11,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.153Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 12,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.186Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 13,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.222Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 14,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.256Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 15,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.291Z"
+          }
+        ],
+        "score": 4,
+        "fairway": ""
+      },
+      {
+        "number": 16,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.328Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 17,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.360Z"
+          }
+        ],
+        "score": 4,
+        "fairway": ""
+      },
+      {
+        "number": 18,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Score from Dave's red-clouded top row on River Course scorecard photo.",
+            "createdAt": "2026-08-13T21:38:01.392Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      }
+    ],
+    "notes": "Dave said this was his best round at the River Course at the Alisal, shot about one month before 2026-08-13; exact date not provided. Scores recorded from scorecard photo, Dave's top row clouded in red.",
+    "createdAt": "2026-08-13T21:38:00.719Z",
+    "updatedAt": "2026-08-13T21:38:01.429Z",
+    "completedAt": "2026-08-13T21:38:01.429Z"
+  },
+  {
     "id": "round-2026-08-11-the-ranch-course-1786476851003",
     "date": "2026-08-11",
     "course": "The Ranch Course",
@@ -10,7 +245,7 @@
     "players": [
       "Dave"
     ],
-    "status": "in_progress",
+    "status": "completed",
     "holes": [
       {
         "number": 1,
@@ -92,9 +327,13 @@
           {
             "text": "Par 3. Raw dictation: Phone/hole number two is a par 3, hit left, hit a tree, bad chip in front of the green, chip onto the green, and three-putt. Phrase around 'past the hole for Ford/in the hole' uncertain.",
             "createdAt": "2026-08-11T20:06:38.626Z"
+          },
+          {
+            "text": "Scorecard photo correction: top line shows hole 2 score 5, replacing earlier dictated/interpreted 6.",
+            "createdAt": "2026-08-13T21:22:03Z"
           }
         ],
-        "score": 6,
+        "score": 5,
         "putts": 3,
         "fairway": "na",
         "gir": false,
@@ -258,10 +497,107 @@
         ],
         "score": 6,
         "fairway": ""
+      },
+      {
+        "number": 11,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 11 scored 5.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 12,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 12 scored 5.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 13,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 13 scored 7.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 7,
+        "fairway": ""
+      },
+      {
+        "number": 14,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 14 scored 5.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 5,
+        "fairway": ""
+      },
+      {
+        "number": 15,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 15 scored 6.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
+      },
+      {
+        "number": 16,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 16 scored 8.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 8,
+        "fairway": ""
+      },
+      {
+        "number": 17,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 17 scored 7.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 7,
+        "fairway": ""
+      },
+      {
+        "number": 18,
+        "shots": [],
+        "notes": [
+          {
+            "text": "Scorecard photo entry from Dave's top line: hole 18 scored 6.",
+            "createdAt": "2026-08-13T21:22:03Z"
+          }
+        ],
+        "score": 6,
+        "fairway": ""
       }
     ],
     "notes": "Dave said: 'it will be at the ranch course probably white tees so start scoring now'. Tee/course treated as probable until confirmed.",
     "createdAt": "2026-08-11T19:34:11.002Z",
-    "updatedAt": "2026-08-11T22:20:24.081Z"
+    "updatedAt": "2026-08-13T21:22:03Z",
+    "completedAt": "2026-08-13T21:22:03Z"
   }
 ]
