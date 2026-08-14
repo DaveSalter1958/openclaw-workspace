@@ -83,7 +83,7 @@ function RoundCard({ round }: { round: GolfRoundSummary }) {
 }
 
 export default async function GolfPage() {
-  const { rounds, courses, stats } = await getGolfDashboard();
+  const { rounds, courses, profile, stats } = await getGolfDashboard();
   const scoredRounds = rounds.filter((round) => round.totalScore !== undefined).slice().reverse();
   const minScore = scoredRounds.length ? Math.min(...scoredRounds.map((round) => round.totalScore || 0)) : 0;
   const maxScore = scoredRounds.length ? Math.max(...scoredRounds.map((round) => round.totalScore || 0)) : 0;
@@ -109,6 +109,7 @@ export default async function GolfPage() {
         <StatTile label="Best score" value={stats.bestScore} hint="Lowest stored gross score" />
         <StatTile label="Average" value={stats.averageScore} hint="Stored scored rounds" />
         <StatTile label="Latest" value={stats.latestScore} hint={stats.latestCourse || 'No latest score'} />
+        <StatTile label="GHIN index" value={profile.handicapIndex} hint={profile.handicapUpdatedAt ? `Updated ${dateLabel(profile.handicapUpdatedAt)}` : 'Not set yet'} />
       </section>
 
       <section className="golf-layout">
@@ -181,6 +182,16 @@ export default async function GolfPage() {
         </div>
 
         <aside className="golf-side-column">
+          <section className="golf-panel golf-handicap-panel">
+            <div className="golf-section-head">
+              <h2>Handicap</h2>
+              <span>{profile.playerName}</span>
+            </div>
+            <div className="golf-handicap-number">{numberLabel(profile.handicapIndex)}</div>
+            <p>{profile.handicapIndex === undefined ? 'GHIN handicap index is not set locally yet.' : `Source: ${profile.handicapSource}`}</p>
+            <div className="golf-handicap-formula">Course handicap = index x slope / 113 + rating - par</div>
+          </section>
+
           <section className="golf-panel">
             <div className="golf-section-head">
               <h2>Courses</h2>

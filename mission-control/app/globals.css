@@ -2239,7 +2239,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .golf-stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
 }
 
@@ -2495,6 +2495,36 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   font-size: 1.2rem;
   line-height: 1;
   font-weight: 900;
+}
+
+.golf-handicap-panel {
+  gap: 10px;
+}
+
+.golf-handicap-number {
+  color: #143c5f;
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.golf-handicap-panel p {
+  margin: 0;
+  color: #315a77;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  font-weight: 750;
+}
+
+.golf-handicap-formula {
+  padding: 9px 10px;
+  border: 1px solid rgba(31, 90, 135, 0.14);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.68);
+  color: #315a77;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  font-weight: 800;
 }
 
 @media (max-width: 1280px) {

@@ -197,6 +197,12 @@ export interface GolfCourseSummary {
 export interface GolfDashboardData {
   rounds: GolfRoundSummary[];
   courses: GolfCourseSummary[];
+  profile: {
+    playerName: string;
+    handicapIndex?: number;
+    handicapSource: string;
+    handicapUpdatedAt: string;
+  };
   stats: {
     rounds: number;
     completedRounds: number;

@@ -34,6 +34,7 @@ const workspaceDir = path.resolve(process.cwd(), '..');
 const openclawDir = path.resolve(workspaceDir, '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
 const golfRoundsPath = path.join(workspaceDir, 'data', 'golf', 'rounds.json');
+const golfProfilePath = path.join(workspaceDir, 'data', 'golf', 'player-profile.json');
 const execFileAsync = promisify(execFile);
 const calendarFetchTimeoutMs = 3000;
 const googleCalendarAccount = process.env.MISSION_CONTROL_GOOGLE_ACCOUNT ?? 'drs@drs-engineering.net';
@@ -467,6 +468,13 @@ type RawGolfRound = {
   notes?: string;
 };
 
+type RawGolfProfile = {
+  playerName?: string;
+  handicapIndex?: number | null;
+  handicapSource?: string;
+  handicapUpdatedAt?: string;
+};
+
 function validNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value);
 }
@@ -541,11 +549,18 @@ function summarizeGolfCourses(rounds: GolfRoundSummary[]): GolfCourseSummary[] {
 
 export async function getGolfDashboard(): Promise<GolfDashboardData> {
   let rawRounds: RawGolfRound[] = [];
+  let rawProfile: RawGolfProfile = {};
   try {
     const raw = await fs.readFile(golfRoundsPath, 'utf8');
     rawRounds = JSON.parse(raw) as RawGolfRound[];
   } catch {
     rawRounds = [];
+  }
+  try {
+    const raw = await fs.readFile(golfProfilePath, 'utf8');
+    rawProfile = JSON.parse(raw) as RawGolfProfile;
+  } catch {
+    rawProfile = {};
   }
 
   const rounds = rawRounds
@@ -558,6 +573,12 @@ export async function getGolfDashboard(): Promise<GolfDashboardData> {
   return {
     rounds,
     courses: summarizeGolfCourses(rounds),
+    profile: {
+      playerName: rawProfile.playerName || 'Dave Salter',
+      handicapIndex: validNumber(rawProfile.handicapIndex) ? rawProfile.handicapIndex : undefined,
+      handicapSource: rawProfile.handicapSource || 'Not set',
+      handicapUpdatedAt: rawProfile.handicapUpdatedAt || '',
+    },
     stats: {
       rounds: rounds.length,
       completedRounds: completedRounds.length,
