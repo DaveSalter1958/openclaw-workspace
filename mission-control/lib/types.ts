@@ -199,6 +199,7 @@ export interface GolfDashboardData {
   courses: GolfCourseSummary[];
   profile: {
     playerName: string;
+    ghinNumber: string;
     handicapIndex?: number;
     handicapSource: string;
     handicapUpdatedAt: string;

@@ -1,6 +1,7 @@
 {
   "playerName": "Dave Salter",
-  "handicapIndex": null,
-  "handicapSource": "Not set",
-  "handicapUpdatedAt": ""
+  "ghinNumber": "154113",
+  "handicapIndex": 23.7,
+  "handicapSource": "Dave provided current Handicap Index by Telegram.",
+  "handicapUpdatedAt": "2026-08-14"
 }

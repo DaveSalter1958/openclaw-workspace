@@ -2516,6 +2516,24 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   font-weight: 750;
 }
 
+.golf-ghin-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(31, 90, 135, 0.14);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.68);
+  color: #315a77;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.golf-ghin-row strong {
+  color: #143c5f;
+  font-size: 0.9rem;
+}
+
 .golf-handicap-formula {
   padding: 9px 10px;
   border: 1px solid rgba(31, 90, 135, 0.14);

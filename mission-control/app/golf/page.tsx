@@ -188,6 +188,10 @@ export default async function GolfPage() {
               <span>{profile.playerName}</span>
             </div>
             <div className="golf-handicap-number">{numberLabel(profile.handicapIndex)}</div>
+            <div className="golf-ghin-row">
+              <span>GHIN</span>
+              <strong>{profile.ghinNumber || 'Not set'}</strong>
+            </div>
             <p>{profile.handicapIndex === undefined ? 'GHIN handicap index is not set locally yet.' : `Source: ${profile.handicapSource}`}</p>
             <div className="golf-handicap-formula">Course handicap = index x slope / 113 + rating - par</div>
           </section>

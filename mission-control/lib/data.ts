@@ -470,6 +470,7 @@ type RawGolfRound = {
 
 type RawGolfProfile = {
   playerName?: string;
+  ghinNumber?: string | number;
   handicapIndex?: number | null;
   handicapSource?: string;
   handicapUpdatedAt?: string;
@@ -575,6 +576,7 @@ export async function getGolfDashboard(): Promise<GolfDashboardData> {
     courses: summarizeGolfCourses(rounds),
     profile: {
       playerName: rawProfile.playerName || 'Dave Salter',
+      ghinNumber: rawProfile.ghinNumber ? String(rawProfile.ghinNumber) : '',
       handicapIndex: validNumber(rawProfile.handicapIndex) ? rawProfile.handicapIndex : undefined,
       handicapSource: rawProfile.handicapSource || 'Not set',
       handicapUpdatedAt: rawProfile.handicapUpdatedAt || '',
