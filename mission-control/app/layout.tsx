@@ -16,6 +16,7 @@ const navItems = [
   { href: '/teams', label: 'Agents', icon: '◉' },
   { href: '/workflows', label: 'PlanHubGuy', icon: '⚑' },
   { href: '/tools', label: 'Calendar', icon: '◷' },
+  { href: '/golf', label: 'Golf', icon: '●' },
   { href: '/willy', label: 'MyLife', icon: '✎' },
   { href: '/studio', label: 'Memory', icon: '☰' },
 ];

@@ -23,6 +23,9 @@ import type {
   AgentWorkItem,
   MemoryDashboardData,
   DailyMemoryEntry,
+  GolfDashboardData,
+  GolfRoundSummary,
+  GolfCourseSummary,
 } from '@/lib/types';
 
 const dataPath = path.join(process.cwd(), 'data', 'mission-control.json');
@@ -30,6 +33,7 @@ const missionControlData = data as MissionControlData;
 const workspaceDir = path.resolve(process.cwd(), '..');
 const openclawDir = path.resolve(workspaceDir, '..');
 const tasksPath = path.join(workspaceDir, 'second-brain', 'data', 'tasks.json');
+const golfRoundsPath = path.join(workspaceDir, 'data', 'golf', 'rounds.json');
 const execFileAsync = promisify(execFile);
 const calendarFetchTimeoutMs = 3000;
 const googleCalendarAccount = process.env.MISSION_CONTROL_GOOGLE_ACCOUNT ?? 'drs@drs-engineering.net';
@@ -433,6 +437,137 @@ export async function getCalendarView(days = 14): Promise<{ googleEvents: Calend
 
   googleEvents.sort((a, b) => a.startSort.localeCompare(b.startSort));
   return { googleEvents, projectItems, googleError };
+}
+
+type RawGolfShot = {
+  penalty?: number;
+};
+
+type RawGolfHole = {
+  number?: number;
+  score?: number;
+  putts?: number;
+  fairway?: string;
+  gir?: boolean;
+  penalties?: number;
+  notes?: unknown[];
+  shots?: RawGolfShot[];
+};
+
+type RawGolfRound = {
+  id?: string;
+  date?: string;
+  course?: string;
+  teeColor?: string;
+  teeName?: string;
+  format?: string;
+  gameType?: string;
+  status?: string;
+  holes?: RawGolfHole[];
+  notes?: string;
+};
+
+function validNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function average(values: number[]) {
+  if (!values.length) return undefined;
+  return Math.round((values.reduce((sum, value) => sum + value, 0) / values.length) * 10) / 10;
+}
+
+function teeLabel(round: RawGolfRound) {
+  return [round.teeColor, round.teeName].filter(Boolean).join(' / ') || 'Not set';
+}
+
+function summarizeGolfRound(round: RawGolfRound): GolfRoundSummary {
+  const holes = (round.holes || [])
+    .filter((hole) => validNumber(hole.number))
+    .sort((a, b) => (a.number || 0) - (b.number || 0));
+  const scored = holes.filter((hole) => validNumber(hole.score));
+  const totalScore = scored.length ? scored.reduce((sum, hole) => sum + (hole.score || 0), 0) : undefined;
+  const puttValues = holes.map((hole) => hole.putts).filter(validNumber);
+  const totalPutts = puttValues.length ? puttValues.reduce((sum, value) => sum + value, 0) : undefined;
+  const penalties = holes.reduce((sum, hole) => {
+    const holePenalties = validNumber(hole.penalties) ? hole.penalties : 0;
+    const shotPenalties = (hole.shots || []).reduce((shotSum, shot) => shotSum + (validNumber(shot.penalty) ? shot.penalty : 0), 0);
+    return sum + holePenalties + shotPenalties;
+  }, 0);
+
+  return {
+    id: round.id || `${round.date || 'unknown'}-${round.course || 'round'}`,
+    date: round.date || 'Unknown date',
+    course: round.course || 'Unknown course',
+    teeLabel: teeLabel(round),
+    format: round.format || 'Not set',
+    gameType: round.gameType || '',
+    status: round.status || 'unknown',
+    holesScored: scored.length,
+    totalScore,
+    totalPutts,
+    penalties: penalties || undefined,
+    notes: round.notes || '',
+    holes: holes.map((hole) => ({
+      number: hole.number || 0,
+      score: hole.score,
+      putts: hole.putts,
+      fairway: hole.fairway || '',
+      gir: hole.gir,
+      penalties: hole.penalties,
+      noteCount: Array.isArray(hole.notes) ? hole.notes.length : 0,
+    })),
+  };
+}
+
+function summarizeGolfCourses(rounds: GolfRoundSummary[]): GolfCourseSummary[] {
+  const byCourse = new Map<string, GolfRoundSummary[]>();
+  for (const round of rounds) {
+    byCourse.set(round.course, [...(byCourse.get(round.course) || []), round]);
+  }
+
+  return Array.from(byCourse.entries())
+    .map(([course, courseRounds]) => {
+      const scores = courseRounds.map((round) => round.totalScore).filter(validNumber);
+      return {
+        course,
+        rounds: courseRounds.length,
+        bestScore: scores.length ? Math.min(...scores) : undefined,
+        averageScore: average(scores),
+        latestDate: courseRounds.map((round) => round.date).sort().at(-1) || '',
+      };
+    })
+    .sort((a, b) => b.latestDate.localeCompare(a.latestDate));
+}
+
+export async function getGolfDashboard(): Promise<GolfDashboardData> {
+  let rawRounds: RawGolfRound[] = [];
+  try {
+    const raw = await fs.readFile(golfRoundsPath, 'utf8');
+    rawRounds = JSON.parse(raw) as RawGolfRound[];
+  } catch {
+    rawRounds = [];
+  }
+
+  const rounds = rawRounds
+    .map(summarizeGolfRound)
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const completedRounds = rounds.filter((round) => round.status === 'completed');
+  const scores = rounds.map((round) => round.totalScore).filter(validNumber);
+  const latestScored = rounds.find((round) => validNumber(round.totalScore));
+
+  return {
+    rounds,
+    courses: summarizeGolfCourses(rounds),
+    stats: {
+      rounds: rounds.length,
+      completedRounds: completedRounds.length,
+      bestScore: scores.length ? Math.min(...scores) : undefined,
+      averageScore: average(scores),
+      latestScore: latestScored?.totalScore,
+      latestCourse: latestScored?.course,
+      latestDate: latestScored?.date,
+    },
+  };
 }
 
 function sessionStatus(updatedAt?: number): 'active' | 'idle' {

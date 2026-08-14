@@ -159,3 +159,51 @@ export interface MemoryDashboardData {
   entries: DailyMemoryEntry[];
   latest?: DailyMemoryEntry | null;
 }
+
+export interface GolfHoleSummary {
+  number: number;
+  score?: number;
+  putts?: number;
+  fairway?: string;
+  gir?: boolean;
+  penalties?: number;
+  noteCount: number;
+}
+
+export interface GolfRoundSummary {
+  id: string;
+  date: string;
+  course: string;
+  teeLabel: string;
+  format: string;
+  gameType: string;
+  status: string;
+  holesScored: number;
+  totalScore?: number;
+  totalPutts?: number;
+  penalties?: number;
+  notes: string;
+  holes: GolfHoleSummary[];
+}
+
+export interface GolfCourseSummary {
+  course: string;
+  rounds: number;
+  bestScore?: number;
+  averageScore?: number;
+  latestDate: string;
+}
+
+export interface GolfDashboardData {
+  rounds: GolfRoundSummary[];
+  courses: GolfCourseSummary[];
+  stats: {
+    rounds: number;
+    completedRounds: number;
+    bestScore?: number;
+    averageScore?: number;
+    latestScore?: number;
+    latestCourse?: string;
+    latestDate?: string;
+  };
+}
