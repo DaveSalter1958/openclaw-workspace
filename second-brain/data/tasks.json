@@ -1,5 +1,17 @@
 [
   {
+    "id": "email-drs-drs-engineering-net-1a0009fc5ff797b6",
+    "title": "2025-222 TECCO submittal",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-08-15",
+    "dueTime": "17:00",
+    "project": "Email \u2014 DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Jody Robinson <jody@drs-engineering.net>\nDate: 2026-08-14 07:14\nSubject: 2025-222 TECCO submittal\nGmail message ID: 1a0009fc5ff797b6\nThread ID: 1a0009fc5ff797b6\n\nEmail body:\nGood morning Dave,\n\nNeil will work with Ahmad to complete this TECCO submittal today.\n\nHave a great weekend.\n\nThanks\n*Jody Robinson, PE*\n*President & Principal*\nJody@DRS-Engineering.net\nOffice: (818) 402-3962 Ext. 1\nCell: (360) 721-4548\n\n*Los Angeles, Santa Barbara, San Luis Obispo,*\n*Vancouver, Grand Rapids*",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-19ffd1d397fd8a69",
     "title": "Fwd: Your signature requested for DRS Engineering Engagement 2026",
     "status": "open",
