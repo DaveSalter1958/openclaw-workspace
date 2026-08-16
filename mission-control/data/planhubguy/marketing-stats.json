@@ -1,7 +1,7 @@
 {
   "dateRange": {
     "start": "2026-04-16",
-    "end": "2026-08-14"
+    "end": "2026-08-15"
   },
   "source": "Immutable PlanHubGuy campaign ledger: Dave@DRS-Engineering.net Gmail Sent + Response Log; legacy DRS/test/internal traffic excluded from outbound statistics",
   "basis": {
@@ -103,6 +103,6 @@
       "inbound_response": 2
     },
     "uniqueSentContacts": 2873,
-    "ledgerGeneratedAt": "2026-08-15T06:10:53.660950+00:00"
+    "ledgerGeneratedAt": "2026-08-16T06:11:28.107960+00:00"
   }
 }
