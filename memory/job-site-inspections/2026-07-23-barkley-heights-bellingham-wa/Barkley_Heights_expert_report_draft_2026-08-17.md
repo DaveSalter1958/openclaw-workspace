@@ -35,7 +35,7 @@ The following materials were available in the current project file and were used
 - DEI/Dibble Engineers' 2026-07-09 structural review, identified as `D002`.
 - Preliminary internal notes reviewing selected DEI calculation issues.
 
-The current local project folder contains descriptions and media references for the site photographs, but not the full original image files. The photo appendix in this draft therefore identifies each image by evidence number and description, pending insertion of the actual images.
+The current local project folder contains recovered image files for 16 of the 18 site photographs, copied into `site-photos/` with evidence-number filenames. The two photographs not yet recovered as local image files are `P006`, which was logged as a Telegram image with Dave's "wigglyness" caption but without a stored media UUID, and `P011`, which was logged with a Telegram file token rather than a `media://inbound/...jpg` path.
 
 ## 3. Site Visit Chronology
 
@@ -125,7 +125,7 @@ Based on the current field notes and photo descriptions, the following prelimina
 
 ## 7. Limitations
 
-This draft is based on currently available dictated notes, photo descriptions, and preliminary document summaries. The current project folder does not contain the original full-size site photograph files. The report should be updated once those images are exported and inserted.
+This draft is based on currently available dictated notes, recovered site photographs, photo descriptions, and preliminary document summaries. The project folder now contains recovered image files for `P001` through `P005`, `P007` through `P010`, and `P012` through `P018`. Photographs `P006` and `P011` remain pending recovery or re-export from Telegram/OpenClaw records.
 
 No final structural adequacy opinion is offered in this draft. A final opinion may require:
 
@@ -141,7 +141,7 @@ No final structural adequacy opinion is offered in this draft. A final opinion m
 
 ## 8. Recommended Next Steps
 
-1. Export and preserve the original site photographs corresponding to `P001` through `P018`.
+1. Recover or re-export the two missing image files corresponding to `P006` and `P011`; preserve the recovered `P001` through `P005`, `P007` through `P010`, and `P012` through `P018` image files in `site-photos/`.
 
 2. Insert selected photographs into the report body, with the remaining photos placed in a photo appendix.
 
@@ -157,26 +157,26 @@ No final structural adequacy opinion is offered in this draft. A final opinion m
 
 ## 9. Draft Evidence and Photo Appendix
 
-| ID | Description / Draft Use |
-| --- | --- |
-| `P001` | General arrival overview of retaining/shoring wall area and adjacent partially constructed foundation. |
-| `P002` | Overview from lower grade showing retaining/shoring wall, uphill residence/deck, foreground framing/foundation work, construction materials, vehicles, and adjacent residences. |
-| `P003` | Centered overview of wall below uphill residence/deck, including foreground construction, blue dumpster, ladder, covered materials, and exposed soil/rock. |
-| `P004` | Overview/detail of wall and stepped foundation/backfill area, including black waterproofing/drainage membrane or sheeting, gravel backfill, white pipes, and exposed soil/rock. |
-| `P005` | Close along-wall view showing wood lagging between vertical steel members, lower concrete wall, backfill/gravel path, adjacent foundation/building area, and temporary guardrail. |
-| `P006` | Dave-identified photo showing apparent wall "wigglyness." |
-| `P007` | Close along-wall view documenting wall alignment context. |
-| `P008` | Dave-identified photo showing proximity of the wall to the house at the north end. |
-| `P009` | Dave-identified photo showing settlement of the porch in the property above the wall at the south end. |
-| `P010` | Along-grade photo of existing uphill concrete retaining/site wall, gravel path, black fabric/sheeting, and downhill construction. |
-| `P011` | Dave-identified photo of Eco blocks at the top of the slope at the south end. |
-| `P012` | Dave-identified photo of gravel fill above the wall. |
-| `P013` | Dave-identified photo of pile misalignment at the south end. |
-| `P014` | Dave-identified photo of double piles at the north end. |
-| `P015` | Dave-identified photo showing the house above the property propped up. |
-| `P016` | Dave-identified possible head scarp/failure area beyond property line, with Eco blocks missing; timing unknown. |
-| `P017` | Dave-identified porch column foundation undermining. |
-| `P018` | Dave-identified original back-cut condition. |
+| ID | Local File | Description / Draft Use |
+| --- | --- | --- |
+| `P001` | `site-photos/P001_overview_wall_foundation.jpg` | General arrival overview of retaining/shoring wall area and adjacent partially constructed foundation. |
+| `P002` | `site-photos/P002_overview_lower_grade.jpg` | Overview from lower grade showing retaining/shoring wall, uphill residence/deck, foreground framing/foundation work, construction materials, vehicles, and adjacent residences. |
+| `P003` | `site-photos/P003_centered_wall_overview.jpg` | Centered overview of wall below uphill residence/deck, including foreground construction, blue dumpster, ladder, covered materials, and exposed soil/rock. |
+| `P004` | `site-photos/P004_wall_backfill_detail.jpg` | Overview/detail of wall and stepped foundation/backfill area, including black waterproofing/drainage membrane or sheeting, gravel backfill, white pipes, and exposed soil/rock. |
+| `P005` | `site-photos/P005_along_wall_close.jpg` | Close along-wall view showing wood lagging between vertical steel members, lower concrete wall, backfill/gravel path, adjacent foundation/building area, and temporary guardrail. |
+| `P006` | Pending recovery | Dave-identified photo showing apparent wall "wigglyness." |
+| `P007` | `site-photos/P007_close_along_wall_alignment.jpg` | Close along-wall view documenting wall alignment context. |
+| `P008` | `site-photos/P008_north_wall_house_proximity.jpg` | Dave-identified photo showing proximity of the wall to the house at the north end. |
+| `P009` | `site-photos/P009_south_porch_settlement.jpg` | Dave-identified photo showing settlement of the porch in the property above the wall at the south end. |
+| `P010` | `site-photos/P010_uphill_wall_gravel_path.jpg` | Along-grade photo of existing uphill concrete retaining/site wall, gravel path, black fabric/sheeting, and downhill construction. |
+| `P011` | Pending recovery | Dave-identified photo of Eco blocks at the top of the slope at the south end. |
+| `P012` | `site-photos/P012_gravel_fill_above_wall.jpg` | Dave-identified photo of gravel fill above the wall. |
+| `P013` | `site-photos/P013_south_pile_misalignment.jpg` | Dave-identified photo of pile misalignment at the south end. |
+| `P014` | `site-photos/P014_north_double_piles.jpg` | Dave-identified photo of double piles at the north end. |
+| `P015` | `site-photos/P015_uphill_house_propped.jpg` | Dave-identified photo showing the house above the property propped up. |
+| `P016` | `site-photos/P016_possible_head_scarp_missing_ecoblocks.jpg` | Dave-identified possible head scarp/failure area beyond property line, with Eco blocks missing; timing unknown. |
+| `P017` | `site-photos/P017_porch_column_foundation_undermined.jpg` | Dave-identified porch column foundation undermining. |
+| `P018` | `site-photos/P018_original_back_cut.jpg` | Dave-identified original back-cut condition. |
 | `M001` | Dave's estimate that the back-cut slope where black plastic/erosion-control material was present may have been approximately 55 to 70 degrees. |
 | `M002` | Dave's measurement note that soldier piles approximately 3 feet above the concrete wall/wall-beam connection leaned toward the uphill side by approximately 0.6 to 1.4 degrees. |
 | `C001` | Dave's summary of an approximately 15-minute conversation with David Ebenal. |
@@ -192,5 +192,4 @@ No final structural adequacy opinion is offered in this draft. A final opinion m
 - Confirm the measurement method and source data for `M001` and `M002`.
 - Confirm whether any of Dave's preliminary observations should be elevated into final opinions.
 - Confirm whether DEI's calculation review should be incorporated into the report or kept as separate work product.
-- Export and insert the original full-size site photographs.
-
+- Recover or re-export `P006` and `P011`, then insert the remaining photographs into the final report or photo appendix.
