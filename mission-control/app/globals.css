@@ -2619,10 +2619,100 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   gap: 8px;
 }
 
+.woods-dropbox-browser {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(38, 132, 87, 0.28);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(236, 253, 245, 0.92), rgba(220, 244, 232, 0.88));
+}
+
+.woods-dropbox-path-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px 112px 88px;
+  gap: 8px;
+  align-items: center;
+}
+
+.woods-dropbox-path-input {
+  min-width: 0;
+}
+
+.woods-dropbox-entries {
+  display: grid;
+  max-height: 360px;
+  overflow: auto;
+  border: 1px solid rgba(38, 132, 87, 0.22);
+  border-radius: 8px;
+  background: rgba(248, 255, 251, 0.78);
+}
+
+.woods-dropbox-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(38, 132, 87, 0.12);
+}
+
+.woods-dropbox-entry:last-child {
+  border-bottom: 0;
+}
+
+.woods-dropbox-folder,
+.woods-dropbox-file {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #14533a;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.woods-dropbox-folder {
+  cursor: pointer;
+}
+
+.woods-dropbox-folder span:last-child,
+.woods-dropbox-file span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.woods-dropbox-file input {
+  flex: 0 0 auto;
+}
+
+.woods-dropbox-entry-meta {
+  justify-self: end;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+.woods-dropbox-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.woods-dropbox-message {
+  overflow-wrap: anywhere;
+}
+
 .woods-document-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 150px;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
   align-items: start;
   padding: 10px 12px;
   border: 1px solid rgba(31, 90, 135, 0.16);
@@ -2632,7 +2722,9 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-document-main {
   display: grid;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) 88px 88px;
+  gap: 10px;
+  align-items: center;
   min-width: 0;
 }
 
@@ -2666,10 +2758,19 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 }
 
 .woods-document-open-link {
-  width: fit-content;
-  color: #17466e;
-  font-size: 0.78rem;
-  font-weight: 900;
+  width: 88px;
+  justify-self: end;
+}
+
+.woods-document-title-input {
+  font-weight: 850;
+}
+
+.woods-document-remove-button {
+  min-height: 36px;
+  width: 88px;
+  justify-self: end;
+  padding: 6px 10px;
 }
 
 .woods-document-category,

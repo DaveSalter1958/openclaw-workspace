@@ -5,6 +5,17 @@ import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
 
 const statusOptions = ['All', 'Open', 'In progress', 'Waiting', 'Done'];
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
+
+type DropboxEntry = {
+  id: string;
+  name: string;
+  path: string;
+  isDir: boolean;
+  size: number | null;
+  mimeType: string;
+  modifiedAt: string;
+};
 
 function dateInputValue(value: string) {
   return isoDatePattern.test(value) ? value : '';
@@ -88,6 +99,13 @@ export function WoodsDriveChecklist({
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [message, setMessage] = useState('');
+  const [dropboxPath, setDropboxPath] = useState(defaultDropboxPath);
+  const [dropboxEntries, setDropboxEntries] = useState<DropboxEntry[]>([]);
+  const [dropboxParentPath, setDropboxParentPath] = useState('');
+  const [selectedDropboxPaths, setSelectedDropboxPaths] = useState<string[]>([]);
+  const [dropboxMessage, setDropboxMessage] = useState('');
+  const [showDropboxBrowser, setShowDropboxBrowser] = useState(false);
+  const [isBrowsingDropbox, setIsBrowsingDropbox] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const openCount = useMemo(() => actions.filter((action) => !action.done).length, [actions]);
@@ -114,6 +132,13 @@ export function WoodsDriveChecklist({
     setActions((current) => current.map((action) => action.id === id ? { ...action, ...patch } : action));
   }
 
+  function addAction() {
+    setQuery('');
+    setStatusFilter('All');
+    setActions((current) => [newAction(), ...current]);
+    setMessage('Added action locally. Save changes when ready.');
+  }
+
   function removeAction(id: string) {
     setActions((current) => current.filter((action) => action.id !== id));
   }
@@ -124,6 +149,75 @@ export function WoodsDriveChecklist({
 
   function removeDocument(id: string) {
     setDocuments((current) => current.filter((document) => document.id !== id));
+  }
+
+  async function browseDropbox(path = dropboxPath) {
+    setShowDropboxBrowser(true);
+    setDropboxMessage('');
+    setIsBrowsingDropbox(true);
+    try {
+      const response = await fetch(`/mission-control/api/woods-drive/dropbox?path=${encodeURIComponent(path)}`);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setDropboxMessage(data.error || 'Could not browse Dropbox.');
+        return;
+      }
+      setDropboxPath(data.path || '');
+      setDropboxParentPath(data.parentPath || '');
+      setDropboxEntries(Array.isArray(data.entries) ? data.entries : []);
+      setSelectedDropboxPaths([]);
+      if (!Array.isArray(data.entries) || data.entries.length === 0) {
+        setDropboxMessage('This Dropbox folder is empty.');
+      }
+    } catch (error) {
+      setDropboxMessage(error instanceof Error ? error.message : 'Could not browse Dropbox.');
+    } finally {
+      setIsBrowsingDropbox(false);
+    }
+  }
+
+  function toggleDropboxFile(path: string) {
+    setSelectedDropboxPaths((current) => current.includes(path)
+      ? current.filter((item) => item !== path)
+      : [...current, path]);
+  }
+
+  function addSelectedDropboxDocuments() {
+    const selectedEntries = dropboxEntries.filter((entry) => !entry.isDir && selectedDropboxPaths.includes(entry.path));
+    if (selectedEntries.length === 0) {
+      setDropboxMessage('Select one or more Dropbox files first.');
+      return;
+    }
+
+    const existingPaths = new Set(documents.map((document) => document.path));
+    const additions = selectedEntries
+      .filter((entry) => !existingPaths.has(`/${entry.path}`))
+      .map<WoodsDriveDocument>((entry, index) => ({
+        id: typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `woods-dropbox-document-${Date.now()}-${index}`,
+        title: entry.name,
+        category: 'Dropbox',
+        url: '',
+        path: `/${entry.path}`,
+        notes: entry.modifiedAt ? `Dropbox file modified ${entry.modifiedAt.slice(0, 10)}` : 'Dropbox file selected from browser.',
+        status: 'Selected',
+      }));
+
+    if (additions.length === 0) {
+      setDropboxMessage('Those files are already in the document list.');
+      return;
+    }
+
+    setDocuments((current) => [...current, ...additions]);
+    setSelectedDropboxPaths([]);
+    setDropboxMessage(`Added ${additions.length} document${additions.length === 1 ? '' : 's'} locally. Save documents when ready.`);
+  }
+
+  function documentOpenHref(document: WoodsDriveDocument) {
+    if (document.url.trim()) return document.url.trim();
+    if (!document.path.trim()) return '';
+    return `/mission-control/api/woods-drive/dropbox/open?path=${encodeURIComponent(document.path)}`;
   }
 
   function saveActions(nextActions = actions) {
@@ -189,6 +283,9 @@ export function WoodsDriveChecklist({
             <p className="muted small">{documents.length} project document links</p>
           </div>
           <div className="footer-actions">
+            <button className="button secondary" type="button" onClick={() => browseDropbox()}>
+              {showDropboxBrowser ? 'Reload Dropbox' : 'Browse Dropbox'}
+            </button>
             <button className="button secondary" type="button" onClick={() => setDocuments((current) => [...current, newDocument()])}>
               + Add document
             </button>
@@ -201,23 +298,83 @@ export function WoodsDriveChecklist({
           </div>
         </div>
 
+        {showDropboxBrowser ? (
+          <div className="woods-dropbox-browser">
+            <div className="woods-dropbox-path-row">
+              <input
+                className="input woods-dropbox-path-input"
+                value={dropboxPath}
+                onChange={(event) => setDropboxPath(event.target.value)}
+                placeholder="Dropbox folder path"
+              />
+              <button className="button secondary" type="button" onClick={() => browseDropbox(dropboxParentPath || defaultDropboxPath)} disabled={isBrowsingDropbox || !dropboxPath}>
+                Up
+              </button>
+              <button className="button" type="button" onClick={() => browseDropbox()} disabled={isBrowsingDropbox}>
+                {isBrowsingDropbox ? 'Loading...' : 'Open'}
+              </button>
+              <button className="button secondary" type="button" onClick={() => setShowDropboxBrowser(false)} disabled={isBrowsingDropbox}>
+                Hide
+              </button>
+            </div>
+            {dropboxEntries.length > 0 ? (
+              <div className="woods-dropbox-entries" aria-label="Dropbox browser">
+                {dropboxEntries.map((entry) => (
+                  <div className="woods-dropbox-entry" key={entry.id}>
+                    {entry.isDir ? (
+                      <button className="woods-dropbox-folder" type="button" onClick={() => browseDropbox(entry.path)}>
+                        <span aria-hidden="true">▸</span>
+                        <span>{entry.name}</span>
+                      </button>
+                    ) : (
+                      <label className="woods-dropbox-file">
+                        <input
+                          type="checkbox"
+                          checked={selectedDropboxPaths.includes(entry.path)}
+                          onChange={() => toggleDropboxFile(entry.path)}
+                        />
+                        <span>{entry.name}</span>
+                      </label>
+                    )}
+                    <span className="muted small woods-dropbox-entry-meta">
+                      {entry.isDir ? 'Folder' : entry.modifiedAt ? entry.modifiedAt.slice(0, 10) : 'File'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="reference-empty-card compact-empty">
+                {isBrowsingDropbox ? 'Loading Dropbox...' : 'Open a Dropbox folder to select files.'}
+              </div>
+            )}
+            <div className="woods-dropbox-footer">
+              <button className="button secondary" type="button" onClick={addSelectedDropboxDocuments} disabled={selectedDropboxPaths.length === 0}>
+                Add selected
+              </button>
+              <span className="muted small">{selectedDropboxPaths.length} selected</span>
+              {dropboxMessage ? <span className="muted small woods-dropbox-message">{dropboxMessage}</span> : null}
+            </div>
+          </div>
+        ) : null}
+
         <div className="woods-document-list">
           {documents.map((document) => (
             <article className="woods-document-row" key={document.id}>
               <div className="woods-document-main">
-                <div className="woods-document-edit-grid">
-                  <input className="input woods-cell-input" value={document.category} onChange={(event) => updateDocument(document.id, { category: event.target.value })} placeholder="Category" />
-                  <input className="input woods-cell-input" value={document.status} onChange={(event) => updateDocument(document.id, { status: event.target.value })} placeholder="Status" />
-                </div>
-                <input className="input woods-cell-input" value={document.title} onChange={(event) => updateDocument(document.id, { title: event.target.value })} placeholder="Document title" />
-                <input className="input woods-cell-input" value={document.url} onChange={(event) => updateDocument(document.id, { url: event.target.value })} placeholder="Link URL" />
-                <input className="input woods-cell-input" value={document.path} onChange={(event) => updateDocument(document.id, { path: event.target.value })} placeholder="File path or Dropbox path" />
-                <textarea className="input woods-cell-textarea woods-document-notes" rows={2} value={document.notes} onChange={(event) => updateDocument(document.id, { notes: event.target.value })} placeholder="Notes" />
-                {document.url ? <a className="woods-document-open-link" href={document.url} target="_blank" rel="noreferrer">Open document</a> : null}
+                <input className="input woods-cell-input woods-document-title-input" value={document.title} onChange={(event) => updateDocument(document.id, { title: event.target.value })} placeholder="Document title" />
+                {documentOpenHref(document) ? (
+                  <a className="button secondary woods-document-open-link" href={documentOpenHref(document)} target="_blank" rel="noreferrer">
+                    Open
+                  </a>
+                ) : (
+                  <button className="button secondary woods-document-open-link" type="button" disabled>
+                    Open
+                  </button>
+                )}
+                <button className="compact-task-button delete woods-document-remove-button" type="button" onClick={() => removeDocument(document.id)}>
+                  Remove
+                </button>
               </div>
-              <button className="compact-task-button delete woods-remove-action" type="button" onClick={() => removeDocument(document.id)}>
-                Remove
-              </button>
             </article>
           ))}
         </div>
@@ -234,7 +391,7 @@ export function WoodsDriveChecklist({
           <p className="muted small">{openCount} open / {actions.length} total</p>
         </div>
         <div className="footer-actions">
-          <button className="button secondary" type="button" onClick={() => setActions((current) => [...current, newAction()])}>
+          <button className="button secondary" type="button" onClick={addAction}>
             + Add action
           </button>
           <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
