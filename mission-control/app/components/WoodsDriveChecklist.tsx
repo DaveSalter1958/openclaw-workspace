@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
-import type { WoodsDriveAction } from '@/lib/woods-drive';
+import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
 
 const statusOptions = ['All', 'Open', 'In progress', 'Waiting', 'Done'];
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -25,6 +25,21 @@ function newAction(): WoodsDriveAction {
     status: 'Open',
     notes: '',
     done: false,
+  };
+}
+
+function newDocument(): WoodsDriveDocument {
+  const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
+    ? crypto.randomUUID()
+    : `woods-document-${Date.now()}`;
+  return {
+    id,
+    title: '',
+    category: '',
+    url: '',
+    path: '',
+    notes: '',
+    status: 'Needs selection',
   };
 }
 
@@ -60,9 +75,16 @@ function AutosizeTextarea({
   );
 }
 
-export function WoodsDriveChecklist({ initialActions }: { initialActions: WoodsDriveAction[] }) {
+export function WoodsDriveChecklist({
+  initialActions,
+  initialDocuments,
+}: {
+  initialActions: WoodsDriveAction[];
+  initialDocuments: WoodsDriveDocument[];
+}) {
   const [actions, setActions] = useState<WoodsDriveAction[]>(initialActions);
-  const [isOpen, setIsOpen] = useState(false);
+  const [documents, setDocuments] = useState<WoodsDriveDocument[]>(initialDocuments);
+  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | null>(null);
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [message, setMessage] = useState('');
@@ -96,6 +118,14 @@ export function WoodsDriveChecklist({ initialActions }: { initialActions: WoodsD
     setActions((current) => current.filter((action) => action.id !== id));
   }
 
+  function updateDocument(id: string, patch: Partial<WoodsDriveDocument>) {
+    setDocuments((current) => current.map((document) => document.id === id ? { ...document, ...patch } : document));
+  }
+
+  function removeDocument(id: string) {
+    setDocuments((current) => current.filter((document) => document.id !== id));
+  }
+
   function saveActions(nextActions = actions) {
     setMessage('');
     startTransition(async () => {
@@ -116,13 +146,82 @@ export function WoodsDriveChecklist({ initialActions }: { initialActions: WoodsD
     });
   }
 
-  if (!isOpen) {
+  function saveDocuments(nextDocuments = documents) {
+    setMessage('');
+    startTransition(async () => {
+      const response = await fetch('/mission-control/api/woods-drive/documents', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ documents: nextDocuments }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setMessage(data.error || 'Could not save Woods Drive documents.');
+        return;
+      }
+
+      setDocuments(data.documents || []);
+      setMessage('Saved.');
+    });
+  }
+
+  if (!activePanel) {
     return (
       <section className="woods-action-launch">
-        <button className="woods-action-open-button" type="button" onClick={() => setIsOpen(true)}>
+        <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('actions')}>
           Action
         </button>
-        <span className="muted small">{openCount} open / {actions.length} total</span>
+        <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('documents')}>
+          Document
+        </button>
+        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs</span>
+      </section>
+    );
+  }
+
+  if (activePanel === 'documents') {
+    return (
+      <section className="card woods-checklist-card">
+        <div className="section-title woods-section-title">
+          <div>
+            <h2>Critical documents</h2>
+            <p className="muted small">{documents.length} project document links</p>
+          </div>
+          <div className="footer-actions">
+            <button className="button secondary" type="button" onClick={() => setDocuments((current) => [...current, newDocument()])}>
+              + Add document
+            </button>
+            <button className="button" type="button" onClick={() => saveDocuments()} disabled={isPending}>
+              {isPending ? 'Saving...' : 'Save documents'}
+            </button>
+            <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+
+        <div className="woods-document-list">
+          {documents.map((document) => (
+            <article className="woods-document-row" key={document.id}>
+              <div className="woods-document-main">
+                <div className="woods-document-edit-grid">
+                  <input className="input woods-cell-input" value={document.category} onChange={(event) => updateDocument(document.id, { category: event.target.value })} placeholder="Category" />
+                  <input className="input woods-cell-input" value={document.status} onChange={(event) => updateDocument(document.id, { status: event.target.value })} placeholder="Status" />
+                </div>
+                <input className="input woods-cell-input" value={document.title} onChange={(event) => updateDocument(document.id, { title: event.target.value })} placeholder="Document title" />
+                <input className="input woods-cell-input" value={document.url} onChange={(event) => updateDocument(document.id, { url: event.target.value })} placeholder="Link URL" />
+                <input className="input woods-cell-input" value={document.path} onChange={(event) => updateDocument(document.id, { path: event.target.value })} placeholder="File path or Dropbox path" />
+                <textarea className="input woods-cell-textarea woods-document-notes" rows={2} value={document.notes} onChange={(event) => updateDocument(document.id, { notes: event.target.value })} placeholder="Notes" />
+                {document.url ? <a className="woods-document-open-link" href={document.url} target="_blank" rel="noreferrer">Open document</a> : null}
+              </div>
+              <button className="compact-task-button delete woods-remove-action" type="button" onClick={() => removeDocument(document.id)}>
+                Remove
+              </button>
+            </article>
+          ))}
+        </div>
+        {message ? <p className="muted small woods-save-message">{message}</p> : null}
       </section>
     );
   }
@@ -138,7 +237,7 @@ export function WoodsDriveChecklist({ initialActions }: { initialActions: WoodsD
           <button className="button secondary" type="button" onClick={() => setActions((current) => [...current, newAction()])}>
             + Add action
           </button>
-          <button className="button secondary" type="button" onClick={() => setIsOpen(false)}>
+          <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
             Close
           </button>
           <button className="button" type="button" onClick={() => saveActions()} disabled={isPending}>

@@ -1,6 +1,80 @@
 {
   "name": "Woods Drive Project",
   "updatedAt": "2026-08-18T17:05:00.000Z",
+  "documents": [
+    {
+      "id": "woods-doc-drs-dakota-subconsultant-20260819",
+      "title": "20260819 DRS / Dakota Subconsultant Agreement - Professional.docx",
+      "category": "Contract - DRS / Dakota",
+      "url": "/mission-control/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
+      "path": "/home/davesalter/.openclaw/workspace/mission-control/public/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
+      "notes": "Added from Dave's Telegram attachment on 2026-08-18.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-doc-master-developer-executed",
+      "title": "1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
+      "category": "Contract - executed",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Construction%20Contract%20Signed/1643%20Woods%20Drive%20-%20Master%20Developer%20Consultant%20Agreement%20%28EXECUTION%20VERSION%29.pdf?_subject_uid=11819028&w=AABpyuZO5MylJtwTW383SvL3ZJSiQPyqW--ibVYzKOk-Eg",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Construction Contract Signed/1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
+      "notes": "Likely signed construction-management agreement. Confirm exact parties and field reliance before marking final.",
+      "status": "Needs review"
+    },
+    {
+      "id": "woods-doc-final-contract-client-srs-fee",
+      "title": "20251219 Final Contract to Client - with SRS Fee included.pdf",
+      "category": "Contract - client / SRS",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Subconsultant%20Agreement/20251219%20%20Final%20Contract%20to%20Client%20-%20with%20SRS%20Fee%20included.pdf?_subject_uid=11819028&w=AAB-T7VYVY-SKae9TSAvECyZYnKL4QNijfZ5DXE-T_qA_w",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Subconsultant Agreement/20251219  Final Contract to Client - with SRS Fee included.pdf",
+      "notes": "Candidate for owner/client agreement package. Confirm whether this is the owner-Dakota contract Dave wants tracked.",
+      "status": "Needs review"
+    },
+    {
+      "id": "woods-doc-dakota-bid-to-srs",
+      "title": "20251209 Dakota Bid to SRS.docx",
+      "category": "Dakota / SRS",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Subconsultant%20Agreement/20251209%20%20Dakota%20Bid%20to%20SRS.docx?_subject_uid=11819028&w=AAAKkfFH3xijT4oXJbg_wRBVw5HOAKezmoqxVp9nHKEO1A",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Subconsultant Agreement/20251209  Dakota Bid to SRS.docx",
+      "notes": "Dakota bid/subconsultant document already mirrored into the local Woods Drive project folder.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-doc-permit-submittal-set",
+      "title": "1643 Woods Drive Permit Submittal Set (not yet permit-stamped).pdf",
+      "category": "Plans / permit",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Permit%20Submittal%20Set%20%28not%20yet%20permit-stamped%29.pdf?_subject_uid=11819028&w=AADhBg-Mfev0LtplanxtOtvhxOx4G995BED9asgdsAUETQ",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Permit Submittal Set (not yet permit-stamped).pdf",
+      "notes": "Candidate current plan set. Confirm whether there is a permit-stamped or later field set.",
+      "status": "Needs current-version check"
+    },
+    {
+      "id": "woods-doc-slope-stabilization-plan-submittal",
+      "title": "20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
+      "category": "Plans / construction",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2025/2025-202%201643%20Woods%20Drive%20-%20SRS/Submittals/20251114%20Submittal%20No%2004/20251114%20Slope%20Stabilization%20Plan%20-%202025-202%201643%20Woods%20Drive.pdf?_subject_uid=11819028&w=AABAVjl6RKNzPNXz3U-M6lOY-6d6PaT0SysaExsbeHDZdQ",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS/Submittals/20251114 Submittal No 04/20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
+      "notes": "Candidate construction slope-stabilization plan from DRS 2025-202 folder.",
+      "status": "Needs current-version check"
+    },
+    {
+      "id": "woods-doc-design-document",
+      "title": "1643 Woods Drive Slope Stabilization Design Document.pdf",
+      "category": "Design report",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Slope%20Stabilization%20Design%20Document.pdf?_subject_uid=11819028&w=AACwOy3AJ-ZEksE2yUN5UIyucQP8XRH7Xmvi1vijs2iKjg",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Slope Stabilization Design Document.pdf",
+      "notes": "Design narrative/supporting document.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-doc-geotech-report",
+      "title": "1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
+      "category": "Geotechnical",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Geotechnical%20Investigation%20Report_FINAL%20%28with%20Research%29.pdf?_subject_uid=11819028&w=AAATLKu9UAsj2N1WUdmifc9Hv3NbDMLq_Oh0MpdE2WmgtA",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
+      "notes": "Geotechnical report for project reference.",
+      "status": "Linked"
+    }
+  ],
   "actions": [
     {
       "id": "woods-pm-001",
