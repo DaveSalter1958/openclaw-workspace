@@ -3,7 +3,6 @@
 import { useMemo, useState, useTransition } from 'react';
 import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
 
-const statusOptions = ['All', 'Open', 'In progress', 'Waiting', 'Done'];
 const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
 type ActionSortKey = 'by' | 'date' | 'priority';
 type SortDirection = 'asc' | 'desc';
@@ -108,8 +107,6 @@ export function WoodsDriveChecklist({
   const [actions, setActions] = useState<WoodsDriveAction[]>(initialActions);
   const [documents, setDocuments] = useState<WoodsDriveDocument[]>(initialDocuments);
   const [activePanel, setActivePanel] = useState<'actions' | 'documents' | null>(null);
-  const [query, setQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
   const [message, setMessage] = useState('');
   const [dropboxPath, setDropboxPath] = useState(defaultDropboxPath);
   const [dropboxEntries, setDropboxEntries] = useState<DropboxEntry[]>([]);
@@ -131,28 +128,10 @@ export function WoodsDriveChecklist({
     () => actions.filter((action) => !action.done && isOverdue(action.dueDate)).length,
     [actions],
   );
-  const filteredActions = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    return actions.filter((action) => {
-      const status = action.done ? 'Done' : action.status || 'Open';
-      const matchesStatus = statusFilter === 'All' || status === statusFilter;
-      const haystack = [
-        action.sourceId,
-        action.phase,
-        action.text,
-        action.responsible,
-        action.dueDate,
-        action.priority,
-        action.status,
-        action.notes,
-      ].join(' ').toLowerCase();
-      return matchesStatus && (!needle || haystack.includes(needle));
-    });
-  }, [actions, query, statusFilter]);
   const visibleActions = useMemo(() => {
-    if (!sortKey) return filteredActions;
+    if (!sortKey) return actions;
 
-    return [...filteredActions].sort((left, right) => {
+    return [...actions].sort((left, right) => {
       let comparison = 0;
       if (sortKey === 'by') {
         comparison = left.responsible.localeCompare(right.responsible, undefined, { sensitivity: 'base' });
@@ -168,7 +147,7 @@ export function WoodsDriveChecklist({
 
       return sortDirection === 'asc' ? comparison : -comparison;
     });
-  }, [filteredActions, sortDirection, sortKey]);
+  }, [actions, sortDirection, sortKey]);
 
   function sortLabel(key: ActionSortKey) {
     if (sortKey !== key) return '-';
@@ -190,21 +169,8 @@ export function WoodsDriveChecklist({
   }
 
   function addAction() {
-    setQuery('');
-    setStatusFilter('All');
     setActions((current) => [newAction(), ...current]);
-    setMessage('Added action locally. Save changes when ready.');
-  }
-
-  function completeAction(id: string) {
-    const action = actions.find((item) => item.id === id);
-    const label = action?.text?.trim() || action?.sourceId || 'this action';
-    const confirmed = window.confirm(`Completing "${label}" will remove it from the action list.\n\nYes: remove it\nNo: keep it`);
-    if (!confirmed) return;
-
-    const nextActions = actions.filter((item) => item.id !== id);
-    setActions(nextActions);
-    saveActions(nextActions);
+    setMessage('Added action locally. Close to save changes.');
   }
 
   function removeAction(id: string) {
@@ -301,7 +267,7 @@ export function WoodsDriveChecklist({
     return `/mission-control/api/woods-drive/dropbox/open?path=${encodeURIComponent(document.path)}`;
   }
 
-  function saveActions(nextActions = actions) {
+  function saveActions(nextActions = actions, onSaved?: () => void) {
     setMessage('');
     startTransition(async () => {
       const response = await fetch('/mission-control/api/woods-drive/checklist', {
@@ -318,6 +284,7 @@ export function WoodsDriveChecklist({
 
       setActions(data.actions || []);
       setMessage('Saved.');
+      onSaved?.();
     });
   }
 
@@ -478,27 +445,11 @@ export function WoodsDriveChecklist({
           <button className="button secondary" type="button" onClick={addAction}>
             + Add action
           </button>
-          <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
-            Close
-          </button>
-          <button className="button" type="button" onClick={() => saveActions()} disabled={isPending}>
-            {isPending ? 'Saving...' : 'Save changes'}
+          <button className="button secondary" type="button" onClick={() => saveActions(actions, () => setActivePanel(null))} disabled={isPending}>
+            {isPending ? 'Saving...' : 'Close'}
           </button>
         </div>
       </div>
-
-          <div className="woods-toolbar">
-            <input
-              className="input woods-search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search actions"
-            />
-            <select className="input woods-status-filter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
-              {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
-            </select>
-            <span className="muted small woods-filter-count">{visibleActions.length} shown</span>
-          </div>
 
           <div className="woods-table-wrap">
             {actions.length ? (
@@ -521,7 +472,6 @@ export function WoodsDriveChecklist({
                         Priority <span>{sortLabel('priority')}</span>
                       </button>
                     </th>
-                    <th className="woods-col-complete">Status</th>
                     <th className="woods-col-remove">Remove</th>
                   </tr>
                 </thead>
@@ -531,7 +481,7 @@ export function WoodsDriveChecklist({
                       <td className="woods-col-action">
                         <textarea
                           className="input woods-cell-input woods-cell-textarea woods-action-text"
-                          rows={2}
+                          rows={1}
                           value={action.text}
                           onChange={(event) => updateAction(action.id, { text: event.target.value })}
                           placeholder="Describe the action"
@@ -541,7 +491,7 @@ export function WoodsDriveChecklist({
                         <div className="woods-owner-cell">
                           <textarea
                             className="input woods-cell-input woods-cell-textarea woods-responsible-input"
-                            rows={2}
+                            rows={1}
                             value={action.responsible}
                             onChange={(event) => updateAction(action.id, { responsible: event.target.value })}
                             placeholder="Name"
@@ -569,15 +519,9 @@ export function WoodsDriveChecklist({
                           <option value="">None</option>
                         </select>
                       </td>
-                      <td className="woods-col-complete">
-                        <button className="woods-status-button" type="button" onClick={() => completeAction(action.id)}>
-                          <span aria-hidden="true">✓</span>
-                          Open
-                        </button>
-                      </td>
                       <td className="woods-col-remove">
-                        <button className="woods-remove-action-button" type="button" onClick={() => removeAction(action.id)}>
-                          Remove
+                        <button className="woods-remove-action-button" type="button" onClick={() => removeAction(action.id)} aria-label="Remove action">
+                          X
                         </button>
                       </td>
                     </tr>

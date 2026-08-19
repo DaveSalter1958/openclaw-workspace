@@ -2664,22 +2664,6 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   flex-wrap: wrap;
 }
 
-.woods-toolbar {
-  display: grid;
-  grid-template-columns: minmax(260px, 1fr) 180px auto;
-  gap: 8px;
-  align-items: center;
-  padding: 8px;
-  border: 1px solid rgba(31, 90, 135, 0.12);
-  border-radius: 8px;
-  background: #ffffff;
-}
-
-.woods-filter-count {
-  white-space: nowrap;
-  font-weight: 800;
-}
-
 .woods-action-launch {
   display: inline-flex;
   align-items: center;
@@ -2897,7 +2881,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-action-table {
   width: 100%;
-  min-width: 690px;
+  min-width: 612px;
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
@@ -2907,7 +2891,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 .woods-action-table td {
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   border-right: 1px solid rgba(15, 23, 42, 0.06);
-  padding: 10px 6px;
+  padding: 0 2px;
   vertical-align: middle;
 }
 
@@ -2917,7 +2901,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   z-index: 2;
   background: #f8fafc;
   color: #334155;
-  font-size: 0.78rem;
+  font-size: 0.62rem;
   font-weight: 900;
   line-height: 1;
   text-align: left;
@@ -2928,9 +2912,9 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 2px;
   width: 100%;
-  min-height: 22px;
+  min-height: 14px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -2945,7 +2929,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-sort-button span {
   color: #64748b;
-  font-size: 0.7rem;
+  font-size: 0.58rem;
   font-weight: 900;
 }
 
@@ -2971,12 +2955,13 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-cell-input,
 .woods-cell-textarea {
-  min-height: 34px;
-  border-radius: 8px;
-  padding: 7px 10px;
+  min-height: 14px;
+  height: 14px;
+  border-radius: 4px;
+  padding: 0 4px;
   font-family: inherit;
-  font-size: 0.84rem;
-  line-height: 1.38;
+  font-size: 0.58rem;
+  line-height: 14px;
   font-weight: 750;
   color: #1f2937;
   border-color: transparent;
@@ -2988,6 +2973,13 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   resize: none;
   overflow: auto;
   scrollbar-width: none;
+}
+
+textarea.woods-cell-textarea {
+  min-height: 14px;
+  height: 14px;
+  max-height: 14px;
+  resize: none;
 }
 
 .woods-cell-textarea::-webkit-scrollbar {
@@ -3004,15 +2996,15 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   background: transparent;
   padding-left: 0;
   padding-right: 0;
-  font-size: 0.88rem;
+  font-size: 0.6rem;
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 14px;
 }
 
 .woods-action-text:focus {
   background: #f8fafc;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .woods-priority-select {
@@ -3049,7 +3041,6 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   color: #64748b;
 }
 
-.woods-col-complete { width: 78px; }
 .woods-col-remove { width: 70px; }
 .woods-col-action { width: 320px; }
 .woods-col-owner { width: 104px; }
@@ -3084,11 +3075,12 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   display: grid;
   place-items: center;
   width: 58px;
-  min-height: 34px;
-  border-radius: 8px;
+  min-height: 14px;
+  height: 14px;
+  border-radius: 4px;
   background: #fff7ed;
   color: #92400e;
-  font-size: 0.76rem;
+  font-size: 0.58rem;
   font-weight: 900;
   line-height: 1;
   text-align: center;
@@ -3111,76 +3103,32 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-priority-select {
   width: 100%;
-  height: 34px;
-  padding-left: 10px;
-  padding-right: 8px;
-  border-radius: 8px;
+  height: 14px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 4px;
   appearance: none;
   text-align: center;
-}
-
-.woods-action-table th.woods-col-complete,
-.woods-action-table td.woods-col-complete {
-  text-align: center;
-}
-
-.woods-action-table th.woods-col-complete {
-  background: #f8fafc;
-}
-
-.woods-action-table td.woods-col-complete {
-  background: #ffffff;
-}
-
-.woods-status-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 34px;
-  padding: 0 2px;
-  border: 0;
-  background: transparent;
-  color: #1f2937;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 750;
-  line-height: 1;
-}
-
-.woods-status-button span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #4ade80;
-  border-radius: 999px;
-  color: #16a34a;
-  font-size: 0.8rem;
-  font-weight: 900;
 }
 
 .woods-remove-action-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 58px;
-  height: 34px;
+  width: 18px;
+  height: 14px;
   border: 1px solid rgba(185, 28, 28, 0.16);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff1f2;
   color: #9f1239;
   cursor: pointer;
   font: inherit;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   font-weight: 900;
   line-height: 1;
 }
 
-.woods-remove-action-button:hover,
-.woods-status-button:hover {
+.woods-remove-action-button:hover {
   background: #f8fafc;
 }
 
