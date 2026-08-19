@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from 'react';
-import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
+import type { WoodsDriveAction, WoodsDriveDocument, WoodsDriveScheduleItem } from '@/lib/woods-drive';
 
 const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
 type ActionSortKey = 'by' | 'date' | 'priority';
@@ -97,16 +97,57 @@ function dueDateRank(dueDate: string) {
   return new Date(`${value}T00:00:00`).getTime();
 }
 
+function scheduleDateValue(date: string) {
+  const trimmed = date.trim();
+  return /^\d{4}-\d{2}-\d{2}$/.test(trimmed) ? trimmed : '';
+}
+
+function scheduleDateLabel(date: string) {
+  const value = scheduleDateValue(date);
+  if (!value) return date.trim() || 'TBD';
+  const [, month, day] = value.split('-');
+  return `${month}/${day}`;
+}
+
+function scheduleDay(date: string) {
+  const value = scheduleDateValue(date);
+  if (!value) return null;
+  const parsed = new Date(`${value}T00:00:00`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function addDays(date: Date, days: number) {
+  const next = new Date(date);
+  next.setDate(next.getDate() + days);
+  return next;
+}
+
+function daysBetween(start: Date, end: Date) {
+  const msPerDay = 24 * 60 * 60 * 1000;
+  return Math.round((end.getTime() - start.getTime()) / msPerDay);
+}
+
+function scheduleStatusClass(status: string) {
+  const normalized = status.trim().toLowerCase();
+  if (normalized.includes('done') || normalized.includes('complete')) return 'is-complete';
+  if (normalized.includes('active') || normalized.includes('progress')) return 'is-active';
+  if (normalized.includes('hold') || normalized.includes('wait')) return 'is-hold';
+  return 'is-planned';
+}
+
 export function WoodsDriveChecklist({
   initialActions,
   initialDocuments,
+  initialSchedule,
 }: {
   initialActions: WoodsDriveAction[];
   initialDocuments: WoodsDriveDocument[];
+  initialSchedule: WoodsDriveScheduleItem[];
 }) {
   const [actions, setActions] = useState<WoodsDriveAction[]>(initialActions);
   const [documents, setDocuments] = useState<WoodsDriveDocument[]>(initialDocuments);
-  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | null>(null);
+  const [schedule] = useState<WoodsDriveScheduleItem[]>(initialSchedule);
+  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | 'schedule' | null>(null);
   const [message, setMessage] = useState('');
   const [dropboxPath, setDropboxPath] = useState(defaultDropboxPath);
   const [dropboxEntries, setDropboxEntries] = useState<DropboxEntry[]>([]);
@@ -148,6 +189,42 @@ export function WoodsDriveChecklist({
       return sortDirection === 'asc' ? comparison : -comparison;
     });
   }, [actions, sortDirection, sortKey]);
+  const visibleSchedule = useMemo(() => {
+    return [...schedule].sort((left, right) => {
+      const leftDay = scheduleDay(left.startDate)?.getTime() ?? Number.POSITIVE_INFINITY;
+      const rightDay = scheduleDay(right.startDate)?.getTime() ?? Number.POSITIVE_INFINITY;
+      if (leftDay !== rightDay) return leftDay - rightDay;
+      return left.title.localeCompare(right.title, undefined, { sensitivity: 'base' });
+    });
+  }, [schedule]);
+  const datedSchedule = useMemo(() => {
+    return visibleSchedule
+      .map((item) => {
+        const start = scheduleDay(item.startDate);
+        const end = scheduleDay(item.endDate) || start;
+        if (!start || !end) return null;
+        return { item, start, end: end < start ? start : end };
+      })
+      .filter((item): item is { item: WoodsDriveScheduleItem; start: Date; end: Date } => Boolean(item));
+  }, [visibleSchedule]);
+  const scheduleRange = useMemo(() => {
+    if (!datedSchedule.length) return null;
+    const minStart = new Date(Math.min(...datedSchedule.map((item) => item.start.getTime())));
+    const maxEnd = new Date(Math.max(...datedSchedule.map((item) => item.end.getTime())));
+    return {
+      start: minStart,
+      end: maxEnd,
+      spanDays: Math.max(1, daysBetween(minStart, maxEnd) + 1),
+    };
+  }, [datedSchedule]);
+  const scheduleTicks = useMemo(() => {
+    if (!scheduleRange) return [];
+    const tickCount = Math.min(6, scheduleRange.spanDays);
+    return Array.from({ length: tickCount }, (_, index) => {
+      const offset = tickCount === 1 ? 0 : Math.round((scheduleRange.spanDays - 1) * (index / (tickCount - 1)));
+      return addDays(scheduleRange.start, offset);
+    });
+  }, [scheduleRange]);
 
   function sortLabel(key: ActionSortKey) {
     if (sortKey !== key) return '-';
@@ -317,7 +394,10 @@ export function WoodsDriveChecklist({
         <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('documents')}>
           Document
         </button>
-        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs</span>
+        <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('schedule')}>
+          Schedule
+        </button>
+        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs / {schedule.length} schedule</span>
       </section>
     );
   }
@@ -431,6 +511,81 @@ export function WoodsDriveChecklist({
     );
   }
 
+  if (activePanel === 'schedule') {
+    return (
+      <section className="card woods-checklist-card woods-schedule-card">
+        <div className="woods-register-header">
+          <div className="woods-register-title">
+            <span className="woods-schedule-icon" aria-hidden="true" />
+            <h2>Project Schedule</h2>
+            <span className="woods-register-badge is-open">{schedule.length} items</span>
+          </div>
+          <div className="woods-register-actions">
+            <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+
+        {scheduleRange ? (
+          <div className="woods-gantt">
+            <div className="woods-gantt-scale">
+              <span>Phase</span>
+              <div className="woods-gantt-ticks">
+                {scheduleTicks.map((tick) => (
+                  <span key={tick.toISOString()}>
+                    {scheduleDateLabel(tick.toISOString().slice(0, 10))}
+                  </span>
+                ))}
+              </div>
+              <span>Notes</span>
+            </div>
+            <div className="woods-gantt-rows">
+              {visibleSchedule.map((item) => {
+                const start = scheduleDay(item.startDate);
+                const end = scheduleDay(item.endDate) || start;
+                const hasDates = Boolean(scheduleRange && start && end);
+                const normalizedEnd = start && end && end < start ? start : end;
+                const left = hasDates && start
+                  ? `${Math.max(0, daysBetween(scheduleRange.start, start)) / scheduleRange.spanDays * 100}%`
+                  : '0%';
+                const width = hasDates && start && normalizedEnd
+                  ? `${Math.max(1, daysBetween(start, normalizedEnd) + 1) / scheduleRange.spanDays * 100}%`
+                  : '100%';
+
+                return (
+                  <div className="woods-gantt-row" key={item.id}>
+                    <div className="woods-gantt-label">
+                      <strong>{item.title || 'Untitled schedule item'}</strong>
+                      <span>{item.phase || 'Schedule'} / {item.owner || 'TBD'}</span>
+                    </div>
+                    <div className="woods-gantt-track">
+                      <div
+                        className={`woods-gantt-bar ${scheduleStatusClass(item.status)}`}
+                        style={{ left, width }}
+                        title={`${item.title}: ${scheduleDateLabel(item.startDate)}-${scheduleDateLabel(item.endDate)}`}
+                      >
+                        <span>{scheduleDateLabel(item.startDate)}-{scheduleDateLabel(item.endDate)}</span>
+                      </div>
+                    </div>
+                    <div className="woods-gantt-notes">
+                      <span>{item.status || 'Planned'}</span>
+                      <p>{item.notes}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className="reference-empty-card compact-empty">
+            Add schedule items when dates are available.
+          </div>
+        )}
+      </section>
+    );
+  }
+
   return (
     <section className="card woods-checklist-card">
       <div className="woods-register-header">
@@ -472,7 +627,7 @@ export function WoodsDriveChecklist({
                         Priority <span>{sortLabel('priority')}</span>
                       </button>
                     </th>
-                    <th className="woods-col-remove">Remove</th>
+                    <th className="woods-col-remove" aria-label="Remove action">X</th>
                   </tr>
                 </thead>
                 <tbody>

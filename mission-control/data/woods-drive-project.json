@@ -1,6 +1,6 @@
 {
   "name": "Woods Drive Project",
-  "updatedAt": "2026-08-19T02:37:43.490Z",
+  "updatedAt": "2026-08-19T18:47:28.533Z",
   "actions": [
     {
       "id": "woods-pm-002",
@@ -315,18 +315,6 @@
       "done": false
     },
     {
-      "id": "woods-pm-036",
-      "sourceId": "PM-036",
-      "phase": "Procurement",
-      "text": "Confirm Dakota has received deposit and can order materials.",
-      "dueDate": "ASAP",
-      "responsible": "Dakota",
-      "priority": "Urgent",
-      "status": "Open",
-      "notes": "Dakota actions list both \"Receive deposit\" and \"Order materials.\" Proposal says materials will not be ordered until stamped/approved plans are provided.",
-      "done": false
-    },
-    {
       "id": "woods-pm-037",
       "sourceId": "PM-037",
       "phase": "Procurement",
@@ -385,6 +373,78 @@
       "status": "Open",
       "notes": "New unique item from Dave's SRS list. DRS will help coordinate the survey scope and recommended offsets.",
       "done": false
+    }
+  ],
+  "schedule": [
+    {
+      "id": "woods-schedule-permit-control-docs",
+      "title": "Permit and field-control documents",
+      "phase": "Permit / document control",
+      "startDate": "2026-08-19",
+      "endDate": "2026-08-21",
+      "owner": "Dave / Luke",
+      "status": "Planned",
+      "notes": "Obtain permit online, resolve final fees, pull permit, and download stamped approved plans, approval letters, calculations, reports, permit, and building card."
+    },
+    {
+      "id": "woods-schedule-client-project-schedule",
+      "title": "Create project schedule for client",
+      "phase": "Schedule",
+      "startDate": "2026-08-22",
+      "endDate": "2026-08-28",
+      "owner": "Dave",
+      "status": "Active",
+      "notes": "Working schedule to be updated from Dave's dictated actions and dates."
+    },
+    {
+      "id": "woods-schedule-preconstruction",
+      "title": "Preconstruction setup and meeting",
+      "phase": "Preconstruction",
+      "startDate": "2026-08-25",
+      "endDate": "2026-08-29",
+      "owner": "Dave / Dakota",
+      "status": "Planned",
+      "notes": "Set up and hold preconstruction meeting; confirm attendees, agenda, required inspectors, testing agencies, and recordkeeping responsibilities."
+    },
+    {
+      "id": "woods-schedule-survey-layout",
+      "title": "Survey and layout coordination",
+      "phase": "Survey / layout",
+      "startDate": "2026-08-25",
+      "endDate": "2026-09-02",
+      "owner": "Dave / SRS / Surveyor",
+      "status": "Planned",
+      "notes": "Coordinate property lines, wall line, offsets, hole locations, elevations, depths, benchmarks, and as-built needs."
+    },
+    {
+      "id": "woods-schedule-utilities-site-readiness",
+      "title": "Utilities and site readiness",
+      "phase": "Utility / site readiness",
+      "startDate": "2026-08-29",
+      "endDate": "2026-09-05",
+      "owner": "Dave / Dakota / SRS / Owner",
+      "status": "Planned",
+      "notes": "Coordinate Dig Alert, utility protection, plumber, access, water, spoils bins, BMPs, permit card, and approved field set before work starts."
+    },
+    {
+      "id": "woods-schedule-inspection-testing",
+      "title": "Inspection and testing setup",
+      "phase": "Inspection / testing",
+      "startDate": "2026-08-29",
+      "endDate": "2026-09-05",
+      "owner": "Dave",
+      "status": "Planned",
+      "notes": "Confirm LADBS inspections, deputy soils inspection, concrete or grout testing if required, payment path, credentials, and report distribution."
+    },
+    {
+      "id": "woods-schedule-mobilization",
+      "title": "Mobilization readiness",
+      "phase": "Mobilization",
+      "startDate": "2026-09-08",
+      "endDate": "2026-09-12",
+      "owner": "Dakota / Dave",
+      "status": "Planned",
+      "notes": "Placeholder schedule bar until Dave dictates detailed mobilization, drilling, inspection, and closeout dates."
     }
   ],
   "documents": [
