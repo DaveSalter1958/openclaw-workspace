@@ -235,6 +235,36 @@ Ensure heartbeat/non-interactive shells include `/home/davesalter/.npm-global/bi
 - Related Files: /home/davesalter/.openclaw/workspace/HEARTBEAT.md
 
 ---
+## [ERR-20260819-001] openclaw_browser_navigation_blocked
+
+**Logged**: 2026-08-19T12:04:59-07:00
+**Priority**: low
+**Status**: pending
+**Area**: tests
+
+### Summary
+OpenClaw browser automation reported navigation blocked by policy while trying to visually verify a local Mission Control page.
+
+### Error
+```text
+browser navigation blocked by policy
+```
+
+### Context
+- Operation attempted: `openclaw.browser` `action=open`.
+- URLs tried: the Woods Drive HTTPS tailnet route and local `http://127.0.0.1:3010/mission-control/woods-drive`.
+- Task: visual verification after adding the Woods Drive Schedule/Gantt panel.
+- Fallback verification used `npm run build`, `curl` page checks, and API checks successfully.
+
+### Suggested Fix
+Clarify allowed browser navigation targets for OpenClaw-managed browser verification, or document the expected fallback when browser navigation is policy-blocked.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /home/davesalter/.openclaw/workspace/mission-control/app/components/WoodsDriveChecklist.tsx
+- See Also: none
+
+---
 ## [ERR-20260715-001] jq_missing_in_cron_health_report
 
 **Logged**: 2026-07-15T09:05:00-07:00

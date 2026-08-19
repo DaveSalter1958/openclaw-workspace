@@ -26,6 +26,7 @@ export type WoodsDriveDocument = {
 
 export type WoodsDriveScheduleItem = {
   id: string;
+  itemNumber: number;
   title: string;
   phase: string;
   startDate: string;
@@ -33,6 +34,18 @@ export type WoodsDriveScheduleItem = {
   owner: string;
   status: string;
   notes: string;
+};
+
+export type WoodsDriveEmail = {
+  id: string;
+  threadId: string;
+  date: string;
+  from: string;
+  to: string[];
+  subject: string;
+  summary: string;
+  url: string;
+  hasAttachment: boolean;
 };
 
 export type WoodsDriveProject = {
@@ -44,6 +57,7 @@ export type WoodsDriveProject = {
 };
 
 const projectPath = path.join(process.cwd(), 'data', 'woods-drive-project.json');
+const emailsPath = path.join(process.cwd(), 'data', 'woods-drive-emails.json');
 
 const defaultProject: WoodsDriveProject = {
   name: 'Woods Drive Project',
@@ -71,8 +85,10 @@ function cleanAction(value: Partial<WoodsDriveAction>, index: number): WoodsDriv
 
 function cleanScheduleItem(value: Partial<WoodsDriveScheduleItem>, index: number): WoodsDriveScheduleItem {
   const id = typeof value.id === 'string' && value.id.trim() ? value.id : `woods-schedule-${Date.now()}-${index}`;
+  const itemNumber = typeof value.itemNumber === 'number' && Number.isFinite(value.itemNumber) ? value.itemNumber : index + 1;
   return {
     id,
+    itemNumber,
     title: typeof value.title === 'string' ? value.title.trim() : '',
     phase: typeof value.phase === 'string' ? value.phase.trim() : '',
     startDate: typeof value.startDate === 'string' ? value.startDate.trim() : '',
@@ -96,6 +112,30 @@ function cleanDocument(value: Partial<WoodsDriveDocument>, index: number): Woods
   };
 }
 
+function cleanEmail(value: Partial<WoodsDriveEmail>, index: number): WoodsDriveEmail {
+  const id = typeof value.id === 'string' && value.id.trim() ? value.id.trim() : `woods-email-${index + 1}`;
+  return {
+    id,
+    threadId: typeof value.threadId === 'string' ? value.threadId.trim() : '',
+    date: typeof value.date === 'string' ? value.date.trim() : '',
+    from: typeof value.from === 'string' ? value.from.trim() : '',
+    to: Array.isArray(value.to) ? value.to.filter((item): item is string => typeof item === 'string').map((item) => item.trim()).filter(Boolean) : [],
+    subject: typeof value.subject === 'string' ? value.subject.trim() : '',
+    summary: typeof value.summary === 'string' ? value.summary.trim() : '',
+    url: typeof value.url === 'string' ? value.url.trim() : '',
+    hasAttachment: Boolean(value.hasAttachment),
+  };
+}
+
+function emailTimestamp(email: WoodsDriveEmail): number {
+  const timestamp = Date.parse(email.date);
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function sortEmailsNewestFirst(emails: WoodsDriveEmail[]): WoodsDriveEmail[] {
+  return [...emails].sort((a, b) => emailTimestamp(b) - emailTimestamp(a));
+}
+
 export async function getWoodsDriveProject(): Promise<WoodsDriveProject> {
   try {
     const raw = await fs.readFile(projectPath, 'utf8');
@@ -115,6 +155,18 @@ export async function getWoodsDriveProject(): Promise<WoodsDriveProject> {
     };
   } catch {
     return defaultProject;
+  }
+}
+
+export async function getWoodsDriveEmails(): Promise<WoodsDriveEmail[]> {
+  try {
+    const raw = await fs.readFile(emailsPath, 'utf8');
+    const parsed = JSON.parse(raw) as { emails?: Partial<WoodsDriveEmail>[] };
+    return Array.isArray(parsed.emails)
+      ? sortEmailsNewestFirst(parsed.emails.map((email, index) => cleanEmail(email, index)).filter((email) => email.from || email.to.length || email.subject || email.summary))
+      : [];
+  } catch {
+    return [];
   }
 }
 

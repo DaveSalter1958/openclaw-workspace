@@ -1,0 +1,226 @@
+{
+  "updatedAt": "2026-08-19T20:38:00.000Z",
+  "source": "Gmail label Projects/Woods Drive",
+  "emails": [
+    {
+      "id": "1a01aedac4fb0c63",
+      "threadId": "19ee0d742a218d6f",
+      "date": "2026-08-19T09:49:37-07:00",
+      "from": "David Salter <DRS@sloperemediation.com>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>", "Doug Massey <dmassey@dakotadrilling.us>"],
+      "subject": "Fwd: [EXTERNAL] Woods Dr - Dakota Drilling Contract Markup",
+      "summary": "Forwarded the Woods Drive Dakota contract markup to Dakota.",
+      "url": "https://mail.google.com/mail/#all/1a01aedac4fb0c63",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a016ee77f8b677a",
+      "threadId": "19ee0d742a218d6f",
+      "date": "2026-08-18T22:11:49+00:00",
+      "from": "Debra Upsher <natashajamessamuel@yahoo.com>",
+      "to": ["David Salter <drs@sloperemediation.com>"],
+      "subject": "Re: [EXTERNAL] Woods Dr - Dakota Drilling Contract Markup",
+      "summary": "Client confirmed Dakota's deposit invoice was received and payment was being handled.",
+      "url": "https://mail.google.com/mail/#all/1a016ee77f8b677a",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a01669a32a1a053",
+      "threadId": "1a016683e04f51b3",
+      "date": "2026-08-18T12:46:56-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>"],
+      "subject": "Woods Drive",
+      "summary": "Sent Randy a draft agreement between DRS and Dakota for Woods Drive services.",
+      "url": "https://mail.google.com/mail/#all/1a01669a32a1a053",
+      "hasAttachment": true
+    },
+    {
+      "id": "1a016618e6018892",
+      "threadId": "19ee0d742a218d6f",
+      "date": "2026-08-18T12:38:05-07:00",
+      "from": "David Salter <DRS@sloperemediation.com>",
+      "to": ["Debra Upsher <natashajamessamuel@yahoo.com>"],
+      "subject": "Re: [EXTERNAL] Woods Dr - Dakota Drilling Contract Markup",
+      "summary": "Updated the client that Dakota was coordinating, deposit payment would trigger material ordering, and schedule would follow.",
+      "url": "https://mail.google.com/mail/#all/1a016618e6018892",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a015e868bbbba47",
+      "threadId": "1a015e7c6b53c6e1",
+      "date": "2026-08-18T10:25:47-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>"],
+      "subject": "Woods Drive",
+      "summary": "Sent a new letter of authorization for permit pulling.",
+      "url": "https://mail.google.com/mail/#all/1a015e868bbbba47",
+      "hasAttachment": true
+    },
+    {
+      "id": "1a015d817c4ba9db",
+      "threadId": "196f3b98a2e5473a",
+      "date": "2026-08-18T10:07:23-07:00",
+      "from": "Luke Bennett <luke@sloperemediation.com>",
+      "to": ["David Salter <drs@sloperemediation.com>"],
+      "subject": "Fwd: 1643,1645,1647 N Woods Drive - Soils Report Comments",
+      "summary": "Forwarded older Woods Drive soils report comments involving Karina Andreeva.",
+      "url": "https://mail.google.com/mail/#all/1a015d817c4ba9db",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a011e6b58bd8b35",
+      "threadId": "1a011c3a312d6b6a",
+      "date": "2026-08-17T22:45:24+00:00",
+      "from": "Randy Harrington <rharrington@dakotadrilling.us>",
+      "to": ["David Salter <drs@drs-engineering.net>"],
+      "subject": "Re: Woods Drive",
+      "summary": "Randy listed items SRS needs to provide, including water supply within 200 feet of drilling operations.",
+      "url": "https://mail.google.com/mail/#all/1a011e6b58bd8b35",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a011caab005abab",
+      "threadId": "1a011c3a312d6b6a",
+      "date": "2026-08-17T15:14:49-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>"],
+      "subject": "Woods Drive",
+      "summary": "Sent Dakota's bid document and asked whether the yellow highlights are the items needed from SRS.",
+      "url": "https://mail.google.com/mail/#all/1a011caab005abab",
+      "hasAttachment": true
+    },
+    {
+      "id": "1a010d142ab74ff1",
+      "threadId": "1a0023050a6114b0",
+      "date": "2026-08-17T10:42:09-07:00",
+      "from": "Luke Bennett <luke@drs-engineering.net>",
+      "to": ["Jody Robinson <jody@drs-engineering.net>"],
+      "subject": "Re: Woods Drive and Expert Witness Work",
+      "summary": "Luke confirmed the proposed Tuesday 9 AM internal meeting works.",
+      "url": "https://mail.google.com/mail/#all/1a010d142ab74ff1",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a010b3397d5ab73",
+      "threadId": "1a0023050a6114b0",
+      "date": "2026-08-17T10:09:21-07:00",
+      "from": "Jody Robinson <jody@drs-engineering.net>",
+      "to": ["David Salter <drs@drs-engineering.net>"],
+      "subject": "Re: Woods Drive and Expert Witness Work",
+      "summary": "Jody confirmed the Tuesday 9 AM meeting time.",
+      "url": "https://mail.google.com/mail/#all/1a010b3397d5ab73",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a010b074475dc4c",
+      "threadId": "1a0023050a6114b0",
+      "date": "2026-08-17T10:06:32-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Jody Robinson <jody@drs-engineering.net>"],
+      "subject": "Re: Woods Drive and Expert Witness Work",
+      "summary": "Proposed Tuesday around 9 AM for the Woods Drive and expert witness work meeting.",
+      "url": "https://mail.google.com/mail/#all/1a010b074475dc4c",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a0024feef97d13c",
+      "threadId": "1a0023050a6114b0",
+      "date": "2026-08-14T15:06:14-07:00",
+      "from": "Jody Robinson <jody@drs-engineering.net>",
+      "to": ["David Salter <drs@drs-engineering.net>"],
+      "subject": "Re: Woods Drive and Expert Witness Work",
+      "summary": "Jody suggested meeting the following week to discuss further.",
+      "url": "https://mail.google.com/mail/#all/1a0024feef97d13c",
+      "hasAttachment": false
+    },
+    {
+      "id": "1a0023c796596844",
+      "threadId": "1a0023050a6114b0",
+      "date": "2026-08-14T14:45:10-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Jody Robinson <jody@drs-engineering.net>", "Olivier Dore <olivier@drs-engineering.net>", "Luke Bennett <luke@drs-engineering.net>"],
+      "subject": "Woods Drive and Expert Witness Work",
+      "summary": "Sent memoranda about expert witness work and the SRS Woods Drive project for internal review.",
+      "url": "https://mail.google.com/mail/#all/1a0023c796596844",
+      "hasAttachment": true
+    },
+    {
+      "id": "19ffd4dc86b2a401",
+      "threadId": "19ffbc44b2102e39",
+      "date": "2026-08-13T15:45:59-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>"],
+      "subject": "Re: Emergency Slope Protection",
+      "summary": "Asked Randy to advise when the retainer invoice was sent and paid so Woods Drive could move forward.",
+      "url": "https://mail.google.com/mail/#all/19ffd4dc86b2a401",
+      "hasAttachment": false
+    },
+    {
+      "id": "19ffd486ec14faa5",
+      "threadId": "19ffbc44b2102e39",
+      "date": "2026-08-13T22:40:08+00:00",
+      "from": "Randy Harrington <rharrington@dakotadrilling.us>",
+      "to": ["David Salter <drs@drs-engineering.net>"],
+      "subject": "Re: Emergency Slope Protection",
+      "summary": "Randy said he would work on the Woods Drive proposal and invoice.",
+      "url": "https://mail.google.com/mail/#all/19ffd486ec14faa5",
+      "hasAttachment": false
+    },
+    {
+      "id": "19ff78cbdf7de02b",
+      "threadId": "19ff78302d00d985",
+      "date": "2026-08-12T12:57:02-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>", "Doug Massey <dmassey@dakotadrilling.us>", "Luke Bennett <luke@drs-engineering.net>"],
+      "subject": "Woods Drive",
+      "summary": "Started drafting an agreement between Dakota and SRS and asked Dakota for required SRS scope items.",
+      "url": "https://mail.google.com/mail/#all/19ff78cbdf7de02b",
+      "hasAttachment": false
+    },
+    {
+      "id": "19ff38ae3dbca1e8",
+      "threadId": "19ff38ae3dbca1e8",
+      "date": "2026-08-11T18:16:21-07:00",
+      "from": "Luke Bennett <luke@drs-engineering.net>",
+      "to": ["Jody Robinson <jody@drs-engineering.net>", "David Salter <drs@drs-engineering.net>", "Olivier Dore <olivier@drs-engineering.net>"],
+      "subject": "Mgmt follow up meeting",
+      "summary": "Luke requested a meeting to discuss the expert witness proposal and the SRS Woods Drive win.",
+      "url": "https://mail.google.com/mail/#all/19ff38ae3dbca1e8",
+      "hasAttachment": false
+    },
+    {
+      "id": "19feed05a149718b",
+      "threadId": "19fedd91577aa947",
+      "date": "2026-08-11T03:14:15+00:00",
+      "from": "Doug Massey <dmassey@dakotadrilling.us>",
+      "to": ["David Salter <drs@drs-engineering.net>", "Randy Harrington <rharrington@dakotadrilling.us>", "Luke Bennett <luke@drs-engineering.net>"],
+      "subject": "Re: Woods Drive",
+      "summary": "Doug responded to the Woods Drive mobilization and coordination email.",
+      "url": "https://mail.google.com/mail/#all/19feed05a149718b",
+      "hasAttachment": false
+    },
+    {
+      "id": "19fede0cd8e4dc75",
+      "threadId": "19fedd91577aa947",
+      "date": "2026-08-10T15:52:39-07:00",
+      "from": "David Salter <drs@drs-engineering.net>",
+      "to": ["Randy Harrington <rharrington@dakotadrilling.us>", "Doug Massey <dmassey@dakotadrilling.us>", "Luke Bennett <luke@drs-engineering.net>"],
+      "subject": "Woods Drive",
+      "summary": "Congratulated Dakota on signing the contract and asked about the $66,500 mobilization invoice and schedule.",
+      "url": "https://mail.google.com/mail/#all/19fede0cd8e4dc75",
+      "hasAttachment": false
+    },
+    {
+      "id": "19fed49a2cd7c073",
+      "threadId": "19ee0d742a218d6f",
+      "date": "2026-08-10T13:07:32-07:00",
+      "from": "David Salter <DRS@sloperemediation.com>",
+      "to": ["Debra Upsher <natashajamessamuel@yahoo.com>"],
+      "subject": "Re: Fw: [EXTERNAL] Woods Dr - Dakota Drilling Contract Markup",
+      "summary": "Told the client DRS would coordinate with Dakota and get things moving.",
+      "url": "https://mail.google.com/mail/#all/19fed49a2cd7c073",
+      "hasAttachment": false
+    }
+  ]
+}

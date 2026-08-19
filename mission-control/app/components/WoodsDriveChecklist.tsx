@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from 'react';
-import type { WoodsDriveAction, WoodsDriveDocument, WoodsDriveScheduleItem } from '@/lib/woods-drive';
+import { type CSSProperties, useMemo, useState, useTransition } from 'react';
+import type { WoodsDriveAction, WoodsDriveDocument, WoodsDriveEmail, WoodsDriveScheduleItem } from '@/lib/woods-drive';
 
 const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
 type ActionSortKey = 'by' | 'date' | 'priority';
@@ -109,6 +109,14 @@ function scheduleDateLabel(date: string) {
   return `${month}/${day}`;
 }
 
+function scheduleAxisLabel(date: Date) {
+  return `w/c ${scheduleDateLabel(date.toISOString().slice(0, 10))}`;
+}
+
+function scheduleDayInitial(date: Date) {
+  return ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()];
+}
+
 function scheduleDay(date: string) {
   const value = scheduleDateValue(date);
   if (!value) return null;
@@ -122,6 +130,16 @@ function addDays(date: Date, days: number) {
   return next;
 }
 
+function weekStart(date: Date) {
+  const start = new Date(date);
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+  return start;
+}
+
+function weekEnd(date: Date) {
+  return addDays(weekStart(date), 6);
+}
+
 function daysBetween(start: Date, end: Date) {
   const msPerDay = 24 * 60 * 60 * 1000;
   return Math.round((end.getTime() - start.getTime()) / msPerDay);
@@ -132,22 +150,32 @@ function scheduleStatusClass(status: string) {
   if (normalized.includes('done') || normalized.includes('complete')) return 'is-complete';
   if (normalized.includes('active') || normalized.includes('progress')) return 'is-active';
   if (normalized.includes('hold') || normalized.includes('wait')) return 'is-hold';
+  if (normalized.includes('milestone')) return 'is-milestone';
   return 'is-planned';
+}
+
+function emailDateLabel(date: string) {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date || 'Unknown date';
+  return parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
 export function WoodsDriveChecklist({
   initialActions,
   initialDocuments,
   initialSchedule,
+  initialEmails,
 }: {
   initialActions: WoodsDriveAction[];
   initialDocuments: WoodsDriveDocument[];
   initialSchedule: WoodsDriveScheduleItem[];
+  initialEmails: WoodsDriveEmail[];
 }) {
   const [actions, setActions] = useState<WoodsDriveAction[]>(initialActions);
   const [documents, setDocuments] = useState<WoodsDriveDocument[]>(initialDocuments);
   const [schedule] = useState<WoodsDriveScheduleItem[]>(initialSchedule);
-  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | 'schedule' | null>(null);
+  const [emails] = useState<WoodsDriveEmail[]>(initialEmails);
+  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | 'schedule' | 'emails' | null>(null);
   const [message, setMessage] = useState('');
   const [dropboxPath, setDropboxPath] = useState(defaultDropboxPath);
   const [dropboxEntries, setDropboxEntries] = useState<DropboxEntry[]>([]);
@@ -191,6 +219,7 @@ export function WoodsDriveChecklist({
   }, [actions, sortDirection, sortKey]);
   const visibleSchedule = useMemo(() => {
     return [...schedule].sort((left, right) => {
+      if (left.itemNumber !== right.itemNumber) return left.itemNumber - right.itemNumber;
       const leftDay = scheduleDay(left.startDate)?.getTime() ?? Number.POSITIVE_INFINITY;
       const rightDay = scheduleDay(right.startDate)?.getTime() ?? Number.POSITIVE_INFINITY;
       if (leftDay !== rightDay) return leftDay - rightDay;
@@ -211,20 +240,35 @@ export function WoodsDriveChecklist({
     if (!datedSchedule.length) return null;
     const minStart = new Date(Math.min(...datedSchedule.map((item) => item.start.getTime())));
     const maxEnd = new Date(Math.max(...datedSchedule.map((item) => item.end.getTime())));
+    const rangeStart = weekStart(minStart);
+    const rangeEnd = weekEnd(maxEnd);
     return {
-      start: minStart,
-      end: maxEnd,
-      spanDays: Math.max(1, daysBetween(minStart, maxEnd) + 1),
+      start: rangeStart,
+      end: rangeEnd,
+      spanDays: Math.max(1, daysBetween(rangeStart, rangeEnd) + 1),
     };
   }, [datedSchedule]);
-  const scheduleTicks = useMemo(() => {
+  const scheduleWeeks = useMemo(() => {
     if (!scheduleRange) return [];
-    const tickCount = Math.min(6, scheduleRange.spanDays);
-    return Array.from({ length: tickCount }, (_, index) => {
-      const offset = tickCount === 1 ? 0 : Math.round((scheduleRange.spanDays - 1) * (index / (tickCount - 1)));
-      return addDays(scheduleRange.start, offset);
-    });
+    return Array.from(
+      { length: Math.ceil(scheduleRange.spanDays / 7) },
+      (_, index) => {
+        const start = addDays(scheduleRange.start, index * 7);
+        return {
+          start,
+          days: Array.from({ length: 7 }, (__, dayIndex) => addDays(start, dayIndex)),
+        };
+      },
+    );
   }, [scheduleRange]);
+  const ganttStyle = scheduleRange
+    ? ({
+      '--woods-day-width': '11px',
+      '--woods-day-px': '11px',
+      '--woods-week-width': '77px',
+      '--woods-timeline-width': `${scheduleRange.spanDays * 11}px`,
+    } as CSSProperties)
+    : undefined;
 
   function sortLabel(key: ActionSortKey) {
     if (sortKey !== key) return '-';
@@ -397,7 +441,10 @@ export function WoodsDriveChecklist({
         <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('schedule')}>
           Schedule
         </button>
-        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs / {schedule.length} schedule</span>
+        <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('emails')}>
+          Emails
+        </button>
+        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs / {schedule.length} schedule / {emails.length} emails</span>
       </section>
     );
   }
@@ -511,6 +558,67 @@ export function WoodsDriveChecklist({
     );
   }
 
+  if (activePanel === 'emails') {
+    return (
+      <section className="card woods-checklist-card woods-email-card">
+        <div className="woods-register-header">
+          <div className="woods-register-title">
+            <span className="woods-email-icon" aria-hidden="true" />
+            <h2>Project Emails</h2>
+            <span className="woods-register-badge is-open">{emails.length} tracked</span>
+          </div>
+          <div className="woods-register-actions">
+            <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+
+        {emails.length ? (
+          <div className="woods-email-table-wrap">
+            <table className="woods-email-table">
+              <thead>
+                <tr>
+                  <th className="woods-email-date-col">Date</th>
+                  <th className="woods-email-from-col">From</th>
+                  <th className="woods-email-to-col">To</th>
+                  <th className="woods-email-summary-col">Summary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {emails.map((email) => (
+                  <tr key={email.id}>
+                    <td className="woods-email-date-col">{emailDateLabel(email.date)}</td>
+                    <td className="woods-email-from-col">{email.from || '-'}</td>
+                    <td className="woods-email-to-col">{email.to.join(', ') || '-'}</td>
+                    <td className="woods-email-summary-col">
+                      {email.url ? (
+                        <a href={email.url} target="_blank" rel="noreferrer">
+                          <strong>{email.subject || 'No subject'}</strong>
+                          <span>{email.summary || 'No summary available.'}</span>
+                        </a>
+                      ) : (
+                        <div>
+                          <strong>{email.subject || 'No subject'}</strong>
+                          <span>{email.summary || 'No summary available.'}</span>
+                        </div>
+                      )}
+                      {email.hasAttachment ? <em>Attachment</em> : null}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="reference-empty-card compact-empty">
+            No Woods Drive emails are loaded yet.
+          </div>
+        )}
+      </section>
+    );
+  }
+
   if (activePanel === 'schedule') {
     return (
       <section className="card woods-checklist-card woods-schedule-card">
@@ -528,17 +636,22 @@ export function WoodsDriveChecklist({
         </div>
 
         {scheduleRange ? (
-          <div className="woods-gantt">
+          <div className="woods-gantt" style={ganttStyle}>
             <div className="woods-gantt-scale">
-              <span>Phase</span>
-              <div className="woods-gantt-ticks">
-                {scheduleTicks.map((tick) => (
-                  <span key={tick.toISOString()}>
-                    {scheduleDateLabel(tick.toISOString().slice(0, 10))}
-                  </span>
+              <span className="woods-gantt-item-heading">#</span>
+              <span className="woods-gantt-phase-heading">Phase</span>
+              <div className="woods-gantt-weeks">
+                {scheduleWeeks.map((week) => (
+                  <div className="woods-gantt-week" key={week.start.toISOString()}>
+                    <span className="woods-gantt-week-label">{scheduleAxisLabel(week.start)}</span>
+                    <div className="woods-gantt-day-initials">
+                      {week.days.map((day) => (
+                        <span key={day.toISOString()}>{scheduleDayInitial(day)}</span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-              <span>Notes</span>
             </div>
             <div className="woods-gantt-rows">
               {visibleSchedule.map((item) => {
@@ -555,9 +668,9 @@ export function WoodsDriveChecklist({
 
                 return (
                   <div className="woods-gantt-row" key={item.id}>
+                    <div className="woods-gantt-item-number">{item.itemNumber}</div>
                     <div className="woods-gantt-label">
                       <strong>{item.title || 'Untitled schedule item'}</strong>
-                      <span>{item.phase || 'Schedule'} / {item.owner || 'TBD'}</span>
                     </div>
                     <div className="woods-gantt-track">
                       <div
@@ -567,10 +680,6 @@ export function WoodsDriveChecklist({
                       >
                         <span>{scheduleDateLabel(item.startDate)}-{scheduleDateLabel(item.endDate)}</span>
                       </div>
-                    </div>
-                    <div className="woods-gantt-notes">
-                      <span>{item.status || 'Planned'}</span>
-                      <p>{item.notes}</p>
                     </div>
                   </div>
                 );

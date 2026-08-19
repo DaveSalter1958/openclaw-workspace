@@ -1,6 +1,6 @@
 {
   "name": "Woods Drive Project",
-  "updatedAt": "2026-08-19T18:47:28.533Z",
+  "updatedAt": "2026-08-19T20:30:03.000Z",
   "actions": [
     {
       "id": "woods-pm-002",
@@ -377,74 +377,70 @@
   ],
   "schedule": [
     {
-      "id": "woods-schedule-permit-control-docs",
-      "title": "Permit and field-control documents",
-      "phase": "Permit / document control",
+      "id": "woods-schedule-dakota-receives-deposit",
+      "itemNumber": 1,
+      "title": "Dakota receives deposit from client",
+      "phase": "Commercial",
       "startDate": "2026-08-19",
-      "endDate": "2026-08-21",
-      "owner": "Dave / Luke",
+      "endDate": "2026-08-19",
+      "owner": "Dakota / Client",
+      "status": "Milestone",
+      "notes": "Milestone dictated by Dave on 2026-08-19."
+    },
+    {
+      "id": "woods-schedule-dakota-materials",
+      "itemNumber": 2,
+      "title": "Dakota orders and receives materials",
+      "phase": "Procurement",
+      "startDate": "2026-08-24",
+      "endDate": "2026-09-11",
+      "owner": "Dakota",
       "status": "Planned",
-      "notes": "Obtain permit online, resolve final fees, pull permit, and download stamped approved plans, approval letters, calculations, reports, permit, and building card."
+      "notes": "Three-week material order and delivery period starting the next Monday after 2026-08-19."
     },
     {
-      "id": "woods-schedule-client-project-schedule",
-      "title": "Create project schedule for client",
-      "phase": "Schedule",
-      "startDate": "2026-08-22",
-      "endDate": "2026-08-28",
-      "owner": "Dave",
-      "status": "Active",
-      "notes": "Working schedule to be updated from Dave's dictated actions and dates."
-    },
-    {
-      "id": "woods-schedule-preconstruction",
-      "title": "Preconstruction setup and meeting",
-      "phase": "Preconstruction",
-      "startDate": "2026-08-25",
-      "endDate": "2026-08-29",
-      "owner": "Dave / Dakota",
-      "status": "Planned",
-      "notes": "Set up and hold preconstruction meeting; confirm attendees, agenda, required inspectors, testing agencies, and recordkeeping responsibilities."
-    },
-    {
-      "id": "woods-schedule-survey-layout",
-      "title": "Survey and layout coordination",
-      "phase": "Survey / layout",
-      "startDate": "2026-08-25",
-      "endDate": "2026-09-02",
-      "owner": "Dave / SRS / Surveyor",
-      "status": "Planned",
-      "notes": "Coordinate property lines, wall line, offsets, hole locations, elevations, depths, benchmarks, and as-built needs."
-    },
-    {
-      "id": "woods-schedule-utilities-site-readiness",
-      "title": "Utilities and site readiness",
-      "phase": "Utility / site readiness",
-      "startDate": "2026-08-29",
-      "endDate": "2026-09-05",
-      "owner": "Dave / Dakota / SRS / Owner",
-      "status": "Planned",
-      "notes": "Coordinate Dig Alert, utility protection, plumber, access, water, spoils bins, BMPs, permit card, and approved field set before work starts."
-    },
-    {
-      "id": "woods-schedule-inspection-testing",
-      "title": "Inspection and testing setup",
-      "phase": "Inspection / testing",
-      "startDate": "2026-08-29",
-      "endDate": "2026-09-05",
-      "owner": "Dave",
-      "status": "Planned",
-      "notes": "Confirm LADBS inspections, deputy soils inspection, concrete or grout testing if required, payment path, credentials, and report distribution."
-    },
-    {
-      "id": "woods-schedule-mobilization",
-      "title": "Mobilization readiness",
+      "id": "woods-schedule-mobilize-site",
+      "itemNumber": 3,
+      "title": "Mobilize to site",
       "phase": "Mobilization",
-      "startDate": "2026-09-08",
-      "endDate": "2026-09-12",
-      "owner": "Dakota / Dave",
+      "startDate": "2026-09-14",
+      "endDate": "2026-09-14",
+      "owner": "Dakota",
+      "status": "Milestone",
+      "notes": "First Monday after the three-week material order and delivery period."
+    },
+    {
+      "id": "woods-schedule-drill-soil-nails",
+      "itemNumber": 4,
+      "title": "Drill soil nails",
+      "phase": "Construction",
+      "startDate": "2026-09-14",
+      "endDate": "2026-10-09",
+      "owner": "Dakota",
       "status": "Planned",
-      "notes": "Placeholder schedule bar until Dave dictates detailed mobilization, drilling, inspection, and closeout dates."
+      "notes": "Four-week drilling period starting the same day as mobilization to site."
+    },
+    {
+      "id": "woods-schedule-install-tecco-mesh",
+      "itemNumber": 5,
+      "title": "Install Tecco Mesh",
+      "phase": "Construction",
+      "startDate": "2026-10-05",
+      "endDate": "2026-10-30",
+      "owner": "Dakota",
+      "status": "Planned",
+      "notes": "Four-week Tecco Mesh installation period starting three weeks after the start of drilling soil nails."
+    },
+    {
+      "id": "woods-schedule-site-cleanup-demo",
+      "itemNumber": 6,
+      "title": "Site cleanup and demob",
+      "phase": "Closeout",
+      "startDate": "2026-11-09",
+      "endDate": "2026-11-13",
+      "owner": "Dakota",
+      "status": "Planned",
+      "notes": "One-week site cleanup and demobilization period starting one week after the end of Install Tecco Mesh."
     }
   ],
   "documents": [
