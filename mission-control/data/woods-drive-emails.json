@@ -1,7 +1,18 @@
 {
-  "updatedAt": "2026-08-19T20:38:00.000Z",
+  "updatedAt": "2026-08-19T22:18:48.000Z",
   "source": "Gmail label Projects/Woods Drive",
   "emails": [
+    {
+      "id": "woods-drive-randy-permit-info-2026-08-19-1429",
+      "threadId": "",
+      "date": "2026-08-19T14:29:00-07:00",
+      "from": "Randy Harrington <rharrington@dakotadrilling.us>",
+      "to": ["David Salter", "Doug Massey", "Luke Bennett", "Chavonne"],
+      "subject": "Woods Drive permit information",
+      "summary": "Randy sent Dakota business/license, workers' comp, BTRC, and permit-puller information and said Doug is working on the notarized letter.",
+      "url": "",
+      "hasAttachment": true
+    },
     {
       "id": "1a01aedac4fb0c63",
       "threadId": "19ee0d742a218d6f",
