@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
 
 const statusOptions = ['All', 'Open', 'In progress', 'Waiting', 'Done'];
-const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
 
 type DropboxEntry = {
@@ -16,10 +15,6 @@ type DropboxEntry = {
   mimeType: string;
   modifiedAt: string;
 };
-
-function dateInputValue(value: string) {
-  return isoDatePattern.test(value) ? value : '';
-}
 
 function newAction(): WoodsDriveAction {
   const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -54,36 +49,35 @@ function newDocument(): WoodsDriveDocument {
   };
 }
 
-function AutosizeTextarea({
-  className,
-  value,
-  onChange,
-  placeholder,
-}: {
-  className: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder: string;
-}) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+function priorityClass(priority: string) {
+  const normalized = priority.trim().toLowerCase();
+  if (normalized === 'high') return 'is-priority-high';
+  if (normalized === 'medium') return 'is-priority-medium';
+  if (normalized === 'low') return 'is-priority-low';
+  return 'is-priority-unassigned';
+}
 
-  useEffect(() => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-    textarea.style.height = '0px';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  }, [value]);
+function ownerInitials(owner: string) {
+  const parts = owner
+    .split(/[\/,&]+|\band\b/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const initials = parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || '')
+    .join('');
+  return initials || '--';
+}
 
-  return (
-    <textarea
-      className={className}
-      ref={textareaRef}
-      rows={1}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      placeholder={placeholder}
-    />
-  );
+function isOverdue(dueDate: string) {
+  const trimmed = dueDate.trim();
+  if (!trimmed || trimmed.toLowerCase() === 'asap') return false;
+  const parsed = new Date(trimmed);
+  if (Number.isNaN(parsed.getTime())) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  parsed.setHours(0, 0, 0, 0);
+  return parsed < today;
 }
 
 export function WoodsDriveChecklist({
@@ -109,6 +103,14 @@ export function WoodsDriveChecklist({
   const [isPending, startTransition] = useTransition();
 
   const openCount = useMemo(() => actions.filter((action) => !action.done).length, [actions]);
+  const highPriorityCount = useMemo(
+    () => actions.filter((action) => !action.done && action.priority.trim().toLowerCase() === 'high').length,
+    [actions],
+  );
+  const overdueCount = useMemo(
+    () => actions.filter((action) => !action.done && isOverdue(action.dueDate)).length,
+    [actions],
+  );
   const filteredActions = useMemo(() => {
     const needle = query.trim().toLowerCase();
     return actions.filter((action) => {
@@ -139,8 +141,15 @@ export function WoodsDriveChecklist({
     setMessage('Added action locally. Save changes when ready.');
   }
 
-  function removeAction(id: string) {
-    setActions((current) => current.filter((action) => action.id !== id));
+  function completeAction(id: string) {
+    const action = actions.find((item) => item.id === id);
+    const label = action?.text?.trim() || action?.sourceId || 'this action';
+    const confirmed = window.confirm(`Completing "${label}" will remove it from the action list.\n\nYes: remove it\nNo: keep it`);
+    if (!confirmed) return;
+
+    const nextActions = actions.filter((item) => item.id !== id);
+    setActions(nextActions);
+    saveActions(nextActions);
   }
 
   function updateDocument(id: string, patch: Partial<WoodsDriveDocument>) {
@@ -385,12 +394,15 @@ export function WoodsDriveChecklist({
 
   return (
     <section className="card woods-checklist-card">
-      <div className="section-title woods-section-title">
-        <div>
-          <h2>Action register</h2>
-          <p className="muted small">{openCount} open / {actions.length} total</p>
+      <div className="woods-register-header">
+        <div className="woods-register-title">
+          <span className="woods-register-icon" aria-hidden="true" />
+          <h2>Project Action Register</h2>
+          <span className="woods-register-badge is-open">{openCount} open</span>
+          <span className="woods-register-badge is-high">{highPriorityCount} high priority</span>
+          <span className="woods-register-badge is-overdue">{overdueCount} overdue</span>
         </div>
-        <div className="footer-actions">
+        <div className="woods-register-actions">
           <button className="button secondary" type="button" onClick={addAction}>
             + Add action
           </button>
@@ -423,75 +435,74 @@ export function WoodsDriveChecklist({
                   <tr>
                     <th className="woods-col-phase">Phase</th>
                     <th className="woods-col-action">Action</th>
-                    <th className="woods-col-owner">Responsible</th>
-                    <th className="woods-col-due">Due by</th>
+                    <th className="woods-col-owner">Owner</th>
+                    <th className="woods-col-due">Due date</th>
                     <th className="woods-col-priority">Priority</th>
-                    <th className="woods-col-notes">Notes</th>
-                    <th className="woods-col-remove"></th>
-                    <th className="woods-col-complete">Complete</th>
+                    <th className="woods-col-complete">Status</th>
+                    <th className="woods-col-menu" aria-label="Action menu" />
                   </tr>
                 </thead>
                 <tbody>
                   {filteredActions.map((action) => (
                     <tr className={action.done ? 'is-done' : ''} key={action.id}>
                       <td className="woods-col-phase">
-                        <input className="input woods-cell-input" value={action.phase} onChange={(event) => updateAction(action.id, { phase: event.target.value })} placeholder="Phase" />
+                        <textarea
+                          className="input woods-cell-input woods-cell-textarea woods-phase-input"
+                          rows={2}
+                          value={action.phase}
+                          onChange={(event) => updateAction(action.id, { phase: event.target.value })}
+                          placeholder="Phase"
+                        />
                       </td>
                       <td className="woods-col-action">
-                        <AutosizeTextarea
-                          className="input woods-cell-textarea woods-action-text"
+                        <textarea
+                          className="input woods-cell-input woods-cell-textarea woods-action-text"
+                          rows={2}
                           value={action.text}
-                          onChange={(text) => updateAction(action.id, { text })}
+                          onChange={(event) => updateAction(action.id, { text: event.target.value })}
                           placeholder="Describe the action"
                         />
                       </td>
                       <td className="woods-col-owner">
-                        <input
-                          className="input woods-cell-input"
-                          value={action.responsible}
-                          onChange={(event) => updateAction(action.id, { responsible: event.target.value })}
-                          placeholder="Person responsible"
-                        />
+                        <div className="woods-owner-cell">
+                          <span className="woods-owner-avatar">{ownerInitials(action.responsible)}</span>
+                          <textarea
+                            className="input woods-cell-input woods-cell-textarea woods-responsible-input"
+                            rows={2}
+                            value={action.responsible}
+                            onChange={(event) => updateAction(action.id, { responsible: event.target.value })}
+                            placeholder="Name"
+                            autoComplete="name"
+                          />
+                        </div>
                       </td>
                       <td className="woods-col-due">
-                        <input
-                          className="input woods-cell-input"
-                          type="date"
-                          value={dateInputValue(action.dueDate)}
+                        <textarea
+                          className="input woods-cell-input woods-cell-textarea woods-due-input"
+                          rows={2}
+                          value={action.dueDate}
                           onChange={(event) => updateAction(action.id, { dueDate: event.target.value })}
+                          placeholder="YYYY-MM-DD"
                         />
-                        {!dateInputValue(action.dueDate) && action.dueDate ? <span className="woods-due-note">{action.dueDate}</span> : null}
                       </td>
                       <td className="woods-col-priority">
-                        <select className="input woods-cell-input" value={action.priority} onChange={(event) => updateAction(action.id, { priority: event.target.value })}>
+                        <select className={`input woods-cell-input woods-priority-select ${priorityClass(action.priority)}`} value={action.priority} onChange={(event) => updateAction(action.id, { priority: event.target.value })}>
                           <option value="High">High</option>
                           <option value="Medium">Medium</option>
                           <option value="Low">Low</option>
                           <option value="">Unassigned</option>
                         </select>
                       </td>
-                      <td className="woods-col-notes">
-                        <AutosizeTextarea
-                          className="input woods-cell-textarea woods-action-notes"
-                          value={action.notes}
-                          onChange={(notes) => updateAction(action.id, { notes })}
-                          placeholder="Supporting notes"
-                        />
-                      </td>
-                      <td className="woods-col-remove">
-                        <button className="compact-task-button delete woods-remove-action" type="button" onClick={() => removeAction(action.id)}>
-                          Remove
+                      <td className="woods-col-complete">
+                        <button className="woods-status-button" type="button" onClick={() => completeAction(action.id)}>
+                          <span aria-hidden="true">✓</span>
+                          Open
                         </button>
                       </td>
-                      <td className="woods-col-complete">
-                        <label className="woods-action-complete">
-                          <input
-                            checked={action.done}
-                            aria-label={`Mark ${action.sourceId || 'action'} complete`}
-                            type="checkbox"
-                            onChange={(event) => updateAction(action.id, { done: event.target.checked, status: event.target.checked ? 'Done' : 'Open' })}
-                          />
-                        </label>
+                      <td className="woods-col-menu">
+                        <button className="woods-menu-button" type="button" aria-label="Complete action" onClick={() => completeAction(action.id)}>
+                          ⋮
+                        </button>
                       </td>
                     </tr>
                   ))}
