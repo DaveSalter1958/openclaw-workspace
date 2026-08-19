@@ -110,7 +110,7 @@ export async function saveWoodsDriveDocuments(documents: Partial<WoodsDriveDocum
     name: defaultProject.name,
     updatedAt: new Date().toISOString(),
     actions: existing.actions,
-    documents: documents.map((document, index) => cleanDocument(document, index)).filter((document) => document.title || document.url || document.path),
+    documents: documents.map((document, index) => cleanDocument(document, index)),
   };
 
   await fs.mkdir(path.dirname(projectPath), { recursive: true });

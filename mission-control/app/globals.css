@@ -2897,7 +2897,7 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 
 .woods-action-table {
   width: 100%;
-  min-width: 820px;
+  min-width: 690px;
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
@@ -2922,6 +2922,35 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   line-height: 1;
   text-align: left;
   text-transform: none;
+}
+
+.woods-sort-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1;
+  text-align: left;
+}
+
+.woods-sort-button span {
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.woods-sort-button:hover {
+  color: #163b5f;
 }
 
 .woods-action-table td {
@@ -2991,22 +3020,28 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   font-weight: 900;
 }
 
-.woods-priority-select.is-priority-high {
-  background: #ffe4e6;
+.woods-priority-select.is-priority-urgent {
+  background: #fee2e2;
   border-color: transparent;
-  color: #991b1b;
+  color: #7f1d1d;
 }
 
-.woods-priority-select.is-priority-medium {
+.woods-priority-select.is-priority-high {
   background: #ffedd5;
   border-color: transparent;
   color: #9a3412;
 }
 
-.woods-priority-select.is-priority-low {
+.woods-priority-select.is-priority-medium {
   background: #fef9c3;
   border-color: transparent;
   color: #713f12;
+}
+
+.woods-priority-select.is-priority-low {
+  background: #ecfdf5;
+  border-color: transparent;
+  color: #166534;
 }
 
 .woods-priority-select.is-priority-unassigned {
@@ -3015,32 +3050,15 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
 }
 
 .woods-col-complete { width: 78px; }
-.woods-col-menu { width: 26px; }
-.woods-col-phase { width: 118px; }
-.woods-col-action { width: 310px; }
-.woods-col-owner { width: 136px; }
-.woods-col-due { width: 92px; }
-.woods-col-priority { width: 86px; }
+.woods-col-remove { width: 70px; }
+.woods-col-action { width: 320px; }
+.woods-col-owner { width: 104px; }
+.woods-col-due { width: 66px; }
+.woods-col-priority { width: 76px; }
 
 .woods-owner-cell {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 6px;
+  display: block;
   align-items: center;
-}
-
-.woods-owner-avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #93b5ff, #5e87dc);
-  color: #ffffff;
-  font-size: 0.66rem;
-  font-weight: 900;
-  letter-spacing: 0;
 }
 
 .woods-responsible-input {
@@ -3059,6 +3077,36 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   text-align: center;
   font-variant-numeric: tabular-nums;
   font-weight: 900;
+}
+
+.woods-date-picker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  min-height: 34px;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #92400e;
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.woods-date-picker span {
+  pointer-events: none;
+}
+
+.woods-date-picker input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .woods-priority-select {
@@ -3114,24 +3162,24 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   font-weight: 900;
 }
 
-.woods-menu-button {
+.woods-remove-action-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  width: 58px;
   height: 34px;
-  border: 0;
+  border: 1px solid rgba(185, 28, 28, 0.16);
   border-radius: 8px;
-  background: transparent;
-  color: #111827;
+  background: #fff1f2;
+  color: #9f1239;
   cursor: pointer;
   font: inherit;
-  font-size: 1.5rem;
+  font-size: 0.68rem;
   font-weight: 900;
   line-height: 1;
 }
 
-.woods-menu-button:hover,
+.woods-remove-action-button:hover,
 .woods-status-button:hover {
   background: #f8fafc;
 }

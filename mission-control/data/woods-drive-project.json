@@ -1,93 +1,7 @@
 {
   "name": "Woods Drive Project",
-  "updatedAt": "2026-08-18T17:05:00.000Z",
-  "documents": [
-    {
-      "id": "woods-doc-drs-dakota-subconsultant-20260819",
-      "title": "20260819 DRS / Dakota Subconsultant Agreement - Professional.docx",
-      "category": "Contract - DRS / Dakota",
-      "url": "/mission-control/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
-      "path": "/home/davesalter/.openclaw/workspace/mission-control/public/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
-      "notes": "Added from Dave's Telegram attachment on 2026-08-18.",
-      "status": "Linked"
-    },
-    {
-      "id": "woods-doc-master-developer-executed",
-      "title": "1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
-      "category": "Contract - executed",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Construction%20Contract%20Signed/1643%20Woods%20Drive%20-%20Master%20Developer%20Consultant%20Agreement%20%28EXECUTION%20VERSION%29.pdf?_subject_uid=11819028&w=AABpyuZO5MylJtwTW383SvL3ZJSiQPyqW--ibVYzKOk-Eg",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Construction Contract Signed/1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
-      "notes": "Likely signed construction-management agreement. Confirm exact parties and field reliance before marking final.",
-      "status": "Needs review"
-    },
-    {
-      "id": "woods-doc-final-contract-client-srs-fee",
-      "title": "20251219 Final Contract to Client - with SRS Fee included.pdf",
-      "category": "Contract - client / SRS",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Subconsultant%20Agreement/20251219%20%20Final%20Contract%20to%20Client%20-%20with%20SRS%20Fee%20included.pdf?_subject_uid=11819028&w=AAB-T7VYVY-SKae9TSAvECyZYnKL4QNijfZ5DXE-T_qA_w",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Subconsultant Agreement/20251219  Final Contract to Client - with SRS Fee included.pdf",
-      "notes": "Candidate for owner/client agreement package. Confirm whether this is the owner-Dakota contract Dave wants tracked.",
-      "status": "Needs review"
-    },
-    {
-      "id": "woods-doc-dakota-bid-to-srs",
-      "title": "20251209 Dakota Bid to SRS.docx",
-      "category": "Dakota / SRS",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Subconsultant%20Agreement/20251209%20%20Dakota%20Bid%20to%20SRS.docx?_subject_uid=11819028&w=AAAKkfFH3xijT4oXJbg_wRBVw5HOAKezmoqxVp9nHKEO1A",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Subconsultant Agreement/20251209  Dakota Bid to SRS.docx",
-      "notes": "Dakota bid/subconsultant document already mirrored into the local Woods Drive project folder.",
-      "status": "Linked"
-    },
-    {
-      "id": "woods-doc-permit-submittal-set",
-      "title": "1643 Woods Drive Permit Submittal Set (not yet permit-stamped).pdf",
-      "category": "Plans / permit",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Permit%20Submittal%20Set%20%28not%20yet%20permit-stamped%29.pdf?_subject_uid=11819028&w=AADhBg-Mfev0LtplanxtOtvhxOx4G995BED9asgdsAUETQ",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Permit Submittal Set (not yet permit-stamped).pdf",
-      "notes": "Candidate current plan set. Confirm whether there is a permit-stamped or later field set.",
-      "status": "Needs current-version check"
-    },
-    {
-      "id": "woods-doc-slope-stabilization-plan-submittal",
-      "title": "20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
-      "category": "Plans / construction",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2025/2025-202%201643%20Woods%20Drive%20-%20SRS/Submittals/20251114%20Submittal%20No%2004/20251114%20Slope%20Stabilization%20Plan%20-%202025-202%201643%20Woods%20Drive.pdf?_subject_uid=11819028&w=AABAVjl6RKNzPNXz3U-M6lOY-6d6PaT0SysaExsbeHDZdQ",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS/Submittals/20251114 Submittal No 04/20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
-      "notes": "Candidate construction slope-stabilization plan from DRS 2025-202 folder.",
-      "status": "Needs current-version check"
-    },
-    {
-      "id": "woods-doc-design-document",
-      "title": "1643 Woods Drive Slope Stabilization Design Document.pdf",
-      "category": "Design report",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Slope%20Stabilization%20Design%20Document.pdf?_subject_uid=11819028&w=AACwOy3AJ-ZEksE2yUN5UIyucQP8XRH7Xmvi1vijs2iKjg",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Slope Stabilization Design Document.pdf",
-      "notes": "Design narrative/supporting document.",
-      "status": "Linked"
-    },
-    {
-      "id": "woods-doc-geotech-report",
-      "title": "1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
-      "category": "Geotechnical",
-      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Geotechnical%20Investigation%20Report_FINAL%20%28with%20Research%29.pdf?_subject_uid=11819028&w=AAATLKu9UAsj2N1WUdmifc9Hv3NbDMLq_Oh0MpdE2WmgtA",
-      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
-      "notes": "Geotechnical report for project reference.",
-      "status": "Linked"
-    }
-  ],
+  "updatedAt": "2026-08-19T02:37:43.490Z",
   "actions": [
-    {
-      "id": "woods-pm-001",
-      "sourceId": "PM-001",
-      "phase": "Handoff / commercial",
-      "text": "Confirm written working relationship: Dakota Drilling hires DRS Engineering as subconsultant for construction-management support and pays DRS for Dave's time.",
-      "dueDate": "ASAP",
-      "responsible": "Dave / Dakota",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Confirm contract, hourly rate, billing contact, invoice timing, and whether SRS remains involved.",
-      "done": false
-    },
     {
       "id": "woods-pm-002",
       "sourceId": "PM-002",
@@ -101,97 +15,25 @@
       "done": false
     },
     {
-      "id": "woods-pm-003",
-      "sourceId": "PM-003",
-      "phase": "Handoff / records",
-      "text": "Confirm which documents in `2025-202` are the current construction documents and which prior `2024-261` records Dakota should rely on.",
-      "dueDate": "ASAP",
-      "responsible": "Dave",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Prevent field use of superseded design files.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-004",
-      "sourceId": "PM-004",
-      "phase": "Permit",
-      "text": "Open ePlanLA / LADBS permit record.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Start of permit-pull checklist.",
-      "done": false
-    },
-    {
       "id": "woods-pm-005",
       "sourceId": "PM-005",
       "phase": "Permit",
-      "text": "Confirm permit status is RTI / Ready to Issue.",
+      "text": "Try to obtain permit on line",
       "dueDate": "2026-08-21",
       "responsible": "Dave / Luke",
-      "priority": "High",
+      "priority": "Urgent",
       "status": "Open",
       "notes": "Do before fees or distribution of field set.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-006",
-      "sourceId": "PM-006",
-      "phase": "Permit",
-      "text": "Open Clearance Summary Worksheet and confirm every clearance is Approved, Approved with Conditions, Cleared, or Not Applicable.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Save all clearance comments and conditions.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-007",
-      "sourceId": "PM-007",
-      "phase": "Permit",
-      "text": "Download and save all clearance comments and conditions.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Store locally first; do not modify Dropbox without explicit approval.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-008",
-      "sourceId": "PM-008",
-      "phase": "Permit",
-      "text": "Confirm all LADBS plan-check disciplines are approved.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Include soils/geology approval if applicable.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-009",
-      "sourceId": "PM-009",
-      "phase": "Permit",
-      "text": "Confirm contractor, license, workers' comp, and business-tax information are complete.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dakota / Dave",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Dakota action: provide insurance info for permit.",
       "done": false
     },
     {
       "id": "woods-pm-010",
       "sourceId": "PM-010",
       "phase": "Permit",
-      "text": "Obtain waste-hauler information for permit.",
+      "text": "Obtain Dakota information for permit.",
       "dueDate": "2026-08-14",
       "responsible": "Dave / Dakota / SRS",
-      "priority": "High",
+      "priority": "Urgent",
       "status": "Open",
       "notes": "Workbook note: Dave to get info from Randy. Dakota action also lists hauler info. Date appears past due as of 2026-08-17. Confirm whether SRS must provide or pay for waste-hauler information/arrangements.",
       "done": false
@@ -263,7 +105,7 @@
       "text": "Set up preconstruction meeting.",
       "dueDate": "ASAP",
       "responsible": "Dave",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Attendees likely Dave/DRS, Dakota, owner/client, SRS, inspectors, civil/survey, plumber, and any LADBS/soils reps if appropriate.",
       "done": false
@@ -275,7 +117,7 @@
       "text": "Hold preconstruction meeting.",
       "dueDate": "Before start",
       "responsible": "Dave / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Use meeting agenda in Section 4.",
       "done": false
@@ -299,7 +141,7 @@
       "text": "Hire Feffer as registered deputy inspector for soils.",
       "dueDate": "ASAP",
       "responsible": "Dave",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Confirm spelling/entity, availability, scope, rates, report distribution, and required LADBS credentials.",
       "done": false
@@ -323,7 +165,7 @@
       "text": "Establish inspection/testing payment and recordkeeping process.",
       "dueDate": "Before mobilization",
       "responsible": "Dave / Dakota / SRS / Owner",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Yellow-highlighted Dakota exclusion: scheduling/payment for inspections, permits, fees, deputy soils, concrete inspections, concrete testing, record keeping, and reports are by others. Dave's SRS list says SRS should coordinate any permit responsibilities.",
       "done": false
@@ -335,28 +177,16 @@
       "text": "Hire civil/surveyor to stake property lines per GPI.",
       "dueDate": "ASAP",
       "responsible": "Dave / SRS",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Action list names Payan Surveying Inc., phone 951-356-6456. Confirm scope: property lines, wall line, offsets, center-of-hole locations, elevations, depths, benchmarks, and as-built points. Dave/DRS will help coordinate what needs survey and recommended offsets.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-023",
-      "sourceId": "PM-023",
-      "phase": "Survey / layout",
-      "text": "Confirm field engineering responsibilities and deliverables.",
-      "dueDate": "Before layout",
-      "responsible": "SRS / Dave / Surveyor",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Dave's SRS list: SRS to provide all required field engineering, including survey, layout, offsets, center-of-hole locations, elevations, depths, and monitoring.",
       "done": false
     },
     {
       "id": "woods-pm-024",
       "sourceId": "PM-024",
       "phase": "Utility / safety",
-      "text": "Submit Dig Alert / utility notification.",
+      "text": "Investigate timing for Dig Alert / utility notification.",
       "dueDate": "Before excavation",
       "responsible": "Dave / Dakota / SRS",
       "priority": "High",
@@ -368,10 +198,10 @@
       "id": "woods-pm-025",
       "sourceId": "PM-025",
       "phase": "Utility / safety",
-      "text": "Locate, pothole, protect, remove, or relocate existing utilities that may interfere with soil nail installation.",
+      "text": "Coordinate plumber",
       "dueDate": "Before drilling",
       "responsible": "SRS / Dave / Owner / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Dave's SRS list: SRS to cover potholing and accurate utility location; protection/removal/relocation of utilities above or below ground that may interfere with soil nail installation; power lines too close to be removed or de-energized by others.",
       "done": false
@@ -383,21 +213,9 @@
       "text": "Confirm permit, approved plans, and building card are on site before work begins.",
       "dueDate": "Before start",
       "responsible": "Dakota / Dave",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Required field control.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-027",
-      "sourceId": "PM-027",
-      "phase": "Site controls",
-      "text": "Confirm SRS responsibility for erosion control and/or SWPPP plans, installation, establishment, and maintenance.",
-      "dueDate": "Before start",
-      "responsible": "SRS / Dave / Owner",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Dave's SRS list assigns erosion control and SWPPP plans/installation/establishment/maintenance to SRS. Tie to permit conditions and site constraints.",
       "done": false
     },
     {
@@ -407,7 +225,7 @@
       "text": "Secure access to 1645 Woods Drive for Dakota staging.",
       "dueDate": "Before mobilization",
       "responsible": "Dave / Owner / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Yellow-highlighted Dakota requirement. Confirm written permission, access route, dates, hours, storage limits, restoration obligations, and insurance requirements.",
       "done": false
@@ -419,7 +237,7 @@
       "text": "Confirm uninterrupted potable water supply and any hydrant-meter responsibility.",
       "dueDate": "Before mobilization",
       "responsible": "SRS / Dave / Owner / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Dave's SRS list: SRS to provide uninterrupted city-pressure potable water near drilling operations and cover any required hydrant meters. Distance is boilerplate and can be adjusted. If an on-site water source is available, leave water responsibility in the owner contract as appropriate.",
       "done": false
@@ -431,7 +249,7 @@
       "text": "Provide bins or clean-out location for grout/drilling spoils where drilling occurs.",
       "dueDate": "Before mobilization",
       "responsible": "Dave / Owner / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Dakota exclusion; coordinate with waste-hauler and site access.",
       "done": false
@@ -455,7 +273,7 @@
       "text": "Provide storage area, sanitary facilities, security, traffic-control plans, flagmen, and barricades if required.",
       "dueDate": "Before mobilization",
       "responsible": "SRS / Dave / Owner / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Yellow-highlighted Dakota exclusion. Dave's SRS list assigns traffic-control plans, flagmen, and barricades to SRS if required. Dakota includes up to two flaggers as required while performing its scope and accepting equipment/material deliveries. Decide what remains outside Dakota's included flagger scope.",
       "done": false
@@ -479,7 +297,7 @@
       "text": "Prepare and execute neighbor coordination/notification plan after schedule and laydown plan are known.",
       "dueDate": "Before mobilization",
       "responsible": "SRS / Dave / Dakota / Owner",
-      "priority": "Medium",
+      "priority": "High",
       "status": "Open",
       "notes": "Dave's SRS list assigns neighbor coordination to SRS. Include expected start date, working hours, access/parking impacts, noise/vibration expectations, and point of contact.",
       "done": false
@@ -491,7 +309,7 @@
       "text": "Decide whether to install a site camera and notification process.",
       "dueDate": "Before mobilization",
       "responsible": "Dave / Dakota / Owner",
-      "priority": "Medium",
+      "priority": "High",
       "status": "Open",
       "notes": "Clarify privacy, power/network, monitoring responsibility, and use in progress documentation.",
       "done": false
@@ -503,7 +321,7 @@
       "text": "Confirm Dakota has received deposit and can order materials.",
       "dueDate": "ASAP",
       "responsible": "Dakota",
-      "priority": "High",
+      "priority": "Urgent",
       "status": "Open",
       "notes": "Dakota actions list both \"Receive deposit\" and \"Order materials.\" Proposal says materials will not be ordered until stamped/approved plans are provided.",
       "done": false
@@ -518,18 +336,6 @@
       "priority": "High",
       "status": "Open",
       "notes": "Add to schedule once Dakota provides durations.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-038",
-      "sourceId": "PM-038",
-      "phase": "Construction",
-      "text": "Schedule first LADBS inspection.",
-      "dueDate": "Before covered work",
-      "responsible": "Dave / Dakota",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Confirm inspection trigger from permit card and approved plans.",
       "done": false
     },
     {
@@ -560,36 +366,12 @@
       "id": "woods-pm-041",
       "sourceId": "PM-041",
       "phase": "Administration",
-      "text": "Establish invoicing flow from DRS to Dakota.",
+      "text": "Establish invoicing flow",
       "dueDate": "ASAP",
       "responsible": "Dave / Dakota",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "Confirm billing contact, PO/job number, invoice cadence, reimbursables, time descriptions, and backup documents.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-042",
-      "sourceId": "PM-042",
-      "phase": "Administration",
-      "text": "Establish meeting cadence and action-log owner.",
-      "dueDate": "ASAP",
-      "responsible": "Dave",
-      "priority": "Medium",
-      "status": "Open",
-      "notes": "Recommend weekly construction coordination meeting plus daily/field issue calls as needed.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-043",
-      "sourceId": "PM-043",
-      "phase": "Document control",
-      "text": "Create live RFI/submittal/change/decision logs for Dakota construction phase.",
-      "dueDate": "ASAP",
-      "responsible": "Dave",
-      "priority": "Medium",
-      "status": "Open",
-      "notes": "Useful because project history spans SRS and DRS folders.",
       "done": false
     },
     {
@@ -599,22 +381,57 @@
       "text": "Survey perimeter of Tecco Net location, including offsets where required.",
       "dueDate": "Before layout/drilling",
       "responsible": "SRS / Dave / Surveyor",
-      "priority": "High",
+      "priority": "Medium",
       "status": "Open",
       "notes": "New unique item from Dave's SRS list. DRS will help coordinate the survey scope and recommended offsets.",
       "done": false
+    }
+  ],
+  "documents": [
+    {
+      "id": "woods-doc-drs-dakota-subconsultant-20260819",
+      "title": "20260819 DRS / Dakota Subconsultant Agreement - Professional.docx",
+      "category": "Contract - DRS / Dakota",
+      "url": "/mission-control/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
+      "path": "/home/davesalter/.openclaw/workspace/mission-control/public/woods-drive/documents/20260819_DRS_Dakota_Subconsultant_Agreement_Professional.docx",
+      "notes": "Added from Dave's Telegram attachment on 2026-08-18.",
+      "status": "Linked"
     },
     {
-      "id": "woods-pm-045",
-      "sourceId": "PM-045",
-      "phase": "Responsibility matrix",
-      "text": "Confirm written SRS responsibility matrix for water, SWPPP/erosion control, field engineering/survey, utility potholing/protection, traffic control, neighbor coordination, utility coordination, and permit responsibilities.",
-      "dueDate": "ASAP",
-      "responsible": "Dave / SRS / Dakota / Owner",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Consolidates Dave's SRS-provided list into a written handoff so Dakota's exclusions do not become unmanaged gaps.",
-      "done": false
+      "id": "woods-doc-master-developer-executed",
+      "title": "1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
+      "category": "Contract - executed",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/004%20%20Construction/Construction%20Contract%20Signed/1643%20Woods%20Drive%20-%20Master%20Developer%20Consultant%20Agreement%20%28EXECUTION%20VERSION%29.pdf?_subject_uid=11819028&w=AABpyuZO5MylJtwTW383SvL3ZJSiQPyqW--ibVYzKOk-Eg",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Construction Contract Signed/1643 Woods Drive - Master Developer Consultant Agreement (EXECUTION VERSION).pdf",
+      "notes": "Likely signed construction-management agreement. Confirm exact parties and field reliance before marking final.",
+      "status": "Needs review"
+    },
+    {
+      "id": "woods-doc-slope-stabilization-plan-submittal",
+      "title": "20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
+      "category": "Plans / construction",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2025/2025-202%201643%20Woods%20Drive%20-%20SRS/Submittals/20251114%20Submittal%20No%2004/20251114%20Slope%20Stabilization%20Plan%20-%202025-202%201643%20Woods%20Drive.pdf?_subject_uid=11819028&w=AABAVjl6RKNzPNXz3U-M6lOY-6d6PaT0SysaExsbeHDZdQ",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS/Submittals/20251114 Submittal No 04/20251114 Slope Stabilization Plan - 2025-202 1643 Woods Drive.pdf",
+      "notes": "Candidate construction slope-stabilization plan from DRS 2025-202 folder.",
+      "status": "Needs current-version check"
+    },
+    {
+      "id": "woods-doc-design-document",
+      "title": "1643 Woods Drive Slope Stabilization Design Document.pdf",
+      "category": "Design report",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Slope%20Stabilization%20Design%20Document.pdf?_subject_uid=11819028&w=AACwOy3AJ-ZEksE2yUN5UIyucQP8XRH7Xmvi1vijs2iKjg",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Slope Stabilization Design Document.pdf",
+      "notes": "Design narrative/supporting document.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-doc-geotech-report",
+      "title": "1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
+      "category": "Geotechnical",
+      "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Geotechnical%20Investigation%20Report_FINAL%20%28with%20Research%29.pdf?_subject_uid=11819028&w=AAATLKu9UAsj2N1WUdmifc9Hv3NbDMLq_Oh0MpdE2WmgtA",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
+      "notes": "Geotechnical report for project reference.",
+      "status": "Linked"
     }
   ]
 }

@@ -5,6 +5,8 @@ import type { WoodsDriveAction, WoodsDriveDocument } from '@/lib/woods-drive';
 
 const statusOptions = ['All', 'Open', 'In progress', 'Waiting', 'Done'];
 const defaultDropboxPath = 'DRSEng/1 - DRS Eng - Projects/2025/2025-202 1643 Woods Drive - SRS';
+type ActionSortKey = 'by' | 'date' | 'priority';
+type SortDirection = 'asc' | 'desc';
 
 type DropboxEntry = {
   id: string;
@@ -27,7 +29,7 @@ function newAction(): WoodsDriveAction {
     text: '',
     dueDate: '',
     responsible: '',
-    priority: 'Medium',
+    priority: '',
     status: 'Open',
     notes: '',
     done: false,
@@ -51,22 +53,11 @@ function newDocument(): WoodsDriveDocument {
 
 function priorityClass(priority: string) {
   const normalized = priority.trim().toLowerCase();
+  if (normalized === 'urgent') return 'is-priority-urgent';
   if (normalized === 'high') return 'is-priority-high';
   if (normalized === 'medium') return 'is-priority-medium';
   if (normalized === 'low') return 'is-priority-low';
   return 'is-priority-unassigned';
-}
-
-function ownerInitials(owner: string) {
-  const parts = owner
-    .split(/[\/,&]+|\band\b/i)
-    .map((part) => part.trim())
-    .filter(Boolean);
-  const initials = parts
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() || '')
-    .join('');
-  return initials || '--';
 }
 
 function isOverdue(dueDate: string) {
@@ -78,6 +69,33 @@ function isOverdue(dueDate: string) {
   today.setHours(0, 0, 0, 0);
   parsed.setHours(0, 0, 0, 0);
   return parsed < today;
+}
+
+function dateInputValue(dueDate: string) {
+  const trimmed = dueDate.trim();
+  return /^\d{4}-\d{2}-\d{2}$/.test(trimmed) ? trimmed : '';
+}
+
+function monthDayLabel(dueDate: string) {
+  const value = dateInputValue(dueDate);
+  if (!value) return '';
+  const [, month, day] = value.split('-');
+  return `${month}/${day}`;
+}
+
+function priorityRank(priority: string) {
+  const normalized = priority.trim().toLowerCase();
+  if (normalized === 'urgent') return 0;
+  if (normalized === 'high') return 1;
+  if (normalized === 'medium') return 2;
+  if (normalized === 'low') return 3;
+  return 4;
+}
+
+function dueDateRank(dueDate: string) {
+  const value = dateInputValue(dueDate);
+  if (!value) return Number.POSITIVE_INFINITY;
+  return new Date(`${value}T00:00:00`).getTime();
 }
 
 export function WoodsDriveChecklist({
@@ -100,6 +118,8 @@ export function WoodsDriveChecklist({
   const [dropboxMessage, setDropboxMessage] = useState('');
   const [showDropboxBrowser, setShowDropboxBrowser] = useState(false);
   const [isBrowsingDropbox, setIsBrowsingDropbox] = useState(false);
+  const [sortKey, setSortKey] = useState<ActionSortKey | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [isPending, startTransition] = useTransition();
 
   const openCount = useMemo(() => actions.filter((action) => !action.done).length, [actions]);
@@ -129,6 +149,41 @@ export function WoodsDriveChecklist({
       return matchesStatus && (!needle || haystack.includes(needle));
     });
   }, [actions, query, statusFilter]);
+  const visibleActions = useMemo(() => {
+    if (!sortKey) return filteredActions;
+
+    return [...filteredActions].sort((left, right) => {
+      let comparison = 0;
+      if (sortKey === 'by') {
+        comparison = left.responsible.localeCompare(right.responsible, undefined, { sensitivity: 'base' });
+      } else if (sortKey === 'date') {
+        comparison = dueDateRank(left.dueDate) - dueDateRank(right.dueDate);
+      } else {
+        comparison = priorityRank(left.priority) - priorityRank(right.priority);
+      }
+
+      if (comparison === 0) {
+        comparison = left.text.localeCompare(right.text, undefined, { sensitivity: 'base' });
+      }
+
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }, [filteredActions, sortDirection, sortKey]);
+
+  function sortLabel(key: ActionSortKey) {
+    if (sortKey !== key) return '-';
+    return sortDirection === 'asc' ? '^' : 'v';
+  }
+
+  function toggleSort(key: ActionSortKey) {
+    if (sortKey === key) {
+      setSortDirection((current) => current === 'asc' ? 'desc' : 'asc');
+      return;
+    }
+
+    setSortKey(key);
+    setSortDirection('asc');
+  }
 
   function updateAction(id: string, patch: Partial<WoodsDriveAction>) {
     setActions((current) => current.map((action) => action.id === id ? { ...action, ...patch } : action));
@@ -152,12 +207,29 @@ export function WoodsDriveChecklist({
     saveActions(nextActions);
   }
 
+  function removeAction(id: string) {
+    const action = actions.find((item) => item.id === id);
+    const label = action?.text?.trim() || action?.sourceId || 'this action';
+    const confirmed = window.confirm(`Remove "${label}" from the action list?`);
+    if (!confirmed) return;
+
+    const nextActions = actions.filter((item) => item.id !== id);
+    setActions(nextActions);
+    saveActions(nextActions);
+  }
+
   function updateDocument(id: string, patch: Partial<WoodsDriveDocument>) {
     setDocuments((current) => current.map((document) => document.id === id ? { ...document, ...patch } : document));
   }
 
   function removeDocument(id: string) {
+    const document = documents.find((item) => item.id === id);
+    const label = document?.title?.trim() || document?.path?.trim() || 'this document';
+    const confirmed = window.confirm(`Remove "${label}" from the document section?\n\nThis only removes it from Mission Control. Dropbox is not changed.`);
+    if (!confirmed) return;
+
     setDocuments((current) => current.filter((document) => document.id !== id));
+    setMessage('Removed document locally. Save documents when ready.');
   }
 
   async function browseDropbox(path = dropboxPath) {
@@ -425,7 +497,7 @@ export function WoodsDriveChecklist({
             <select className="input woods-status-filter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
               {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
             </select>
-            <span className="muted small woods-filter-count">{filteredActions.length} shown</span>
+            <span className="muted small woods-filter-count">{visibleActions.length} shown</span>
           </div>
 
           <div className="woods-table-wrap">
@@ -433,27 +505,29 @@ export function WoodsDriveChecklist({
               <table className="woods-action-table">
                 <thead>
                   <tr>
-                    <th className="woods-col-phase">Phase</th>
                     <th className="woods-col-action">Action</th>
-                    <th className="woods-col-owner">Owner</th>
-                    <th className="woods-col-due">Due date</th>
-                    <th className="woods-col-priority">Priority</th>
+                    <th className="woods-col-owner">
+                      <button className="woods-sort-button" type="button" onClick={() => toggleSort('by')}>
+                        By <span>{sortLabel('by')}</span>
+                      </button>
+                    </th>
+                    <th className="woods-col-due">
+                      <button className="woods-sort-button" type="button" onClick={() => toggleSort('date')}>
+                        Date <span>{sortLabel('date')}</span>
+                      </button>
+                    </th>
+                    <th className="woods-col-priority">
+                      <button className="woods-sort-button" type="button" onClick={() => toggleSort('priority')}>
+                        Priority <span>{sortLabel('priority')}</span>
+                      </button>
+                    </th>
                     <th className="woods-col-complete">Status</th>
-                    <th className="woods-col-menu" aria-label="Action menu" />
+                    <th className="woods-col-remove">Remove</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredActions.map((action) => (
+                  {visibleActions.map((action) => (
                     <tr className={action.done ? 'is-done' : ''} key={action.id}>
-                      <td className="woods-col-phase">
-                        <textarea
-                          className="input woods-cell-input woods-cell-textarea woods-phase-input"
-                          rows={2}
-                          value={action.phase}
-                          onChange={(event) => updateAction(action.id, { phase: event.target.value })}
-                          placeholder="Phase"
-                        />
-                      </td>
                       <td className="woods-col-action">
                         <textarea
                           className="input woods-cell-input woods-cell-textarea woods-action-text"
@@ -465,7 +539,6 @@ export function WoodsDriveChecklist({
                       </td>
                       <td className="woods-col-owner">
                         <div className="woods-owner-cell">
-                          <span className="woods-owner-avatar">{ownerInitials(action.responsible)}</span>
                           <textarea
                             className="input woods-cell-input woods-cell-textarea woods-responsible-input"
                             rows={2}
@@ -477,20 +550,23 @@ export function WoodsDriveChecklist({
                         </div>
                       </td>
                       <td className="woods-col-due">
-                        <textarea
-                          className="input woods-cell-input woods-cell-textarea woods-due-input"
-                          rows={2}
-                          value={action.dueDate}
-                          onChange={(event) => updateAction(action.id, { dueDate: event.target.value })}
-                          placeholder="YYYY-MM-DD"
-                        />
+                        <label className="woods-date-picker">
+                          <span>{monthDayLabel(action.dueDate) || 'mm/dd'}</span>
+                          <input
+                            type="date"
+                            value={dateInputValue(action.dueDate)}
+                            onChange={(event) => updateAction(action.id, { dueDate: event.target.value })}
+                            aria-label="Due date"
+                          />
+                        </label>
                       </td>
                       <td className="woods-col-priority">
-                        <select className={`input woods-cell-input woods-priority-select ${priorityClass(action.priority)}`} value={action.priority} onChange={(event) => updateAction(action.id, { priority: event.target.value })}>
+                        <select className={`input woods-cell-input woods-priority-select ${priorityClass(action.priority)}`} value={action.priority === 'None' ? '' : action.priority} onChange={(event) => updateAction(action.id, { priority: event.target.value })}>
+                          <option value="Urgent">Urgent</option>
                           <option value="High">High</option>
                           <option value="Medium">Medium</option>
                           <option value="Low">Low</option>
-                          <option value="">Unassigned</option>
+                          <option value="">None</option>
                         </select>
                       </td>
                       <td className="woods-col-complete">
@@ -499,9 +575,9 @@ export function WoodsDriveChecklist({
                           Open
                         </button>
                       </td>
-                      <td className="woods-col-menu">
-                        <button className="woods-menu-button" type="button" aria-label="Complete action" onClick={() => completeAction(action.id)}>
-                          ⋮
+                      <td className="woods-col-remove">
+                        <button className="woods-remove-action-button" type="button" onClick={() => removeAction(action.id)}>
+                          Remove
                         </button>
                       </td>
                     </tr>
