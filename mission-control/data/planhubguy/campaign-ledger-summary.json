@@ -1,28 +1,28 @@
 {
   "counts": {
-    "responseEvents": 1435,
+    "responseEvents": 1445,
     "responsesByType": {
       "inbound_automatic_reply": 253,
-      "inbound_bounce": 547,
-      "inbound_real_person_response": 633,
+      "inbound_bounce": 551,
+      "inbound_real_person_response": 639,
       "inbound_response": 2
     },
     "sentByType": {
-      "sent_final_followup": 2822,
-      "sent_followup1": 2560,
-      "sent_initial": 2907
+      "sent_final_followup": 2827,
+      "sent_followup1": 2576,
+      "sent_initial": 2929
     },
-    "sentEvents": 8289,
-    "totalEvents": 9724,
-    "uniqueRealPersonResponseThreads": 483,
-    "uniqueSentRecipients": 2897,
-    "uniqueSentThreads": 8200
+    "sentEvents": 8332,
+    "totalEvents": 9777,
+    "uniqueRealPersonResponseThreads": 489,
+    "uniqueSentRecipients": 2916,
+    "uniqueSentThreads": 8243
   },
   "dateRange": {
-    "end": "2026-08-18",
+    "end": "2026-08-19",
     "start": "2026-04-01"
   },
-  "generatedAt": "2026-08-19T06:11:45.323777+00:00",
+  "generatedAt": "2026-08-20T06:10:45.258463+00:00",
   "notes": [
     "Gmail sent events are immutable mailbox evidence and are deduped by Gmail message id.",
     "Inbound events currently use Response Log rows; row/thread dedupe is reported for real-person response threads.",
@@ -52,26 +52,26 @@
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:\"Final follow-up\"": 478,
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:\"Re:\"": 311,
       "Dave@DRS-Engineering.net :: in:sent after:2026/06/30 before:2026/08/01 subject:Regarding": 291,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/19 subject:\"Final follow up\"": 99,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/19 subject:\"Final follow-up\"": 99,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/19 subject:\"Re:\"": 130,
-      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/19 subject:Regarding": 168
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/20 subject:\"Final follow up\"": 104,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/20 subject:\"Final follow-up\"": 104,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/20 subject:\"Re:\"": 150,
+      "Dave@DRS-Engineering.net :: in:sent after:2026/07/31 before:2026/08/20 subject:Regarding": 190
     },
-    "gmailSearchRejectedAfterClassification": 551,
+    "gmailSearchRejectedAfterClassification": 555,
     "gmailSentAccounts": [
       "Dave@DRS-Engineering.net"
     ],
-    "gmailSentEventsAfterDedupe": 8289,
-    "gmailSentRawEventsBeforeDedupe": 8289,
+    "gmailSentEventsAfterDedupe": 8332,
+    "gmailSentRawEventsBeforeDedupe": 8332,
     "responseSheetRange": "Response Log!A1:I12000"
   },
   "validation": {
     "actualLedgerCounts": {
-      "autoFollowups": 5382,
-      "finalFollowupEmails": 2822,
-      "followup1Emails": 2560,
-      "initialEmails": 2907,
-      "realPersonResponseThreads": 483
+      "autoFollowups": 5403,
+      "finalFollowupEmails": 2827,
+      "followup1Emails": 2576,
+      "initialEmails": 2929,
+      "realPersonResponseThreads": 489
     },
     "actualLedgerCountsThrough20260519": {
       "finalFollowupEmails": 0,
@@ -85,19 +85,19 @@
       "sentOutreachRows": -787
     },
     "differenceVsMarketingStats": {
-      "autoFollowups": 32,
-      "finalFollowupEmails": 10,
-      "followup1Emails": 22,
-      "initialEmails": 19,
-      "realPersonResponseThreads": 4
+      "autoFollowups": 28,
+      "finalFollowupEmails": 9,
+      "followup1Emails": 19,
+      "initialEmails": 22,
+      "realPersonResponseThreads": 6
     },
     "expectedCounts": {
       "marketingStats": {
-        "autoFollowups": 5350,
-        "finalFollowupEmails": 2812,
-        "followup1Emails": 2538,
-        "initialEmails": 2888,
-        "realPersonResponseThreads": 479
+        "autoFollowups": 5375,
+        "finalFollowupEmails": 2818,
+        "followup1Emails": 2557,
+        "initialEmails": 2907,
+        "realPersonResponseThreads": 483
       },
       "snapshot20260519": {
         "sentOutreachRows": 3715,
