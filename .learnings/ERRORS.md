@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260821-001] api_key_audit_runner_not_executable
+
+**Logged**: 2026-08-21T08:00:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+The API key audit runner has a shebang but is not executable, so direct invocation fails.
+
+### Error
+```text
+/bin/bash: line 1: /home/davesalter/.openclaw/workspace/state/api-key-audits/run-api-key-audit.py: Permission denied
+```
+
+### Context
+- Command attempted: direct execution of `state/api-key-audits/run-api-key-audit.py`.
+- Task: daily API key health and spend audit cron.
+- Fallback: run the script through `python3` with the same timestamp environment.
+
+### Suggested Fix
+Either call the audit runner as `python3 state/api-key-audits/run-api-key-audit.py` in cron payloads or set the executable bit deliberately.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/state/api-key-audits/run-api-key-audit.py
+- See Also: none
+
+---
 ## [ERR-20260813-001] api_key_audit_script_not_executable
 
 **Logged**: 2026-08-13T08:00:00-07:00

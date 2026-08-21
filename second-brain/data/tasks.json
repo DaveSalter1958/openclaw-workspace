@@ -1,5 +1,17 @@
 [
   {
+    "id": "email-drs-drs-engineering-net-1a021314159916ff",
+    "title": "Re: permanent rail std",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-08-21",
+    "dueTime": "17:00",
+    "project": "Email \u2014 DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Olivier Dore <olivier@drs-engineering.net>\nDate: 2026-08-20 15:00\nSubject: Re: permanent rail std\nGmail message ID: 1a021314159916ff\nThread ID: 1a02071f2595fd10\n\nEmail body:\nWhy do we even need a 3\" PVC? Wouldn't a 2\" OD be enough?\n\nThanks.\n*Olivier Dore*\n*Designer*\nOlivier@DRS-Engineering.net\nOffice: (818) 402 3962\n*Los Angeles, Santa Barbara, San Luis Obispo, Vancouver, Grand Rapids.*\n\nOn Thu, Aug 20, 2026 at 11:32\u202fAM Jody Robinson \nwrote:\n\n> I believe we should change our std rail detail to show a 3\" PVC as opposed\n> to 4\". If someone is installing our rail as currently shown, our shotcrete\n> coverage with an 8\" facing is out of compliance with the code; this is\n> because we only have about 1\" of coverage over the #6 hoz bars on each side\n> of the PVC sleeve.\n>\n> OD of 4\" PVC = 4.5\"\n> #6 bar dia = 0.75\"\n>\n> For an 8\" facing cover would be = 8\" - [4.5\" + 2 x 0.75\"] = 2\" / 2 = 1\"\n> ea side.\n>\n> Let me know what you think.\n>\n> [image: image.png]\n>\n> Thanks\n> *Jody Robinson, PE*\n> *President & Principal*\n> Jody@DRS-Engineering.net\n> Office: (818) 402-3962 Ext. 1\n> Cell: (360) 721-4548\n>\n> *Los Angeles, Santa Barbara, San Luis Obispo,*\n> *Vancouver, Grand Rapids*\n>",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-1a0158e67418e3c3",
     "title": "Re: SRS DRS Follow up @ Tue, Aug 18, 2026 9:00am \u2013 10:00am (GMT-07)",
     "status": "open",
