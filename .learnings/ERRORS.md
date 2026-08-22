@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260822-001] api_key_audit_script_permission
+
+**Logged**: 2026-08-22T08:00:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+The daily API key audit script exists but is not executable when invoked directly.
+
+### Error
+```text
+/bin/bash: line 1: /home/davesalter/.openclaw/workspace/scripts/api-key-health-audit.py: Permission denied
+```
+
+### Context
+- Command attempted: direct execution of `/home/davesalter/.openclaw/workspace/scripts/api-key-health-audit.py`.
+- Task: daily API key health and spend audit cron.
+- Fallback: running the same script through `python3` succeeded and generated the report/snapshot.
+
+### Suggested Fix
+Either mark the script executable or have the cron command invoke it through `python3`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/scripts/api-key-health-audit.py
+- See Also: none
+
+---
 ## [ERR-20260821-001] api_key_audit_runner_not_executable
 
 **Logged**: 2026-08-21T08:00:00-07:00
