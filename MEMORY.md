@@ -20,6 +20,7 @@ Main-session long-term memory index. Search topic files under `memory/` for deta
 - DRS company reference facts: `memory/drs-reference.md`.
 - Dropbox filing and safety playbook: `memory/dropbox.md` and `DRS-DROPBOX-PLAYBOOK.md`.
 - Dave life-history/memoir notes: `memory/mylife/README.md` plus year files.
+- Dave's living gratitude/contact list: `memory/mylife/thankful-for-people.md`.
 - Dave golf round tracking: `docs/golf-tracker.md`, local store `data/golf/rounds.json`, capture/query script `scripts/golf-store.mjs`.
 - Dave sim racing and sim flying setup memory: `memory/sim-memory.md`; related photos/assets: `memory/sim-memory-assets/`.
 
