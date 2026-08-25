@@ -163,19 +163,22 @@ function emailDateLabel(date: string) {
 export function WoodsDriveChecklist({
   initialActions,
   initialDocuments,
+  initialPermits,
   initialSchedule,
   initialEmails,
 }: {
   initialActions: WoodsDriveAction[];
   initialDocuments: WoodsDriveDocument[];
+  initialPermits: WoodsDriveDocument[];
   initialSchedule: WoodsDriveScheduleItem[];
   initialEmails: WoodsDriveEmail[];
 }) {
   const [actions, setActions] = useState<WoodsDriveAction[]>(initialActions);
   const [documents, setDocuments] = useState<WoodsDriveDocument[]>(initialDocuments);
+  const [permits, setPermits] = useState<WoodsDriveDocument[]>(initialPermits);
   const [schedule] = useState<WoodsDriveScheduleItem[]>(initialSchedule);
   const [emails] = useState<WoodsDriveEmail[]>(initialEmails);
-  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | 'schedule' | 'emails' | null>(null);
+  const [activePanel, setActivePanel] = useState<'actions' | 'documents' | 'permits' | 'schedule' | 'emails' | null>(null);
   const [message, setMessage] = useState('');
   const [dropboxPath, setDropboxPath] = useState(defaultDropboxPath);
   const [dropboxEntries, setDropboxEntries] = useState<DropboxEntry[]>([]);
@@ -319,6 +322,17 @@ export function WoodsDriveChecklist({
     setMessage('Removed document locally. Save documents when ready.');
   }
 
+  function removePermit(id: string) {
+    const permit = permits.find((item) => item.id === id);
+    const label = permit?.title?.trim() || permit?.path?.trim() || 'this permit document';
+    const confirmed = window.confirm(`Remove "${label}" from the permit list?\n\nThis only removes it from Mission Control. Dropbox is not changed.`);
+    if (!confirmed) return;
+
+    const nextPermits = permits.filter((permitDocument) => permitDocument.id !== id);
+    setPermits(nextPermits);
+    savePermits(nextPermits);
+  }
+
   async function browseDropbox(path = dropboxPath) {
     setShowDropboxBrowser(true);
     setDropboxMessage('');
@@ -429,6 +443,26 @@ export function WoodsDriveChecklist({
     });
   }
 
+  function savePermits(nextPermits = permits) {
+    setMessage('');
+    startTransition(async () => {
+      const response = await fetch('/mission-control/api/woods-drive/permits', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ permits: nextPermits }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setMessage(data.error || 'Could not save Woods Drive permits.');
+        return;
+      }
+
+      setPermits(data.permits || []);
+      setMessage('Saved.');
+    });
+  }
+
   if (!activePanel) {
     return (
       <section className="woods-action-launch">
@@ -438,13 +472,67 @@ export function WoodsDriveChecklist({
         <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('documents')}>
           Document
         </button>
+        <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('permits')}>
+          Permits
+        </button>
         <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('schedule')}>
           Schedule
         </button>
         <button className="woods-action-open-button" type="button" onClick={() => setActivePanel('emails')}>
           Emails
         </button>
-        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs / {schedule.length} schedule / {emails.length} emails</span>
+        <span className="muted small">{openCount} open / {actions.length} total / {documents.length} docs / {permits.length} permits / {schedule.length} schedule / {emails.length} emails</span>
+      </section>
+    );
+  }
+
+  if (activePanel === 'permits') {
+    return (
+      <section className="card woods-checklist-card">
+        <div className="woods-register-header">
+          <div className="woods-register-title">
+            <span className="woods-permit-icon" aria-hidden="true" />
+            <h2>Permit Documents</h2>
+            <span className="woods-register-badge is-open">{permits.length} listed</span>
+          </div>
+          <div className="woods-register-actions">
+            <button className="button secondary" type="button" onClick={() => setActivePanel(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+
+        {permits.length ? (
+          <div className="woods-document-list">
+            {permits.map((permit) => (
+              <article className="woods-document-row" key={permit.id}>
+                <div className="woods-document-main">
+                  <div>
+                    <strong>{permit.title || 'Untitled permit document'}</strong>
+                    <p>{permit.notes || permit.category || 'Permit folder document.'}</p>
+                  </div>
+                  {documentOpenHref(permit) ? (
+                    <a className="button secondary woods-document-open-link" href={documentOpenHref(permit)} target="_blank" rel="noreferrer">
+                      Open
+                    </a>
+                  ) : (
+                    <button className="button secondary woods-document-open-link" type="button" disabled>
+                      Open
+                    </button>
+                  )}
+                  <button className="compact-task-button delete woods-document-remove-button" type="button" onClick={() => removePermit(permit.id)} disabled={isPending}>
+                    Remove
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="reference-empty-card compact-empty">
+            No permit documents are currently shown. The source Dropbox folder is unchanged.
+          </div>
+        )}
+        {message ? <p className="muted small woods-save-message">{message}</p> : null}
       </section>
     );
   }

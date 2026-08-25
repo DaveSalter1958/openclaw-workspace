@@ -4,6 +4,8 @@ type TripDay = {
   place: string;
   items: string[];
   alert?: string;
+  travelPlan?: Array<{ time: string; step: string }>;
+  coolFacts?: Array<{ name: string; detail: string }>;
 };
 
 type InfoCard = {
@@ -51,13 +53,35 @@ const tripDays: TripDay[] = [
     title: 'Italian F1 Grand Prix',
     place: 'Monza',
     items: [
-      'Leave Brera around 10:00 AM. Aim to arrive 11:00-11:30 AM.',
+      'Target: arrive at Gate D - Lesmo by 10:00 AM.',
       'Viewing plan: Lesmo area first; Curva Grande as backup.',
       'Order/event number 8647147014.',
       'Drivers parade 1:00 PM. National anthem 2:44 PM. Grand Prix 3:00-5:00 PM.',
+      'Monza corner-name explainer: https://www.mercedesamgf1.com/news/explained-how-the-monza-corners-got-their-names',
       'Bring sunscreen, hat, charger, water bottle, comfortable shoes, and light seat pad or towel.',
     ],
-  },
+    travelPlan: [
+      { time: '7:35 AM', step: "Leave Milan Royal Suites - Brera, 20 Via dell'Orso. Walk to Lanza M2 or take a short taxi to Milano Porta Garibaldi if you want less walking." },
+      { time: '8:00 AM', step: 'Be inside Milano Porta Garibaldi with tickets ready. Use the race-day train to Biassono-Lesmo if available; Gate D is the Lesmo-side gate and Biassono-Lesmo is the useful station for it.' },
+      { time: '8:17 AM', step: 'Conservative target train: regular S7 toward Lecco from Milano Porta Garibaldi to Biassono-Lesmo. Published normal pattern is about 32 minutes, with regular departures around 17 minutes past the hour.' },
+      { time: '8:40-8:50 AM', step: 'If race-day special trains are posted, take the first direct/special Porta Garibaldi to Biassono-Lesmo train instead. Monza official info says special trains run on Sunday Sep 6 subject to availability; GP travel guides describe a faster roughly 23-minute express service.' },
+      { time: '8:50-9:00 AM', step: 'Arrive Biassono-Lesmo. Do not default to the Black Shuttle from Monza FS for Gate D; that shuttle is mainly for Gate G and Parabolica.' },
+      { time: '9:00-9:35 AM', step: 'Walk from Biassono-Lesmo toward Gate D / Lesmo. Allow 20-30 minutes plus crowd flow. Follow event wayfinding for Ingresso D / Lesmo.' },
+      { time: '9:35-10:00 AM', step: 'Security, ticket scan, water stop, and orientation inside the gate. Keep ticket, ID, phone battery, and sunscreen easy to reach.' },
+      { time: 'Backup', step: 'If you miss the 8:17-ish option, take the next special train if available. Avoid relying on the 9:17 regular train if you truly need Gate D by 10:00; it likely reaches Biassono-Lesmo around 9:49 before the walk and entry queue.' },
+      { time: 'Return', step: 'After the race, consider waiting for crowds to thin. Regular return pattern noted by GP travel guides is Biassono-Lesmo toward Milan around 9 minutes past the hour; verify live Trenord times that day.' },
+    ],
+    coolFacts: [
+      { name: 'Prima Variante - Turns 1 and 2', detail: 'First chicane. It has kept the Prima Variante name since being added in 1972; older layout/name referenced the Rettifilo, meaning the straight stretch.' },
+      { name: 'Biassono / Curva Grande - Turn 3', detail: 'Named for the nearby village of Biassono. Fans also call it Curva Grande, the great curve, because it is the huge fast right-hander through the park.' },
+      { name: 'Seconda Variante / Roggia - Turns 4 and 5', detail: 'Second chicane. The Roggia name comes from a nearby stream; it is also a common passing and first-lap trouble spot.' },
+      { name: 'Lesmo 1 and 2 - Turns 6 and 7', detail: 'Originally linked with the oaks in the surrounding forest, then renamed Lesmo in 1927. The exact origin is debated, with theories tied to the Laetissimus family or Lesbos.' },
+      { name: 'Serraglio', detail: 'A gentle left flick that is not usually counted as a numbered F1 corner. It is named after a royal hunting lodge that once stood in the forest.' },
+      { name: 'Variante Ascari - Turns 8, 9 and 10', detail: 'Named for Italian racing legend Alberto Ascari after his fatal 1955 Monza accident. Earlier names included Plane Tree Curve and Avenue Curve.' },
+      { name: 'Parabolica / Curva Alboreto - Turn 11', detail: 'The sweeping final right-hander. Officially renamed Curva Alboreto in 2021 for Michele Alboreto; older Parabolica history includes the porphyry stones used in construction.' },
+      { name: 'Rettilineo Box', detail: 'The pit straight. Literally the straight by the pits, which is unusually honest as corner names go.' },
+    ],
+    },
   {
     date: 'Mon Sep 7',
     title: 'Fly Milan to Sardinia',
@@ -174,6 +198,19 @@ const openItems = [
 
 export const dynamic = 'force-static';
 
+function renderTripItem(item: string) {
+  const monzaUrl = 'https://www.mercedesamgf1.com/news/explained-how-the-monza-corners-got-their-names';
+  if (item.includes(monzaUrl)) {
+    return (
+      <>
+        Monza corner-name explainer:{' '}
+        <a href={monzaUrl} target="_blank" rel="noreferrer">Mercedes-AMG F1 guide</a>
+      </>
+    );
+  }
+  return item;
+}
+
 export default function SardiniaPage() {
   return (
     <main className="reference-dashboard sardinia-page">
@@ -204,7 +241,7 @@ export default function SardiniaPage() {
                 </div>
                 {day.alert ? <p className="sardinia-alert">{day.alert}</p> : null}
                 <ul>
-                  {day.items.map((item) => <li key={item}>{item}</li>)}
+                  {day.items.map((item) => <li key={item}>{renderTripItem(item)}</li>)}
                 </ul>
               </div>
             </article>

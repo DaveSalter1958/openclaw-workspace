@@ -1,6 +1,6 @@
 {
   "name": "Woods Drive Project",
-  "updatedAt": "2026-08-19T20:30:03.000Z",
+  "updatedAt": "2026-08-25T21:42:59.325Z",
   "actions": [
     {
       "id": "woods-pm-002",
@@ -487,6 +487,80 @@
       "url": "https://www.dropbox.com/pri/get/Dave%20Salter/DRSEng/1%20-%20DRS%20Eng%20-%20Projects/2024/2024-261%201643%20Woods%20Drive%20-%20SRS%20Debra%20Upsher/Deliverable%20to%20Client/1643%20Woods%20Drive%20Geotechnical%20Investigation%20Report_FINAL%20%28with%20Research%29.pdf?_subject_uid=11819028&w=AAATLKu9UAsj2N1WUdmifc9Hv3NbDMLq_Oh0MpdE2WmgtA",
       "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/Deliverable to Client/1643 Woods Drive Geotechnical Investigation Report_FINAL (with Research).pdf",
       "notes": "Geotechnical report for project reference.",
+      "status": "Linked"
+    }
+  ],
+  "permits": [
+    {
+      "id": "woods-permit-owner-v-contractor",
+      "title": "Owner v Contractor Permit.docx",
+      "category": "Permit guidance",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/Owner v Contractor Permit.docx",
+      "notes": "Permit-folder document from Dropbox.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-cslb-dakota",
+      "title": "CSLB - Dakota Drilling  Concrete Inc_.pdf",
+      "category": "Contractor license",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/CSLB - Dakota Drilling  Concrete Inc_.pdf",
+      "notes": "Dakota CSLB license document from the permit folder.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-dakota-information",
+      "title": "Dakota Information for Permit.docx",
+      "category": "Contractor information",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/Dakota Information for Permit.docx",
+      "notes": "Dakota permit information sheet.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-la-tax-registration",
+      "title": "City of LA Tax Registration Certificate.pdf",
+      "category": "BTRC",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/City of LA Tax Registration Certificate.pdf",
+      "notes": "City of Los Angeles tax registration certificate.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-rti-process",
+      "title": "Process to Pull Permits after RTI.docx",
+      "category": "Permit guidance",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/Process to Pull Permits after RTI.docx",
+      "notes": "Ready-to-issue permit process notes.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-agent-authorization",
+      "title": "1643 Woods Dr.  Agent Authorization Letter.pdf",
+      "category": "Agent authorization",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/1643 Woods Dr.  Agent Authorization Letter.pdf",
+      "notes": "Notarized authorization for Dave / DRS to act as Dakota's permit agent.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-signature-declaration",
+      "title": "signature-declaration.pdf",
+      "category": "Signature declaration",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/signature-declaration.pdf",
+      "notes": "LADBS signature declaration document.",
+      "status": "Linked"
+    },
+    {
+      "id": "woods-permit-workers-comp",
+      "title": "Workers Comp Certificate.pdf",
+      "category": "Workers comp",
+      "url": "",
+      "path": "/Dave Salter/DRSEng/1 - DRS Eng - Projects/2024/2024-261 1643 Woods Drive - SRS Debra Upsher/004  Construction/Permits/Workers Comp Certificate.pdf",
+      "notes": "Dakota workers compensation certificate.",
       "status": "Linked"
     }
   ]

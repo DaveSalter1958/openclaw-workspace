@@ -2630,6 +2630,34 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   box-shadow: 0 6px 0 #2f5d8f, 0 12px 0 #2f5d8f;
 }
 
+.woods-permit-icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border: 2px solid #2f5d8f;
+  border-radius: 3px;
+  position: relative;
+}
+
+.woods-permit-icon::before {
+  content: "";
+  position: absolute;
+  inset: 6px 5px 5px;
+  border-top: 2px solid #2f5d8f;
+  border-bottom: 2px solid #2f5d8f;
+}
+
+.woods-permit-icon::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #2f5d8f;
+  border-right: 2px solid #2f5d8f;
+}
+
 .woods-register-badge {
   display: inline-flex;
   align-items: center;
@@ -2669,6 +2697,8 @@ hr.subtle { border: 0; height: 1px; background: var(--line); margin: 0; }
   align-items: center;
   gap: 10px;
   width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .woods-action-open-button {
@@ -3943,6 +3973,14 @@ textarea.woods-cell-textarea {
   padding-left: 18px;
   color: #253d4a;
   line-height: 1.45;
+}
+
+.sardinia-day a {
+  color: #0f6f8f;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 .sardinia-day li + li,

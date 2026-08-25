@@ -54,6 +54,7 @@ export type WoodsDriveProject = {
   actions: WoodsDriveAction[];
   schedule: WoodsDriveScheduleItem[];
   documents: WoodsDriveDocument[];
+  permits: WoodsDriveDocument[];
 };
 
 const projectPath = path.join(process.cwd(), 'data', 'woods-drive-project.json');
@@ -65,6 +66,7 @@ const defaultProject: WoodsDriveProject = {
   actions: [],
   schedule: [],
   documents: [],
+  permits: [],
 };
 
 function cleanAction(value: Partial<WoodsDriveAction>, index: number): WoodsDriveAction {
@@ -152,6 +154,9 @@ export async function getWoodsDriveProject(): Promise<WoodsDriveProject> {
       documents: Array.isArray(parsed.documents)
         ? parsed.documents.map((document, index) => cleanDocument(document, index)).filter((document) => document.title || document.url || document.path)
         : [],
+      permits: Array.isArray((parsed as WoodsDriveProject).permits)
+        ? (parsed as WoodsDriveProject).permits.map((document, index) => cleanDocument(document, index)).filter((document) => document.title || document.url || document.path)
+        : [],
     };
   } catch {
     return defaultProject;
@@ -174,6 +179,7 @@ export async function saveWoodsDriveActions(actions: Partial<WoodsDriveAction>[]
   const existing = await getWoodsDriveProject();
   const documents = existing.documents;
   const schedule = existing.schedule;
+  const permits = existing.permits;
 
   const project: WoodsDriveProject = {
     name: defaultProject.name,
@@ -181,6 +187,7 @@ export async function saveWoodsDriveActions(actions: Partial<WoodsDriveAction>[]
     actions: actions.map((action, index) => cleanAction(action, index)).filter((action) => action.text || action.dueDate || action.responsible || action.notes),
     schedule,
     documents,
+    permits,
   };
 
   await fs.mkdir(path.dirname(projectPath), { recursive: true });
@@ -196,6 +203,7 @@ export async function saveWoodsDriveDocuments(documents: Partial<WoodsDriveDocum
     actions: existing.actions,
     schedule: existing.schedule,
     documents: documents.map((document, index) => cleanDocument(document, index)),
+    permits: existing.permits,
   };
 
   await fs.mkdir(path.dirname(projectPath), { recursive: true });
@@ -211,6 +219,23 @@ export async function saveWoodsDriveSchedule(schedule: Partial<WoodsDriveSchedul
     actions: existing.actions,
     schedule: schedule.map((item, index) => cleanScheduleItem(item, index)).filter((item) => item.title || item.startDate || item.endDate || item.notes),
     documents: existing.documents,
+    permits: existing.permits,
+  };
+
+  await fs.mkdir(path.dirname(projectPath), { recursive: true });
+  await fs.writeFile(projectPath, JSON.stringify(project, null, 2) + '\n', 'utf8');
+  return project;
+}
+
+export async function saveWoodsDrivePermits(permits: Partial<WoodsDriveDocument>[]): Promise<WoodsDriveProject> {
+  const existing = await getWoodsDriveProject();
+  const project: WoodsDriveProject = {
+    name: defaultProject.name,
+    updatedAt: new Date().toISOString(),
+    actions: existing.actions,
+    schedule: existing.schedule,
+    documents: existing.documents,
+    permits: permits.map((document, index) => cleanDocument(document, index)),
   };
 
   await fs.mkdir(path.dirname(projectPath), { recursive: true });

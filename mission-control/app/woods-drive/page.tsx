@@ -19,13 +19,14 @@ export default async function WoodsDrivePage() {
             <div className="reference-metric"><strong>{project.actions.filter((action) => !action.done).length}</strong><span>Open actions</span></div>
             <div className="reference-metric"><strong>{project.actions.length}</strong><span>Total actions</span></div>
             <div className="reference-metric"><strong>{project.documents.length}</strong><span>Documents</span></div>
+            <div className="reference-metric"><strong>{project.permits.length}</strong><span>Permits</span></div>
             <div className="reference-metric"><strong>{project.schedule.length}</strong><span>Schedule items</span></div>
             <div className="reference-metric"><strong>{emails.length}</strong><span>Tracked emails</span></div>
           </div>
         </div>
       </section>
 
-      <WoodsDriveChecklist initialActions={project.actions} initialDocuments={project.documents} initialSchedule={project.schedule} initialEmails={emails} />
+      <WoodsDriveChecklist initialActions={project.actions} initialDocuments={project.documents} initialPermits={project.permits} initialSchedule={project.schedule} initialEmails={emails} />
     </main>
   );
 }
