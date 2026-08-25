@@ -9,6 +9,7 @@ Draft based on the five travel documents received from Dave.
 - `documents/Travel_Docs3.pdf` - scanned 5-page flight-cost / Cagliari transfer / Villasimius hotel packet received from Dave on 2026-08-24.
 - `documents/Travel_Docs4.pdf` - scanned 5-page Cagliari-to-Paris flight / Paris apartment packet received from Dave on 2026-08-24.
 - `documents/Travel_Docs5.pdf` - scanned 5-page Paris-to-CDG car / Paris-to-LAX flight packet received from Dave on 2026-08-24.
+- `documents/correspondence/locanda-alla-scala-reservation-reply-2026-07-06.jpg` - screenshot from Locanda Alla Scala asking whether 6:30 PM works; Dave confirmed on 2026-08-24 that the 6:30 PM dinner is confirmed.
 
 ## Travelers
 
@@ -83,7 +84,7 @@ Ticket details:
   - 10:00-11:30 AM: late breakfast in Brera. Options: Pasticceria Marchesi or Caffe Fernanda.
   - 1:30-2:30 PM: wander through Galleria Vittorio Emanuele II and Teatro alla Scala from outside.
   - Afternoon: check in, relax/nap, aperitivo in Brera.
-  - 6:30 PM dinner: Locanda alla Scala, Via dell'Orso 1, 20121 Milano. Phone 02 8693273. Email info@locandaallascala.it.
+  - 6:30 PM dinner confirmed: Locanda Alla Scala, Via dell'Orso 1, 20121 Milano. Phone 02 8693273. Email info@locandaallascala.it. Screenshot source: Locanda Alla Scala reply dated July 6, 2026 asking, "is 6.30 pm fine for you?" Dave confirmed on 2026-08-24 that this reservation is confirmed.
 
 ### Sunday, September 6, 2026 - Italian F1 Grand Prix / Monza
 
