@@ -4,6 +4,6 @@ import { AgentTaskConsole } from '@/app/components/AgentTaskConsole';
 export const dynamic = 'force-dynamic';
 
 export default async function AgentTasksPage() {
-  const { agentTasks, agentActivities } = await getTaskBoard();
+  const { agentTasks, agentActivities } = await getTaskBoard({ includeAgentActivities: true });
   return <AgentTaskConsole initialTasks={agentTasks} initialActivities={agentActivities} />;
 }

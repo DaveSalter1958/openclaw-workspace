@@ -720,7 +720,7 @@ async function getAgentActivities(agentTasks: TaskBoardItem[]): Promise<AgentAct
   }
 }
 
-export async function getTaskBoard(): Promise<{
+export async function getTaskBoard(options: { includeAgentActivities?: boolean } = {}): Promise<{
   dueToday: TaskBoardItem[];
   dueThisWeek: TaskBoardItem[];
   dueLater: TaskBoardItem[];
@@ -773,7 +773,7 @@ export async function getTaskBoard(): Promise<{
   const dueThisWeek = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > todayKey && item.dueDateKey <= weekEndKey));
   const dueLater = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > weekEndKey));
 
-  const agentActivities = await getAgentActivities(agentTasks);
+  const agentActivities = options.includeAgentActivities ? await getAgentActivities(agentTasks) : [];
 
   return { dueToday, dueThisWeek, dueLater, emailTasks, agentTasks, agentActivities };
 }
