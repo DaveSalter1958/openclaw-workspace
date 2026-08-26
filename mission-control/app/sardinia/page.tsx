@@ -81,7 +81,7 @@ const tripDays: TripDay[] = [
       { name: 'Parabolica / Curva Alboreto - Turn 11', detail: 'The sweeping final right-hander. Officially renamed Curva Alboreto in 2021 for Michele Alboreto; older Parabolica history includes the porphyry stones used in construction.' },
       { name: 'Rettilineo Box', detail: 'The pit straight. Literally the straight by the pits, which is unusually honest as corner names go.' },
     ],
-    },
+  },
   {
     date: 'Mon Sep 7',
     title: 'Fly Milan to Sardinia',
@@ -243,6 +243,32 @@ export default function SardiniaPage() {
                 <ul>
                   {day.items.map((item) => <li key={item}>{renderTripItem(item)}</li>)}
                 </ul>
+                {day.travelPlan ? (
+                  <section className="sardinia-race-plan">
+                    <h3>Gate D Arrival Plan</h3>
+                    <div className="sardinia-step-list">
+                      {day.travelPlan.map((step) => (
+                        <div className="sardinia-step" key={`${step.time}-${step.step}`}>
+                          <strong>{step.time}</strong>
+                          <span>{step.step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+                {day.coolFacts ? (
+                  <section className="sardinia-cool-facts">
+                    <h3>Monza Cool Facts</h3>
+                    <div className="sardinia-fact-grid">
+                      {day.coolFacts.map((fact) => (
+                        <article className="sardinia-fact" key={fact.name}>
+                          <h4>{fact.name}</h4>
+                          <p>{fact.detail}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
               </div>
             </article>
           ))}

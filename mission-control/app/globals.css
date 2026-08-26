@@ -3999,6 +3999,74 @@ textarea.woods-cell-textarea {
   line-height: 1.35;
 }
 
+.sardinia-race-plan,
+.sardinia-cool-facts {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.sardinia-race-plan h3,
+.sardinia-cool-facts h3 {
+  margin: 0 0 10px;
+  color: #123847;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.sardinia-step-list {
+  display: grid;
+  gap: 7px;
+}
+
+.sardinia-step {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(31, 90, 135, 0.12);
+  border-radius: 8px;
+  background: #f5faf8;
+}
+
+.sardinia-step strong {
+  color: #17685e;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.sardinia-step span {
+  color: #253d4a;
+  line-height: 1.4;
+}
+
+.sardinia-fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.sardinia-fact {
+  padding: 10px;
+  border: 1px solid rgba(31, 90, 135, 0.13);
+  border-radius: 8px;
+  background: #f8fbfd;
+}
+
+.sardinia-fact h4 {
+  margin: 0 0 6px;
+  color: #173b5d;
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.sardinia-fact p {
+  margin: 0;
+  color: #425b6b;
+  font-size: 0.8rem;
+  line-height: 1.42;
+}
+
 .sardinia-side-panel {
   display: grid;
   gap: 10px;
@@ -4074,5 +4142,10 @@ textarea.woods-cell-textarea {
 
   .sardinia-side-panel {
     grid-template-columns: 1fr;
+  }
+
+  .sardinia-step {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 }
