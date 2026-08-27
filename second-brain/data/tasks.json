@@ -50,7 +50,7 @@
   {
     "id": "t1787670990393",
     "title": "Get steps from storage",
-    "status": "open",
+    "status": "done",
     "priority": "medium",
     "domain": "general",
     "dueDate": "2026-08-26",
@@ -62,7 +62,7 @@
   {
     "id": "t1787670990373",
     "title": "Get mask and snorkel",
-    "status": "open",
+    "status": "done",
     "priority": "medium",
     "domain": "travel",
     "dueDate": "2026-08-26",

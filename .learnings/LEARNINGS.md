@@ -6,6 +6,29 @@ Corrections, insights, and knowledge gaps captured during development.
 
 ---
 
+## [LRN-20260826-001] best_practice
+
+**Logged**: 2026-08-26T20:44:35-07:00
+**Priority**: medium
+**Status**: pending
+**Area**: data
+
+### Summary
+Patch task JSON with ID-scoped context when changing repeated fields.
+
+### Details
+While marking two Mission Control personal tasks complete, an initial generic patch changed the first two `"status": "open"` fields in `second-brain/data/tasks.json`, which belonged to unrelated email tasks. Verification caught it immediately and the unrelated statuses were restored before completion.
+
+### Suggested Action
+For JSON task edits, patch with nearby stable identifiers such as `id` and `title`, then validate by reading back the exact affected records.
+
+### Metadata
+- Source: error
+- Related Files: second-brain/data/tasks.json
+- Tags: json, apply_patch, mission-control
+
+---
+
 ## [LRN-20260702-001] best_practice
 
 **Logged**: 2026-07-02T16:38:39-07:00
