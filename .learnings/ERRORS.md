@@ -418,3 +418,31 @@ Provide an approval route for `skill_workshop apply` in Telegram/OpenClaw direct
 - Last-Seen: 2026-07-23
 
 ---
+## [ERR-20260827-001] openai_whisper_api_missing_key
+
+**Logged**: 2026-08-27T10:48:08-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+The OpenAI Whisper transcription skill could not run because `OPENAI_API_KEY` was not available in the session environment or OpenClaw config.
+
+### Error
+```text
+Missing OPENAI_API_KEY
+```
+
+### Context
+- Operation attempted: transcribe an inbound Telegram MP4 voice/video attachment with `openai-whisper-api/scripts/transcribe.sh`.
+- Fallback used a temporary local Python virtual environment with `faster-whisper`.
+
+### Suggested Fix
+Configure `OPENAI_API_KEY` for the OpenAI transcription skill, or document the local `faster-whisper` fallback for short media clips.
+
+### Metadata
+- Reproducible: yes
+- Related Files: none
+- See Also: none
+
+---

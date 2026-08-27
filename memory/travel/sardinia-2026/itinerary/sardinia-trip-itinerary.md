@@ -18,6 +18,22 @@ Draft based on the five travel documents received from Dave.
 
 ## Itinerary
 
+### Tuesday, September 1, 2026 - Jet Lag Ramp-Up
+
+- Start nudging the body clock toward Italy time.
+- Aim for bedtime and wake-up about 30-60 minutes earlier than usual if practical.
+- Get bright outdoor light soon after waking.
+- Keep caffeine earlier in the day; avoid late-afternoon/evening caffeine.
+- Keep dinner and alcohol lighter than usual if possible, since sleep quality matters more than one perfect pre-trip night.
+
+### Wednesday, September 2, 2026 - Jet Lag Ramp-Up
+
+- Continue shifting bedtime/wake-up another 30-60 minutes earlier if practical.
+- Get morning outdoor light again.
+- Hydrate normally through the day, without overdoing fluids right before bed.
+- Start thinking of the overnight Boston-to-Milan flight as Saturday night in Italy; the goal is to be ready to sleep after departure from Boston.
+- Keep packing organized so Thursday night at LAX is low-stress.
+
 ### Thursday, September 3, 2026 - Los Angeles Pre-Flight Hotel
 
 - Stay: Hilton Los Angeles Airport
@@ -30,11 +46,23 @@ Draft based on the five travel documents received from Dave.
 - Total shown: $371.58 prepaid
 - Support: reservations@lodging.support, +1-800-497-2175
 - Note from document handwriting: passports, converters, chargers.
+- Jet lag plan:
+  - Treat this as the final sleep-protection night before the overnight flight.
+  - Keep dinner simple and not too late.
+  - Lay out airport clothes, passports, chargers, converters, medications, and travel documents before bed.
+  - Avoid late caffeine and minimize alcohol.
+  - Try for an early, boring night rather than squeezing in errands.
 
 ### Friday, September 4, 2026 - Fly Los Angeles to Milan
 
 - Airline: JetBlue
 - Route: LAX to Milan-Malpensa (MXP), connecting through Boston (BOS)
+- Jet lag plan:
+  - On the morning LAX-BOS flight, stay awake or only take a short nap if needed.
+  - Get light exposure during the day and keep caffeine to the morning/early afternoon Los Angeles time.
+  - During the Boston layover, eat a light dinner and start mentally switching to Italy time.
+  - Once on the BOS-MXP flight, treat it like Saturday night in Milan: set watches/phones to Milan time, skip unnecessary screen time, use eye mask/earplugs, and try to sleep as soon as practical.
+  - Avoid alcohol on the overnight flight if sleep is the priority.
 
 Flight 1:
 
@@ -82,9 +110,12 @@ Ticket details:
   - 9:30-10:00 AM: reach Brera and drop bags at Milan Royal Suites, or store luggage if the apartment is not ready.
   - Luggage storage option noted: office at Piazza della Repubblica, 12.
   - 10:00-11:30 AM: late breakfast in Brera. Options: Pasticceria Marchesi or Caffe Fernanda.
+  - Get outdoor light and walk at an easy pace after breakfast; this is the main body-clock reset window.
   - 1:30-2:30 PM: wander through Galleria Vittorio Emanuele II and Teatro alla Scala from outside.
-  - Afternoon: check in, relax/nap, aperitivo in Brera.
+  - Afternoon: check in and rest. If a nap is unavoidable, cap it at 20-30 minutes and avoid sleeping late into the afternoon.
+  - Early evening: aperitivo in Brera, stay outside/lightly active if energy allows.
   - 6:30 PM dinner confirmed: Locanda Alla Scala, Via dell'Orso 1, 20121 Milano. Phone 02 8693273. Email info@locandaallascala.it. Screenshot source: Locanda Alla Scala reply dated July 6, 2026 asking, "is 6.30 pm fine for you?" Dave confirmed on 2026-08-24 that this reservation is confirmed.
+- Jet lag priority: stay up until a reasonable Milan bedtime, ideally around 9:30-10:30 PM. Avoid the long Saturday nap, even if the flight sleep was mediocre.
 
 ### Sunday, September 6, 2026 - Italian F1 Grand Prix / Monza
 
@@ -92,6 +123,7 @@ Ticket details:
 - Breakfast in Brera around 9:00 AM.
 - Leave around 10:00 AM.
 - Arrive around 11:00-11:30 AM.
+- Jet lag plan: get morning light, keep caffeine to the morning, hydrate steadily, and avoid turning the post-race evening into a very late night before the Monday morning MXP flight.
 - Viewing plan: walk toward the Lesmo area; if packed, use Curva Grande as backup.
 - Bring: small towel or picnic blanket, sunscreen, hat, portable phone charger, refillable water bottle, comfortable shoes, possibly a lightweight foldable seat pad.
 - Italian F1 GP 2026, Sunday only pass, Autodromo Nazionale di Monza.
