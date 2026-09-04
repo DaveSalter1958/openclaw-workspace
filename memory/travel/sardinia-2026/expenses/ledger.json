@@ -5,17 +5,17 @@
     "trip": "Sardinia Trip 2026",
     "base_currency": "USD",
     "created_at": "2026-09-03",
-    "updated_at": "2026-09-03",
+    "updated_at": "2026-09-04",
     "source_folder": "memory/travel/sardinia-2026"
   },
   "summary": {
-    "expense_count": 1,
+    "expense_count": 2,
     "totals_by_currency": {
-      "USD": 110.0
+      "USD": 197.01
     },
     "totals_by_category": {
       "Food & Dining": {
-        "USD": 110.0
+        "USD": 197.01
       }
     }
   },
@@ -48,7 +48,43 @@
         "transaction": "200972"
       },
       "notes": "Receipt line items visible: mojito 12.00, Estrella Galicia 10.00, papadum 6.00, lamb rogan josh 25.00, shrimp masala curry 26.00, basmati rice 4.00."
+    },
+    {
+      "id": "R002",
+      "date": "2026-09-04",
+      "time": "05:42:00",
+      "merchant": "Urth Caffe & Bar - T1",
+      "location": "Los Angeles International Airport, Terminal 1",
+      "category": "Food & Dining",
+      "description": "LAX airport food and drinks before Italy trip departure",
+      "currency": "USD",
+      "amounts": {
+        "subtotal": 67.47,
+        "tax": 6.06,
+        "tip": 13.48,
+        "total": 87.01
+      },
+      "payment": {
+        "method": "Mastercard",
+        "last4": "8609"
+      },
+      "receipt_file": "receipts/R002-urth-caffe-bar-lax-87-01.jpg",
+      "source_media": "media/inbound/openclaw-staged-2010e113-c756-4429-a19a-ec442fe1f874/16564070-02bd-486f-acd7-5a633e92f3db.jpg",
+      "receipt_details": {
+        "check": "49323",
+        "server": "Lily L",
+        "closed_at": "2026-09-04 05:45",
+        "printed_payment_total": 87.01,
+        "card_tip": 13.48,
+        "category_breakdown": {
+          "Food": 29.84,
+          "Retail": 13.98,
+          "N/A Beverage": 22.14,
+          "Other": 14.99,
+          "Tax": 6.06
+        }
+      },
+      "notes": "Receipt line items visible: medium latte 7.75, salad casar 22.25, water 5.29, CRV fee 0.05, large latte 9.10, butter croissant 6.00, two juice/natural turmeric tonic items with pure green shot 13.98."
     }
   ]
 }
-

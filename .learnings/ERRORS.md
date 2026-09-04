@@ -380,6 +380,8 @@ Use Node.js for JSON validation in this workspace, or install `jq` if command-li
 - Reproducible: yes
 - Related Files: /home/davesalter/.openclaw/workspace/state/cron-health/latest.json
 - See Also: none
+- Recurrence-Count: 2
+- Last-Seen: 2026-09-04
 
 ---
 ## [ERR-20260722-001] skill_workshop_apply_approval_route_unavailable
