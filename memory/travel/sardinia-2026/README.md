@@ -12,6 +12,7 @@ Working travel folder for Dave's upcoming Sardinia trip.
 ## Folders
 
 - `documents/` - original travel documents and saved source files.
+- `expenses/` - local trip expense account, ledger, and receipt image copies.
 - `itinerary/` - working itinerary and summaries.
 - `notes/` - local recommendations, logistics notes, and trip-time updates.
 
