@@ -1,5 +1,17 @@
 [
   {
+    "id": "email-drs-drs-engineering-net-1a06dc3d90dbeeae",
+    "title": "angeleno account password",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-09-05",
+    "dueTime": "17:00",
+    "project": "Email \u2014 DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Luke Bennett <luke@drs-engineering.net>\nDate: 2026-09-04 11:52\nSubject: angeleno account password\nGmail message ID: 1a06dc3d90dbeeae\nThread ID: 1a06dc3d90dbeeae\n\nEmail body:\nHey Dave,\nI cant find the angeleno account password anywhere. can you share it with\nme?\n\n-- \nKind regards,\n\n*Luke Bennett*\n*Operations*\n\nLuke@DRS-Engineering.com\n*Office: *(818) 402-3962 ext. 2\n*Cell: *(805) 452-6793\n*Los Angeles \u00b7 Santa Barbara \u00b7 San Luis Obispo **\u00b7 **Vancouver \u00b7 Grand\nRapids*",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-1a0689ab656fb158",
     "title": "2741 Ocean Blvd - Site walk with consultants",
     "status": "open",
