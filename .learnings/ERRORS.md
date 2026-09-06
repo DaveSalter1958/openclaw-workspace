@@ -361,7 +361,7 @@ Clarify allowed browser navigation targets for OpenClaw-managed browser verifica
 **Area**: infra
 
 ### Summary
-`jq` was not installed in the workspace shell when validating the cron health JSON report.
+`jq` is not installed in the workspace shell when validating JSON reports or ledgers.
 
 ### Error
 ```text
@@ -372,6 +372,8 @@ Clarify allowed browser navigation targets for OpenClaw-managed browser verifica
 - Command attempted: `jq . state/cron-health/latest.json >/dev/null`
 - Task: validate generated cron health monitor snapshot JSON.
 - Fallback validation with Node.js `JSON.parse` succeeded.
+- 2026-09-06 recurrence: `jq '.summary, (.entries | length)' memory/travel/sardinia-2026/expenses/ledger.json` failed while validating the Sardinia trip expense ledger.
+- Fallback validation with Python `json` and `csv` standard library parsing succeeded.
 
 ### Suggested Fix
 Use Node.js for JSON validation in this workspace, or install `jq` if command-line JSON inspection should be standard.
@@ -380,8 +382,8 @@ Use Node.js for JSON validation in this workspace, or install `jq` if command-li
 - Reproducible: yes
 - Related Files: /home/davesalter/.openclaw/workspace/state/cron-health/latest.json
 - See Also: none
-- Recurrence-Count: 2
-- Last-Seen: 2026-09-04
+- Recurrence-Count: 3
+- Last-Seen: 2026-09-06
 
 ---
 ## [ERR-20260722-001] skill_workshop_apply_approval_route_unavailable

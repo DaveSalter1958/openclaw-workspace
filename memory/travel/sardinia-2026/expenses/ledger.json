@@ -5,19 +5,22 @@
     "trip": "Sardinia Trip 2026",
     "base_currency": "USD",
     "created_at": "2026-09-03",
-    "updated_at": "2026-09-05",
+    "updated_at": "2026-09-06",
     "source_folder": "memory/travel/sardinia-2026"
   },
   "summary": {
-    "expense_count": 3,
+    "expense_count": 5,
     "totals_by_currency": {
       "USD": 197.01,
-      "EUR": 8.59
+      "EUR": 302.59
     },
     "totals_by_category": {
       "Food & Dining": {
         "USD": 197.01,
-        "EUR": 8.59
+        "EUR": 101.59
+      },
+      "Shopping": {
+        "EUR": 201.0
       }
     }
   },
@@ -120,6 +123,67 @@
         "authorization_code": "097952"
       },
       "notes": "Receipt line items visible: 0.260 kg pizza at 21.50 EUR/kg, Parmigiana 5.59, Coca Cola Zero PET 3.00."
+    },
+    {
+      "id": "R004",
+      "date": "2026-09-06",
+      "time": "13:42:00",
+      "merchant": "F1 Store x PUMA x AMEX",
+      "location": "Milan, Italy",
+      "category": "Shopping",
+      "description": "F1/Puma clothing and merchandise",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 164.75,
+        "tax": 36.25,
+        "tip": 0.0,
+        "total": 201.0
+      },
+      "payment": {
+        "method": "Electronic payment",
+        "last4": null
+      },
+      "receipt_file": "receipts/R004-puma-f1-store-milan-201-00.jpg",
+      "source_media": "media/inbound/openclaw-staged-483352f4-068c-4168-9427-7a40f9c19f07/ac0b47c3-f249-4157-bef2-1c7a8bacdcea.jpg",
+      "receipt_details": {
+        "document_number": "0080-0493",
+        "rt": "991EC027868",
+        "vat_rate": "22.00%",
+        "vat_included": 36.25,
+        "payment_type": "Pagamento elettronico",
+        "terminal_amount": 201.0
+      },
+      "notes": "Receipt line items visible: shopping bag 1.00, F1 x Ford WS T-shirt 60.00, two kids T-shirts 70.00 each."
+    },
+    {
+      "id": "R005",
+      "date": "2026-09-06",
+      "time": "21:23:00",
+      "merchant": "Sebastian Cafe Milano",
+      "location": "Via Dante 18, Milan, Italy",
+      "category": "Food & Dining",
+      "description": "Dinner/dessert at Sebastian Cafe Milano",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 93.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 93.0
+      },
+      "payment": {
+        "method": "Payment not shown",
+        "last4": null
+      },
+      "receipt_file": "receipts/R005-sebastian-cafe-milano-93-00.jpg",
+      "source_media": "media/inbound/openclaw-staged-483352f4-068c-4168-9427-7a40f9c19f07/b479314a-492a-4b74-b715-017970643205.jpg",
+      "receipt_details": {
+        "document_type": "Documento gestionale",
+        "document_number": "0831-0070",
+        "table": "43",
+        "qr_id": "13b03e51f206",
+        "payment_note": "Slip says to bring the code to the cashier for payment."
+      },
+      "notes": "Receipt line items visible: coperto 10.00, water 6.00, Tagliatella Bolognese 18.00, Parmigiana 18.00, two Coca Cola maxy 20.00, Cannolo Siciliano 9.00, two cappuccinos 12.00."
     }
   ]
 }
