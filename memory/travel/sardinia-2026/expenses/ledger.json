@@ -5,22 +5,22 @@
     "trip": "Sardinia Trip 2026",
     "base_currency": "USD",
     "created_at": "2026-09-03",
-    "updated_at": "2026-09-06",
+    "updated_at": "2026-09-08",
     "source_folder": "memory/travel/sardinia-2026"
   },
   "summary": {
-    "expense_count": 5,
+    "expense_count": 7,
     "totals_by_currency": {
       "USD": 197.01,
-      "EUR": 302.59
+      "EUR": 408.09
     },
     "totals_by_category": {
       "Food & Dining": {
         "USD": 197.01,
-        "EUR": 101.59
+        "EUR": 187.09
       },
       "Shopping": {
-        "EUR": 201.0
+        "EUR": 221.0
       }
     }
   },
@@ -184,6 +184,68 @@
         "payment_note": "Slip says to bring the code to the cashier for payment."
       },
       "notes": "Receipt line items visible: coperto 10.00, water 6.00, Tagliatella Bolognese 18.00, Parmigiana 18.00, two Coca Cola maxy 20.00, Cannolo Siciliano 9.00, two cappuccinos 12.00."
+    },
+    {
+      "id": "R006",
+      "date": "2026-09-08",
+      "time": null,
+      "merchant": "HFM SRL",
+      "location": "Via del Mare 56/58, Villasimius (CA), Italy",
+      "category": "Food & Dining",
+      "description": "Restaurant meal in Villasimius",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 85.5,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 85.5
+      },
+      "payment": {
+        "method": "Payment not shown",
+        "last4": null
+      },
+      "receipt_file": "receipts/R006-hfm-villasimius-85-50.jpg",
+      "source_media": "media/inbound/openclaw-staged-944b6ca7-8d0a-448c-9d64-5d3efd6cb891/14d73e05-33d4-4f00-9ce4-8abac3e56dec.jpg",
+      "receipt_details": {
+        "vat_number": "03893550925",
+        "phone": "3382856327",
+        "table": "107",
+        "room": "Primo piano"
+      },
+      "notes": "Receipt line items visible: two coperto 7.00, polpo scottato 18.00, spag pomodoro 9.00, frittura mista 26.00, verdure grill 10.00, two Zero Alcol Heneiken 10.00, Coca Cola 3.00, Acquamea Nat 2.50. Receipt does not show tax breakdown or payment method."
+    },
+    {
+      "id": "R007",
+      "date": "2026-09-08",
+      "time": "21:14:00",
+      "merchant": "Il Regalo",
+      "location": "Via del Mare 19, Villasimius (CA), Italy",
+      "category": "Shopping",
+      "description": "Gift shop purchase in Villasimius",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 16.39,
+        "tax": 3.61,
+        "tip": 0.0,
+        "total": 20.0
+      },
+      "payment": {
+        "method": "Electronic payment",
+        "last4": null
+      },
+      "receipt_file": "receipts/R007-il-regalo-villasimius-20-00.jpg",
+      "source_media": "media/inbound/openclaw-staged-3e2d6016-c271-4a04-b132-9ffbaff2eb03/bb730027-0620-4ce2-96ce-21ce315a7210.jpg",
+      "receipt_details": {
+        "vat_number": "04015230925",
+        "phone": "3280365932",
+        "document_number": "1790-0034",
+        "rt": "1BMS105009",
+        "vat_rate": "22.00%",
+        "vat_included": 3.61,
+        "payment_type": "Pagamento elettronico",
+        "terminal_amount": 20.0
+      },
+      "notes": "Receipt line items visible: VARIE 12.50 and VARIE 7.50. Total 20.00 EUR paid electronically, including 3.61 EUR IVA at 22%."
     }
   ]
 }
