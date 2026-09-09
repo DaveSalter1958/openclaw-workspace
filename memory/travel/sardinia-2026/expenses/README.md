@@ -4,9 +4,9 @@ Local expense tracker for Dave's 2026 Italy / Sardinia trip.
 
 ## Current Total
 
-- Total logged: USD 197.01; EUR 408.09
-- Expense count: 7
-- Last updated: 2026-09-08
+- Total logged: USD 217.01; EUR 428.09
+- Expense count: 9
+- Last updated: 2026-09-09
 
 ## Files
 

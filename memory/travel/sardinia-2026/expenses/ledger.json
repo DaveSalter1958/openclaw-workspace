@@ -5,14 +5,14 @@
     "trip": "Sardinia Trip 2026",
     "base_currency": "USD",
     "created_at": "2026-09-03",
-    "updated_at": "2026-09-08",
+    "updated_at": "2026-09-09",
     "source_folder": "memory/travel/sardinia-2026"
   },
   "summary": {
-    "expense_count": 7,
+    "expense_count": 9,
     "totals_by_currency": {
-      "USD": 197.01,
-      "EUR": 408.09
+      "USD": 217.01,
+      "EUR": 428.09
     },
     "totals_by_category": {
       "Food & Dining": {
@@ -21,6 +21,10 @@
       },
       "Shopping": {
         "EUR": 221.0
+      },
+      "Transportation": {
+        "USD": 20.0,
+        "EUR": 20.0
       }
     }
   },
@@ -246,6 +250,60 @@
         "terminal_amount": 20.0
       },
       "notes": "Receipt line items visible: VARIE 12.50 and VARIE 7.50. Total 20.00 EUR paid electronically, including 3.61 EUR IVA at 22%."
+    },
+    {
+      "id": "R008",
+      "date": "2026-09-08",
+      "time": null,
+      "merchant": "Taxi",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Transportation",
+      "description": "Taxi to restaurant",
+      "currency": "USD",
+      "amounts": {
+        "subtotal": 20.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 20.0
+      },
+      "payment": {
+        "method": "Payment not shown",
+        "last4": null
+      },
+      "receipt_file": null,
+      "source_media": null,
+      "receipt_details": {
+        "receipt_status": "No receipt available",
+        "source_note": "Dave said on 2026-09-09 that this was spent last night."
+      },
+      "notes": "No receipt available; taxi to restaurant."
+    },
+    {
+      "id": "R009",
+      "date": "2026-09-08",
+      "time": null,
+      "merchant": "Taxi",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Transportation",
+      "description": "Taxi back from restaurant",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 20.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 20.0
+      },
+      "payment": {
+        "method": "Payment not shown",
+        "last4": null
+      },
+      "receipt_file": null,
+      "source_media": null,
+      "receipt_details": {
+        "receipt_status": "No receipt available",
+        "source_note": "Dave said on 2026-09-09 that this was spent last night."
+      },
+      "notes": "No receipt available; taxi back from restaurant."
     }
   ]
 }
