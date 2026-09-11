@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260911-001] api_key_audit_runner_permission
+
+**Logged**: 2026-09-11T08:00:00-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+The API key audit runner exists but is not executable, so direct invocation fails with permission denied.
+
+### Error
+```text
+/bin/bash: line 1: /home/davesalter/.openclaw/workspace/state/api-key-audits/run-api-key-audit.py: Permission denied
+```
+
+### Context
+- Operation attempted: run the daily API key health and spend audit runner directly.
+- Fallback used: `python3 /home/davesalter/.openclaw/workspace/state/api-key-audits/run-api-key-audit.py`, which completed successfully.
+- No credentials or secret values were logged.
+
+### Suggested Fix
+Either invoke this recurring audit through `python3` explicitly or make the runner executable after confirming file ownership and intended launch path.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/state/api-key-audits/run-api-key-audit.py
+- See Also: none
+
+---
 ## [ERR-20260826-001] api_audit_runner_not_executable
 
 **Logged**: 2026-08-26T08:03:00-07:00
