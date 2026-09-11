@@ -5,26 +5,32 @@
     "trip": "Sardinia Trip 2026",
     "base_currency": "USD",
     "created_at": "2026-09-03",
-    "updated_at": "2026-09-09",
+    "updated_at": "2026-09-11",
     "source_folder": "memory/travel/sardinia-2026"
   },
   "summary": {
-    "expense_count": 9,
+    "expense_count": 13,
     "totals_by_currency": {
       "USD": 217.01,
-      "EUR": 428.09
+      "EUR": 1011.59
     },
     "totals_by_category": {
       "Food & Dining": {
         "USD": 197.01,
-        "EUR": 187.09
+        "EUR": 470.09
       },
       "Shopping": {
-        "EUR": 221.0
+        "EUR": 389.5
       },
       "Transportation": {
         "USD": 20.0,
         "EUR": 20.0
+      },
+      "Health": {
+        "EUR": 100.0
+      },
+      "Other": {
+        "EUR": 32.0
       }
     }
   },
@@ -304,6 +310,176 @@
         "source_note": "Dave said on 2026-09-09 that this was spent last night."
       },
       "notes": "No receipt available; taxi back from restaurant."
+    },
+    {
+      "id": "R010",
+      "date": "2026-09-11",
+      "time": null,
+      "merchant": "Cala Caterina",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Food & Dining",
+      "description": "Hotel folio food and beverage charges",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 283.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 283.0
+      },
+      "payment": {
+        "method": "Paid on hotel folio",
+        "last4": null
+      },
+      "receipt_file": "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+      "source_media": "media/inbound/openclaw-staged-b1331bee-3e5a-4662-9059-cf75a3c70243/f1fbed8a-5f6a-4596-b40f-3bbc392dd8b4.jpg",
+      "receipt_details": {
+        "folio": "Cala Caterina conto proforma",
+        "room": "103",
+        "client": "Kreinces Robbie",
+        "folio_date": "2026-09-11",
+        "folio_total": 583.5,
+        "folio_paid": 583.5,
+        "folio_unpaid": 0.0,
+        "category_total": 283.0,
+        "line_items_translated": [
+          "Bar Centrale 07/09: 28.00",
+          "Dinner 07/09: 15.00",
+          "Room service restaurant 07/09: 50.00",
+          "Gazebo 08/09: 6.50",
+          "Minibar beverages 08/09: 30.00",
+          "Bar Centrale 09/09: 49.00",
+          "Bar Centrale 10/09: 12.00",
+          "Minibar food 10/09: 3.50",
+          "Bar Centrale 10/09: 11.00",
+          "Dinner 10/09: 70.00",
+          "Bar Centrale 10/09: 8.00"
+        ],
+        "related_receipt_files": [
+          "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+          "receipts/R010-cala-caterina-hotel-folio-page-2.jpg"
+        ]
+      },
+      "notes": "Hotel folio split by category. Italian labels translated: Bar Centrale = central bar; cena = dinner; room service ristorante = restaurant room service; minibar bevande = minibar beverages; minibar food = minibar food. Page 2 shows total paid 583.50 EUR and unpaid 0.00."
+    },
+    {
+      "id": "R011",
+      "date": "2026-09-11",
+      "time": null,
+      "merchant": "Cala Caterina",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Shopping",
+      "description": "Hotel folio personal-care purchases",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 168.5,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 168.5
+      },
+      "payment": {
+        "method": "Paid on hotel folio",
+        "last4": null
+      },
+      "receipt_file": "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+      "source_media": "media/inbound/openclaw-staged-b1331bee-3e5a-4662-9059-cf75a3c70243/f1fbed8a-5f6a-4596-b40f-3bbc392dd8b4.jpg",
+      "receipt_details": {
+        "folio": "Cala Caterina conto proforma",
+        "room": "103",
+        "client": "Kreinces Robbie",
+        "folio_date": "2026-09-11",
+        "folio_total": 583.5,
+        "category_total": 168.5,
+        "line_items_translated": [
+          "Sun Soul SPF 50+: 35.00",
+          "Hair oil: 25.50",
+          "Personal-care item: 40.00",
+          "Sun Soul Cream SPF 30: 49.00",
+          "Body lotion: 19.00"
+        ],
+        "related_receipt_files": [
+          "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+          "receipts/R010-cala-caterina-hotel-folio-page-2.jpg"
+        ]
+      },
+      "notes": "Hotel folio split by category. One 40.00 personal-care line is visible, but the description is partly obscured in the photo."
+    },
+    {
+      "id": "R012",
+      "date": "2026-09-11",
+      "time": null,
+      "merchant": "Cala Caterina",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Health",
+      "description": "Hotel folio massage",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 100.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 100.0
+      },
+      "payment": {
+        "method": "Paid on hotel folio",
+        "last4": null
+      },
+      "receipt_file": "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+      "source_media": "media/inbound/openclaw-staged-b1331bee-3e5a-4662-9059-cf75a3c70243/f1fbed8a-5f6a-4596-b40f-3bbc392dd8b4.jpg",
+      "receipt_details": {
+        "folio": "Cala Caterina conto proforma",
+        "room": "103",
+        "client": "Kreinces Robbie",
+        "folio_date": "2026-09-11",
+        "folio_total": 583.5,
+        "category_total": 100.0,
+        "line_items_translated": [
+          "Massage 50 minutes: 100.00"
+        ],
+        "related_receipt_files": [
+          "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+          "receipts/R010-cala-caterina-hotel-folio-page-2.jpg"
+        ]
+      },
+      "notes": "Hotel folio split by category."
+    },
+    {
+      "id": "R013",
+      "date": "2026-09-11",
+      "time": null,
+      "merchant": "Cala Caterina",
+      "location": "Villasimius, Sardinia, Italy",
+      "category": "Other",
+      "description": "Hotel folio city tax",
+      "currency": "EUR",
+      "amounts": {
+        "subtotal": 32.0,
+        "tax": 0.0,
+        "tip": 0.0,
+        "total": 32.0
+      },
+      "payment": {
+        "method": "Paid on hotel folio",
+        "last4": null
+      },
+      "receipt_file": "receipts/R010-cala-caterina-hotel-folio-page-2.jpg",
+      "source_media": "media/inbound/openclaw-staged-93698e17-cea6-41f4-887c-f47c73c78025/4e18276d-c112-4833-bc55-648da08dcb4a.jpg",
+      "receipt_details": {
+        "folio": "Cala Caterina conto proforma",
+        "room": "103",
+        "client": "Kreinces Robbie",
+        "folio_date": "2026-09-11",
+        "folio_total": 583.5,
+        "folio_paid": 583.5,
+        "folio_unpaid": 0.0,
+        "category_total": 32.0,
+        "line_items_translated": [
+          "City tax: 32.00"
+        ],
+        "related_receipt_files": [
+          "receipts/R010-cala-caterina-hotel-folio-page-1.jpg",
+          "receipts/R010-cala-caterina-hotel-folio-page-2.jpg"
+        ]
+      },
+      "notes": "Page 2 shows total 583.50, paid 583.50, unpaid 0.00."
     }
   ]
 }
