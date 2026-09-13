@@ -1,5 +1,29 @@
 [
   {
+    "id": "t1789282877848",
+    "title": "Pay taxes",
+    "status": "open",
+    "priority": "medium",
+    "domain": "finance",
+    "dueDate": "2026-09-16",
+    "dueTime": "17:00",
+    "project": "Personal finance",
+    "notes": "Created from Telegram: \"Task. Pay taxes. Wednesday 5pm\".",
+    "scope": "personal"
+  },
+  {
+    "id": "t1789282731431",
+    "title": "One Beverley Hills expert witness follow-up",
+    "status": "open",
+    "priority": "medium",
+    "domain": "expert witness",
+    "dueDate": "2026-09-15",
+    "dueTime": "17:00",
+    "project": "One Beverley Hills",
+    "notes": "Created from Telegram: \"Beverly one exprr witness. Tuesday 5pm\". Interpreted as One Beverley Hills expert witness follow-up.",
+    "scope": "business"
+  },
+  {
     "id": "email-drs-drs-engineering-net-1a0913b96ae63b3c",
     "title": "Never pay twice again Dave",
     "status": "open",
