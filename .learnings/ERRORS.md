@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260914-002] openclaw_message_telegram_send
+
+**Logged**: 2026-09-14T07:31:00-07:00
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Telegram notification for the daily OpenClaw security remediation cron failed with a network delivery error.
+
+### Error
+```text
+OutboundDeliveryError: Network request for 'sendMessage' failed!
+```
+
+### Context
+- Operation attempted: `openclaw.message` with `action=send`, `channel=telegram`, and Dave's cron-supplied target.
+- The remediation report was still written successfully.
+- Final cron output carried the same summary as fallback notification.
+
+### Suggested Fix
+Check Telegram gateway connectivity and credentials if this recurs; consider adding a retry/backoff path for security cron notifications.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /home/davesalter/.openclaw/workspace/state/security-audits/latest-remediation.md
+- See Also: none
+
+---
 ## [ERR-20260911-001] api_key_audit_runner_permission
 
 **Logged**: 2026-09-11T08:00:00-07:00
