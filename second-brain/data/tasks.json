@@ -1,5 +1,29 @@
 [
   {
+    "id": "t1789416182256",
+    "title": "DSR Dakota Agreement Woods",
+    "status": "open",
+    "priority": "high",
+    "domain": "",
+    "dueDate": "2026-09-17",
+    "dueTime": "17:00",
+    "project": "",
+    "notes": "",
+    "scope": ""
+  },
+  {
+    "id": "t1789416117838",
+    "title": "Agree DRS Dakota Contract with Randy",
+    "status": "open",
+    "priority": "high",
+    "domain": "",
+    "dueDate": "2026-09-17",
+    "dueTime": "17:00",
+    "project": "",
+    "notes": "",
+    "scope": ""
+  },
+  {
     "id": "t1789373979295",
     "title": "Prep for meeting with Jonathan",
     "status": "open",
@@ -50,7 +74,7 @@
   {
     "id": "t1789282877848",
     "title": "Pay taxes",
-    "status": "open",
+    "status": "done",
     "priority": "medium",
     "domain": "finance",
     "dueDate": "2026-09-16",
@@ -108,18 +132,6 @@
     "scope": "personal"
   },
   {
-    "id": "t1787670802764",
-    "title": "Ask Luke if he will check in on Willow on Sunday",
-    "status": "open",
-    "priority": "medium",
-    "domain": "personal",
-    "dueDate": "2026-08-25",
-    "dueTime": "17:00",
-    "project": "Personal",
-    "notes": "Created from Telegram request: Task asked Luke if he will check in on Willow on Sunday today 5:00 p.m.",
-    "scope": "personal"
-  },
-  {
     "id": "t1786067076770",
     "title": "Review 2026-08 Sunset Boulevard for proposals",
     "status": "done",
@@ -154,18 +166,6 @@
     "project": "",
     "notes": "",
     "scope": ""
-  },
-  {
-    "id": "t1785950372000",
-    "title": "Get IRS form for $80 payment from Luke",
-    "status": "open",
-    "priority": "medium",
-    "domain": "finance",
-    "dueDate": "2026-08-05",
-    "dueTime": "17:00",
-    "project": "DRS",
-    "notes": "Created from Telegram: \"Task get the IRS form for $80 payment from Luke tomorrow 5:00 p.m.\"",
-    "scope": "business"
   },
   {
     "id": "t1785463696016",
@@ -257,18 +257,6 @@
     "domain": "",
     "dueDate": "2026-06-29",
     "dueTime": "13:00",
-    "project": "",
-    "notes": "",
-    "scope": ""
-  },
-  {
-    "id": "t1782331285284",
-    "title": "Pile schedule reduction",
-    "status": "open",
-    "priority": "medium",
-    "domain": "",
-    "dueDate": "2026-08-31",
-    "dueTime": "17:00",
     "project": "",
     "notes": "",
     "scope": ""
@@ -460,18 +448,6 @@
     "priority": "medium",
     "domain": "",
     "dueDate": "2026-06-08",
-    "dueTime": "17:00",
-    "project": "Personal",
-    "notes": "",
-    "scope": ""
-  },
-  {
-    "id": "t1780861656156",
-    "title": "Pipe for car roof",
-    "status": "open",
-    "priority": "medium",
-    "domain": "",
-    "dueDate": "2026-08-31",
     "dueTime": "17:00",
     "project": "Personal",
     "notes": "",
@@ -1182,18 +1158,6 @@
     "dueTime": "",
     "project": "",
     "notes": "Created from task command."
-  },
-  {
-    "id": "t1763746350000",
-    "title": "Call guitar instructor",
-    "status": "open",
-    "priority": "medium",
-    "scope": "personal",
-    "domain": "general",
-    "dueDate": "2026-08-31",
-    "dueTime": "17:00",
-    "project": "Personal",
-    "notes": "Adrian Galysh — 8186251974"
   },
   {
     "id": "t1763746270000",
