@@ -480,6 +480,36 @@ Provide an approval route for `skill_workshop apply` in Telegram/OpenClaw direct
 - Last-Seen: 2026-07-23
 
 ---
+## [ERR-20260914-002] tailscale_up_missing_existing_flags
+
+**Logged**: 2026-09-14T11:15:30-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+`tailscale up` failed because Tailscale requires all existing non-default settings to be repeated when changing settings.
+
+### Error
+```text
+Error: changing settings via 'tailscale up' requires mentioning all non-default flags.
+Re-run with: tailscale up --accept-dns=false --operator=davesalter
+```
+
+### Context
+- Operation attempted: restore Tailscale access for Mission Control after `tailscale status` reported `Logged out`.
+- The first command omitted the existing `--operator=davesalter` setting.
+- Rerunning with the full existing non-default flag set produced the expected authentication URL.
+
+### Suggested Fix
+When reauthenticating Tailscale on this host, use `sudo tailscale up --accept-dns=false --operator=davesalter`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: none
+- See Also: none
+
+---
 ## [ERR-20260827-001] openai_whisper_api_missing_key
 
 **Logged**: 2026-08-27T10:48:08-07:00
