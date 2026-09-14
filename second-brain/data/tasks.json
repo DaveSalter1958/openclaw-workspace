@@ -1,5 +1,53 @@
 [
   {
+    "id": "t1789373979295",
+    "title": "Prep for meeting with Jonathan",
+    "status": "open",
+    "priority": "medium",
+    "domain": "finance",
+    "dueDate": "2026-09-18",
+    "dueTime": "17:00",
+    "project": "Personal finance",
+    "notes": "Created from Telegram: \"Task prep for meeting with Jonathan Friday 5:00 p.m.\".",
+    "scope": "personal"
+  },
+  {
+    "id": "t1789373793558",
+    "title": "Rebuild office shelves",
+    "status": "open",
+    "priority": "medium",
+    "domain": "home maintenance",
+    "dueDate": "2026-09-30",
+    "dueTime": "",
+    "project": "Household",
+    "notes": "Created from Telegram: \"Task rebuild office shelves end of September\". Interpreted as due at the end of September 2026.",
+    "scope": "personal"
+  },
+  {
+    "id": "t1789373530174",
+    "title": "Sort out circular cupboard items",
+    "status": "open",
+    "priority": "medium",
+    "domain": "home organization",
+    "dueDate": "2026-09-18",
+    "dueTime": "17:00",
+    "project": "Household",
+    "notes": "Created from Telegram: \"Task sort out circular cupboard items next Friday 5:00 p.m.\".",
+    "scope": "personal"
+  },
+  {
+    "id": "t1789373284000",
+    "title": "Fix kitchen cupboard door",
+    "status": "open",
+    "priority": "medium",
+    "domain": "home maintenance",
+    "dueDate": "2026-09-18",
+    "dueTime": "17:00",
+    "project": "Household",
+    "notes": "Created from Telegram: \"Task fix kitchen cupboard door next Friday 5:00 p.m.\".",
+    "scope": "personal"
+  },
+  {
     "id": "t1789282877848",
     "title": "Pay taxes",
     "status": "open",

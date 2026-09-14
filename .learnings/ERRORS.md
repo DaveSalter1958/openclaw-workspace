@@ -479,3 +479,33 @@ Configure `OPENAI_API_KEY` for the OpenAI transcription skill, or document the l
 - See Also: none
 
 ---
+## [ERR-20260914-001] shell_quoting_node_inline_template_literal
+
+**Logged**: 2026-09-14T01:13:54-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+An inline `node -e` duplicate-check command failed because Bash expanded a JavaScript template literal inside double quotes.
+
+### Error
+```text
+/bin/bash: line 1: ${t.id}\t${t.title}\t${t.dueDate}: bad substitution
+SyntaxError: Unexpected token ')'
+```
+
+### Context
+- Command attempted: a one-off `node -e` filter over `second-brain/data/tasks.json`.
+- The command used JavaScript `${...}` template interpolation inside a double-quoted shell string.
+- Rerun with single quotes around the Node snippet succeeded.
+
+### Suggested Fix
+Wrap inline JavaScript snippets in single quotes, or avoid template literals when invoking `node -e` through Bash.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/second-brain/data/tasks.json
+- See Also: none
+
+---
