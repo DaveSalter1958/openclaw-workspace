@@ -1,13 +1,13 @@
 {
   "name": "Woods Drive Project",
-  "updatedAt": "2026-08-25T21:42:59.325Z",
+  "updatedAt": "2026-09-14T23:43:48.720Z",
   "actions": [
     {
       "id": "woods-pm-002",
       "sourceId": "PM-002",
       "phase": "Handoff / commercial",
       "text": "Meet with Doug and Randy to agree SRS fees, scope of work, and schedule.",
-      "dueDate": "2026-08-21",
+      "dueDate": "2026-09-30",
       "responsible": "Dave / Luke",
       "priority": "High",
       "status": "Open",
@@ -15,47 +15,11 @@
       "done": false
     },
     {
-      "id": "woods-pm-005",
-      "sourceId": "PM-005",
-      "phase": "Permit",
-      "text": "Try to obtain permit on line",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "Urgent",
-      "status": "Open",
-      "notes": "Do before fees or distribution of field set.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-010",
-      "sourceId": "PM-010",
-      "phase": "Permit",
-      "text": "Obtain Dakota information for permit.",
-      "dueDate": "2026-08-14",
-      "responsible": "Dave / Dakota / SRS",
-      "priority": "Urgent",
-      "status": "Open",
-      "notes": "Workbook note: Dave to get info from Randy. Dakota action also lists hauler info. Date appears past due as of 2026-08-17. Confirm whether SRS must provide or pay for waste-hauler information/arrangements.",
-      "done": false
-    },
-    {
-      "id": "woods-pm-011",
-      "sourceId": "PM-011",
-      "phase": "Permit",
-      "text": "Review final fee balance.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "Confirm who pays LADBS fees and reimbursement path.",
-      "done": false
-    },
-    {
       "id": "woods-pm-012",
       "sourceId": "PM-012",
       "phase": "Permit",
       "text": "Pay final fees, download payment receipt, issue/pull permit, download issued permit and building/permit card.",
-      "dueDate": "2026-08-21",
+      "dueDate": "2026-09-18",
       "responsible": "Dave / Luke",
       "priority": "High",
       "status": "Open",
@@ -63,23 +27,11 @@
       "done": false
     },
     {
-      "id": "woods-pm-013",
-      "sourceId": "PM-013",
-      "phase": "Permit / document control",
-      "text": "Download stamped approved plans, approval letters, calculations, and reports.",
-      "dueDate": "2026-08-21",
-      "responsible": "Dave / Luke",
-      "priority": "High",
-      "status": "Open",
-      "notes": "These are the official field-control documents.",
-      "done": false
-    },
-    {
       "id": "woods-pm-014",
       "sourceId": "PM-014",
       "phase": "Document control",
       "text": "Create a controlled field set: issued permit, permit card, stamped approved plans, approval letters, calculations, reports, and applicable conditions.",
-      "dueDate": "2026-08-21",
+      "dueDate": "2026-09-18",
       "responsible": "Dave",
       "priority": "High",
       "status": "Open",
@@ -91,7 +43,7 @@
       "sourceId": "PM-015",
       "phase": "Schedule",
       "text": "Create project schedule for client.",
-      "dueDate": "2026-08-28",
+      "dueDate": "2026-09-30",
       "responsible": "Dave",
       "priority": "High",
       "status": "Open",

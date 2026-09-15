@@ -3,6 +3,35 @@
 Command failures and integration errors.
 
 ---
+## [ERR-20260914-002] spreadsheet_openpyxl_missing
+
+**Logged**: 2026-09-14T16:44:04-07:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Creating an XLSX workbook with Python failed because `openpyxl` is not installed in the workspace environment.
+
+### Error
+```text
+ModuleNotFoundError: No module named 'openpyxl'
+```
+
+### Context
+- Operation attempted: generate a Sardinia trip expense workbook from local JSON/CSV records.
+- Environment: workspace Python 3 without `openpyxl`.
+- Fallback: generate Excel-compatible CSV files using the Python standard library and package them as a zip.
+
+### Suggested Fix
+For future local spreadsheet generation, either use a CSV bundle by default or install/use an available XLSX writer explicitly before attempting `openpyxl`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /home/davesalter/.openclaw/workspace/memory/travel/sardinia-2026/expenses/ledger.json
+- See Also: none
+
+---
 ## [ERR-20260914-002] openclaw_message_telegram_send
 
 **Logged**: 2026-09-14T07:31:00-07:00

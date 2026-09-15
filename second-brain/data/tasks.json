@@ -1,5 +1,17 @@
 [
   {
+    "id": "t1789428936794",
+    "title": "Robbie birthday gift",
+    "status": "open",
+    "priority": "high",
+    "domain": "",
+    "dueDate": "2026-09-21",
+    "dueTime": "17:00",
+    "project": "",
+    "notes": "",
+    "scope": ""
+  },
+  {
     "id": "t1789416182256",
     "title": "DSR Dakota Agreement Woods",
     "status": "open",
@@ -177,18 +189,6 @@
     "dueTime": "17:00",
     "project": "DRSB / DRS-1",
     "notes": "Dave said: Task create a memo about how we do expert witness work between drsb and drs1 tomorrow 5:00 p.m.",
-    "scope": ""
-  },
-  {
-    "id": "t1785463631496",
-    "title": "Focus on DRS-1 insurance and how we can do this",
-    "status": "open",
-    "priority": "medium",
-    "domain": "insurance",
-    "dueDate": "2026-08-07",
-    "dueTime": "17:00",
-    "project": "DRS-1",
-    "notes": "Dave said: Task focus on drs-1 insurance and how we can do this end of next week Friday 5:00 p.m.",
     "scope": ""
   },
   {
@@ -435,7 +435,7 @@
     "status": "open",
     "priority": "medium",
     "domain": "",
-    "dueDate": "2026-08-31",
+    "dueDate": "2026-09-30",
     "dueTime": "17:00",
     "project": "Personal",
     "notes": "Created from Telegram: “Task 2 weeks from now clean out the cottage”",
@@ -747,7 +747,7 @@
     "status": "open",
     "priority": "medium",
     "domain": "",
-    "dueDate": "2026-08-31",
+    "dueDate": "2026-11-30",
     "dueTime": "17:00",
     "project": "",
     "notes": "",
@@ -867,7 +867,7 @@
     "status": "open",
     "priority": "low",
     "domain": "general",
-    "dueDate": "2026-08-31",
+    "dueDate": "2026-09-30",
     "dueTime": "17:00",
     "project": "Personal",
     "notes": "",
