@@ -1,5 +1,53 @@
 [
   {
+    "id": "t1789482640695",
+    "title": "Clean out 4Runner",
+    "status": "open",
+    "priority": "medium",
+    "domain": "overlanding",
+    "dueDate": "2026-09-19",
+    "dueTime": "17:00",
+    "project": "4Runner",
+    "notes": "Created from Telegram: \"Task clean out Forerunner Saturday 5:00 p.m.\". Interpreted Forerunner as 4Runner to match existing Mission Control project wording.",
+    "scope": "personal"
+  },
+  {
+    "id": "t1789482545123",
+    "title": "Put new grass seed around the path",
+    "status": "open",
+    "priority": "medium",
+    "domain": "yard",
+    "dueDate": "2026-09-19",
+    "dueTime": "17:00",
+    "project": "Household",
+    "notes": "Created from Telegram: \"Task new grass seed around the path Saturday 5:00 p.m.\".",
+    "scope": "personal"
+  },
+  {
+    "id": "email-drs-drs-engineering-net-1a0a32c23e40a387",
+    "title": "Craig’s house",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-09-15",
+    "dueTime": "17:00",
+    "project": "Email — DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Doug Massey <dougmassey1@yahoo.com>\nDate: 2026-09-14 20:45\nSubject: Craig’s house\nGmail message ID: 1a0a32c23e40a387\nThread ID: 1a0a32c23e40a387\n\nEmail body:\nHey Dave,what do you want to go with this? Let’s catch up soon.",
+    "scope": "business"
+  },
+  {
+    "id": "email-drs-drs-engineering-net-1a0a34d5bcdf1657",
+    "title": "Re: 2741 Ocean Blvd - request for most current CAD files",
+    "status": "open",
+    "priority": "medium",
+    "domain": "email",
+    "dueDate": "2026-09-15",
+    "dueTime": "17:00",
+    "project": "Email — DRS",
+    "notes": "Source account: DRS <drs@drs-engineering.net>\nTask area: DRS\nFrom: Sara Pijuan <spijuan@kaadesigngroup.com>\nDate: 2026-09-14 21:22\nSubject: Re: 2741 Ocean Blvd - request for most current CAD files\nGmail message ID: 1a0a34d5bcdf1657\nThread ID: 1a0a0c3cf05a3c46\n\nEmail body:\nHi Nina and all -\n\nHere is a link to our plan dwgs.\n\nhttps://kaadesign.sharepoint.com/:f:/s/Dawson/IgDpKyHHbiwHSq7XwjIzh4lPATSbx0AWzkNl-Cyh5BerPkw?e=9vDZIC\n\nLet me know if you need anything else.\n\nThanks,\nSara\n\n--\nSara Pijuan, AIA\nProject Architect | Senior Associate\nEVENS ARCHITECTS\nKAA Design Group\n12921 West Washington Blvd, Los Angeles, CA 90066\n(310) 821-1400 ext 255\nwww.evensarc.com \n[A close-up of a building Description automatically generated] \n\nFrom: Nina Taylor \nDate: Monday, September 14, 2026 at 9:33 AM\nTo: Sara Pijuan ; Emine Buran ; rudy ; David Salter \nCc: David Loucks ; slynch ; Caleb Rios ; orios ; Kaden Savoy ; Jennifer Dugally \nSubject: 2741 Ocean Blvd - request for most current CAD files\n\nHello to our wonderful consultants . . .\n\nAs you know we are geared up and going on site and will be needing some surveying for the Ekedal (Structural Concrete sub).\n\nToal Engineering has requested the latest and greatest :\nshoring, site wall, and the building plans prior to staking. Could you please have these CAD files sent over.\n\nPlease let us know if you have any questions.\n\nAppreciate it!\n[cid:image001.png@01DD442C.03BB4FC0]\nNina Taylor\nSenior Project Manager\nC: 310.503.2421\nO: 310.441.5001\nD: 424.277.2336\n484 S San Vicente Blvd\nLos Angeles, CA 90048\n\nDisclaimer: This email, and any files that are transmitted with it, are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the system manager. This message contains confidential information and is intended only for the individual named. If you are not the named addressee, you should not disseminate, distribute, or copy this e-mail. Please notify the sender immediately by e-mail if you have received this e-mail by mistake and delete this e-mail from your system. If you are not the intended recipient, you have been notified that disclosing, copying, distributing, or taking any action in reliance on the contents of this information is strictly prohibited.",
+    "scope": "business"
+  },
+  {
     "id": "t1789428936794",
     "title": "Robbie birthday gift",
     "status": "open",
