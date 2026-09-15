@@ -303,6 +303,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 }
 .task-board-3col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .task-board-4col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.task-board-5col { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .reference-column { min-width: 0; }
 .reference-column-head {
   display: flex;
@@ -3771,6 +3772,7 @@ textarea.woods-cell-textarea {
   .reference-board { grid-template-columns: 0.82fr 1.18fr 1.18fr 0.92fr; }
   .task-board-3col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .task-board-4col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .task-board-5col { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .dashboard-footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid-4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
   .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }

@@ -6,9 +6,9 @@ import { getTaskBoard } from '@/lib/data';
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
-  const { dueToday, dueThisWeek, dueLater, emailTasks } = await getTaskBoard();
+  const { dueToday, dueTomorrow, dueThisWeek, dueLater, emailTasks } = await getTaskBoard();
 
-  const total = dueToday.length + dueThisWeek.length + dueLater.length + emailTasks.length;
+  const total = dueToday.length + dueTomorrow.length + dueThisWeek.length + dueLater.length + emailTasks.length;
 
   return (
     <main className="reference-dashboard">
@@ -17,6 +17,7 @@ export default async function DashboardPage() {
           <div className="reference-title-pill">▣ Tasks</div>
           <div className="reference-metrics">
             <div className="reference-metric"><strong>{dueToday.length}</strong><span>Due today</span></div>
+            <div className="reference-metric"><strong>{dueTomorrow.length}</strong><span>Due tomorrow</span></div>
             <div className="reference-metric"><strong>{dueThisWeek.length}</strong><span>Due this week</span></div>
             <div className="reference-metric"><strong>{dueLater.length}</strong><span>Due later</span></div>
             <div className="reference-metric"><strong>{emailTasks.length}</strong><span>From email</span></div>
@@ -29,8 +30,10 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="reference-board desktop-priority-board task-board-4col">
+      <section className="reference-board desktop-priority-board task-board-5col">
         <TaskColumn title="Due today" emptyLabel="Nothing due today" items={dueToday} />
+
+        <TaskColumn title="Due tomorrow" emptyLabel="Nothing due tomorrow" items={dueTomorrow} />
 
         <TaskColumn title="Due this week" emptyLabel="Nothing due this week" items={dueThisWeek} />
 

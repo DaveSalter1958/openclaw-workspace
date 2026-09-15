@@ -722,6 +722,7 @@ async function getAgentActivities(agentTasks: TaskBoardItem[]): Promise<AgentAct
 
 export async function getTaskBoard(options: { includeAgentActivities?: boolean } = {}): Promise<{
   dueToday: TaskBoardItem[];
+  dueTomorrow: TaskBoardItem[];
   dueThisWeek: TaskBoardItem[];
   dueLater: TaskBoardItem[];
   emailTasks: TaskBoardItem[];
@@ -731,6 +732,10 @@ export async function getTaskBoard(options: { includeAgentActivities?: boolean }
   const tasks = await readRawTasks();
   const now = new Date();
   const todayKey = localDateKey(now);
+  const tomorrow = new Date(now);
+  tomorrow.setHours(23, 59, 59, 999);
+  tomorrow.setDate(now.getDate() + 1);
+  const tomorrowKey = localDateKey(tomorrow);
   const weekEnd = new Date(now);
   weekEnd.setHours(23, 59, 59, 999);
   weekEnd.setDate(now.getDate() + 7);
@@ -770,12 +775,13 @@ export async function getTaskBoard(options: { includeAgentActivities?: boolean }
   const personalTasks = dated.filter((item) => !agentTask(item) && !emailTask(item));
 
   const dueToday = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey <= todayKey));
-  const dueThisWeek = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > todayKey && item.dueDateKey <= weekEndKey));
+  const dueTomorrow = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > todayKey && item.dueDateKey <= tomorrowKey));
+  const dueThisWeek = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > tomorrowKey && item.dueDateKey <= weekEndKey));
   const dueLater = personalTasks.filter((item) => Boolean(item.dueDateKey && item.dueDateKey > weekEndKey));
 
   const agentActivities = options.includeAgentActivities ? await getAgentActivities(agentTasks) : [];
 
-  return { dueToday, dueThisWeek, dueLater, emailTasks, agentTasks, agentActivities };
+  return { dueToday, dueTomorrow, dueThisWeek, dueLater, emailTasks, agentTasks, agentActivities };
 }
 
 export async function getMemoryDashboard(): Promise<MemoryDashboardData> {
