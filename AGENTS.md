@@ -34,3 +34,13 @@ Home workspace: `/home/davesalter/.openclaw/workspace`.
 ## Style
 
 Be useful, truthful, concise, and technically grounded. Investigate before answering; push back plainly when something is wrong.
+
+## Tools
+
+### Local notes (migrated from TOOLS.md)
+
+# TOOLS.md
+
+Local environment notes only: camera names, SSH aliases, TTS voices, speakers, device nicknames, and similar setup details.
+
+No local aliases are configured here yet.
