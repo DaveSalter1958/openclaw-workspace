@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from email.message import EmailMessage
@@ -131,6 +132,14 @@ RESPONSE_PROJECTS = 7
 RESPONSE_NOTES = 8
 
 
+class GmailTransientError(RuntimeError):
+    pass
+
+
+class GmailSendError(RuntimeError):
+    pass
+
+
 @dataclass
 class ContactProjects:
     email: str
@@ -213,6 +222,13 @@ def run(*args):
     if proc.returncode != 0:
         raise subprocess.CalledProcessError(proc.returncode, args, output=proc.stdout, stderr=proc.stderr)
     return proc.stdout
+
+
+def command_error_details(exc):
+    stdout = getattr(exc, 'output', '') or ''
+    stderr = getattr(exc, 'stderr', '') or ''
+    details = f'{stdout}\n{stderr}'.strip()
+    return details[-1200:] if details else str(exc)
 
 
 def log(event):
@@ -329,6 +345,7 @@ def set_stage(state, stage, detail=''):
     state['currentStageDetail'] = detail
     state['stageUpdatedAt'] = dt.datetime.now().isoformat()
     save_state(state)
+    print(f'PlanHubGuy stage: {stage}', flush=True)
 
 
 def extract_email(text):
@@ -602,7 +619,7 @@ def project_seen_in_sent_mailbox(email: str, project: str, max_age_days: int = 3
             try:
                 payload = json.loads(run('gog', 'gmail', 'messages', 'search', query, '-a', account, '-j', '--all', '--max', '5'))
             except Exception as exc:
-                log({'status': 'sent_project_search_failed', 'email': email, 'project': project, 'account': account, 'query': query, 'error': str(exc)})
+                log({'status': 'sent_project_search_failed', 'email': email, 'project': project, 'account': account, 'query': query, 'error': command_error_details(exc)})
                 continue
             if payload.get('messages'):
                 log({'status': 'duplicate_initial_suppressed_by_sent_mailbox', 'email': email, 'project': project, 'account': account, 'query': query})
@@ -848,6 +865,37 @@ def gmail_profile_email(account=SEND_ACCOUNT):
     return email
 
 
+def gmail_http_error_body(exc):
+    try:
+        return exc.read().decode('utf-8', errors='replace')
+    except Exception:
+        return ''
+
+
+def transient_gmail_send_error(code, body):
+    if code in {429, 500, 502, 503, 504}:
+        return True
+    if code != 403:
+        return False
+    body_lower = (body or '').lower()
+    transient_markers = [
+        'ratelimitexceeded',
+        'userratelimitexceeded',
+        'quotaexceeded',
+        'dailylimitexceeded',
+        'mail sending limits',
+        'limit exceeded',
+        'backenderror',
+    ]
+    permanent_markers = [
+        'insufficientpermissions',
+        'forbiddenfromaddress',
+        'not authorized',
+        'delegation denied',
+    ]
+    return any(marker in body_lower for marker in transient_markers) and not any(marker in body_lower for marker in permanent_markers)
+
+
 def assert_live_sender_account_matches_from():
     actual = gmail_profile_email(SEND_ACCOUNT)
     expected = SEND_AS.strip().lower()
@@ -1047,8 +1095,26 @@ def gmail_send_raw(to, subject, *, html_body='', plain_body='', send_from=SEND_A
         headers={'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'},
         method='POST',
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.loads(resp.read().decode('utf-8'))
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.loads(resp.read().decode('utf-8'))
+    except urllib.error.HTTPError as exc:
+        body = gmail_http_error_body(exc)
+        event = {
+            'status': 'gmail_send_http_error',
+            'to': to,
+            'subject': subject,
+            'account': account,
+            'from': send_from,
+            'code': exc.code,
+            'reason': exc.reason,
+            'body': body[:1200],
+        }
+        log(event)
+        message = f'Gmail send failed with HTTP {exc.code} {exc.reason}: {body[:500]}'
+        if transient_gmail_send_error(exc.code, body):
+            raise GmailTransientError(message) from exc
+        raise GmailSendError(message) from exc
 
 
 def render_email_html(body_text):
@@ -1713,7 +1779,7 @@ def fetch_message_by_search(query, account=INBOUND_ACCOUNT, max_results=50):
     try:
         payload = json.loads(run('gog', 'gmail', 'messages', 'search', query, '-a', account, '-j', '--all', '--max', str(max_results)))
     except Exception as exc:
-        log({'status': 'gmail_search_failed', 'query': query, 'account': account, 'error': str(exc)})
+        log({'status': 'gmail_search_failed', 'query': query, 'account': account, 'error': command_error_details(exc)})
         return []
     messages = []
     for hit in payload.get('messages', []):
@@ -1985,7 +2051,13 @@ def run_initial_outreach(ctx: ProcessContext, manual_run: bool, validation_only:
         subject = subject_tpl.replace('[Project Name]', unsent_projects[0])
         body = apply_project_pluralization(apply_greeting(body_tpl, greeting), len(unsent_projects)).replace('[Project Name]', project_text)
         html_body = render_email_html(body)
-        meta = deliver_email(state, email, subject, html_body, 'template1', ' | '.join(unsent_projects), 'PlanHubGuy initial outreach')
+        try:
+            meta = deliver_email(state, email, subject, html_body, 'template1', ' | '.join(unsent_projects), 'PlanHubGuy initial outreach')
+        except GmailTransientError as exc:
+            log({'status': 'initial_outreach_paused_transient_gmail_error', 'email': email, 'processed': processed, 'error': str(exc)})
+            state['gmailSendPaused'] = True
+            set_stage(state, 'Paused by Gmail', 'Transient Gmail send limit or service error; will retry next run')
+            break
         record = OutreachRecord(
             email=email,
             title=contact.title,
@@ -2011,6 +2083,9 @@ def run_initial_outreach(ctx: ProcessContext, manual_run: bool, validation_only:
 
 def run_followups(ctx: ProcessContext, validation_only: bool = False):
     state = ctx.state
+    if state.get('gmailSendPaused') and not validation_only:
+        log({'status': 'followups_skipped_gmail_send_paused', 'mode': state['mode']})
+        return {'planned': [], 'processed': 0}
     now = ctx.now
     processed = 0
     limit = candidate_limit(state)
@@ -2053,7 +2128,13 @@ def run_followups(ctx: ProcessContext, validation_only: bool = False):
                 continue
             body = apply_project_pluralization(apply_greeting(ctx.templates['template2']['body'], ctx.unique_map_all.get(rec.email, ContactProjects(rec.email,'','','','',[])).first_name), len(project_list)).replace('[Project Name]', format_project_phrase(project_list))
             html_body = render_email_html(body)
-            meta = deliver_email(state, rec.email, subject, html_body, 'template2', rec.projects_referenced, 'PlanHubGuy follow-up 1')
+            try:
+                meta = deliver_email(state, rec.email, subject, html_body, 'template2', rec.projects_referenced, 'PlanHubGuy follow-up 1')
+            except GmailTransientError as exc:
+                log({'status': 'followup_paused_transient_gmail_error', 'email': rec.email, 'stage': 'FollowUp1', 'processed': processed, 'error': str(exc)})
+                state['gmailSendPaused'] = True
+                set_stage(state, 'Paused by Gmail', 'Transient Gmail send limit or service error; will retry next run')
+                break
             sheet_update(f'Outreach Log!C{idx}:L{idx}', [[now.date().isoformat(), 'template2', rec.projects_referenced, '', '', make_outbound_linkage_note(f'PlanHubGuy follow-up 1 ({state["mode"]})', subject, rec.email), 'Active', 'FollowUp1', meta.get('messageId', ''), meta.get('threadId', '')]])
             followup_history.add(followup_key)
             processed += 1
@@ -2076,7 +2157,13 @@ def run_followups(ctx: ProcessContext, validation_only: bool = False):
                 continue
             body = apply_project_pluralization(apply_greeting(ctx.templates['template3']['body'], ctx.unique_map_all.get(rec.email, ContactProjects(rec.email,'','','','',[])).first_name), len(project_list)).replace('[Project Name]', format_project_phrase(project_list))
             html_body = render_email_html(body)
-            meta = deliver_email(state, rec.email, subject, html_body, 'template3', rec.projects_referenced, 'PlanHubGuy final follow-up')
+            try:
+                meta = deliver_email(state, rec.email, subject, html_body, 'template3', rec.projects_referenced, 'PlanHubGuy final follow-up')
+            except GmailTransientError as exc:
+                log({'status': 'followup_paused_transient_gmail_error', 'email': rec.email, 'stage': 'FinalFollowUp', 'processed': processed, 'error': str(exc)})
+                state['gmailSendPaused'] = True
+                set_stage(state, 'Paused by Gmail', 'Transient Gmail send limit or service error; will retry next run')
+                break
             sheet_update(f'Outreach Log!C{idx}:L{idx}', [[now.date().isoformat(), 'template3', rec.projects_referenced, '', '', make_outbound_linkage_note(f'PlanHubGuy final follow-up ({state["mode"]})', subject, rec.email), 'Closed', 'FinalFollowUp', meta.get('messageId', ''), meta.get('threadId', '')]])
             followup_history.add(followup_key)
             processed += 1
@@ -2160,6 +2247,7 @@ def runtime_flags():
 
 def main():
     state = load_state()
+    state.pop('gmailSendPaused', None)
     flags = runtime_flags()
     # Non-mutating verification of label presence
     try:
