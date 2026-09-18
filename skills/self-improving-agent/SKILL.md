@@ -363,9 +363,9 @@ skill and turn them into durable prompt guidance.
    - Set `Source: simplify-and-harden`
    - Set `Pattern-Key`, `Recurrence-Count: 1`, and `First-Seen`/`Last-Seen`
 
-### Promotion Rule (System Prompt Feedback)
+### Promotion Rule (Workspace Guidance Feedback)
 
-Promote recurring patterns into agent context/system prompt files when all are true:
+Promote recurring patterns into explicit workspace guidance files when all are true:
 
 - `Recurrence-Count >= 3`
 - Seen across at least 2 distinct tasks
